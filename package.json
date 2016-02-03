@@ -1,8 +1,9 @@
 {
-  "name": "react-redux-boiler",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "react-starter-kit",
+  "version": "0.0.1",
+  "description": "Ready for takeoff React setup",
+  "license": "ISC",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register",
     "server": "node scripts/start-server.js",
@@ -10,8 +11,18 @@
     "lint": "eslint src",
     "start": "npm run watch"
   },
-  "author": "",
-  "license": "ISC",
+  "homepage": "https://github.com/marcelbeumer/react-starter-kit",
+  "author": {
+    "name": "Marcel Beumer",
+    "email": "marcel@marcelbeumer.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:marcelbeumer/react-starter-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/marcelbeumer/react-starter-kit/issues"
+  },
   "devDependencies": {
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",

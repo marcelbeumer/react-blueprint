@@ -1,4 +1,6 @@
 body {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 16px;
   background-color: #242424;
   color: #2ea6d9;
 }

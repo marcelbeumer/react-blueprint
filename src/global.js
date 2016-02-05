@@ -1,9 +1,14 @@
-const ROOT_OBJECT = '__';
+let enabled = false;
+let property = null;
 
-// evil module: instead, rewrite to do something similar to what the
-// debug module does
+if (global.localStorage) {
+  property = global.localStorage.expose;
+  enabled = typeof property === 'string';
+}
 
 export function expose(name, thing) {
-  global[ROOT_OBJECT] = global[ROOT_OBJECT] || {};
-  global[ROOT_OBJECT][name] = thing;
+  if (!enabled) return;
+
+  global[property] = global[property] || {};
+  global[property][name] = thing;
 }

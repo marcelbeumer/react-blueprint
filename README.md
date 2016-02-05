@@ -1,6 +1,6 @@
 # react-starter-kit
 
-## Installation
+## Getting started
 
 ```bash
 $ npm install

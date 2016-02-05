@@ -18,6 +18,15 @@ $ open http://localhost:8080
 - Webpack
 - Express server
 
+Planned:
+
+- Complex react components
+- Complex redux with thunks, promises, etc.
+- Server side rendering
+- Hot module reloading
+- Dependency injection
+- Production builds
+
 ## Browser debugging
 
 Enable [debug](https://www.npmjs.com/package/debug) output by executing `localStorage.debug = '*'` and reloading the page. See the [debug documentation](https://www.npmjs.com/package/debug#browser-support) for more information.

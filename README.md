@@ -18,7 +18,7 @@ $ open http://localhost:8080
 - Webpack
 - Express server
 
-## Browser features
+## Browser debugging
 
 Enable [debug](https://www.npmjs.com/package/debug) output by executing `localStorage.debug = '*'` and reloading the page. See the [debug documentation](https://www.npmjs.com/package/debug#browser-support) for more information.
 

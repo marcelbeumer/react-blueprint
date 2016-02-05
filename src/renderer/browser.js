@@ -1,7 +1,7 @@
 import React from 'react'; // eslint-disable-line no-unused-vars
 import ReactDOM from 'react-dom';
 import createDebug from 'debug';
-import { getRootComponent } from './component';
+import { getRootComponent } from '../component';
 
 const debug = createDebug('renderer');
 

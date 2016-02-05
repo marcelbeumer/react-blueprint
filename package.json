@@ -51,6 +51,9 @@
     "react-dom": "^0.14.7",
     "redux": "^3.2.1",
     "redux-devtools": "^3.1.0",
+    "redux-gen": "^0.2.0",
+    "redux-promise": "^0.5.1",
+    "redux-thunk": "^1.0.3",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.12"
   }

@@ -11,5 +11,5 @@ const element = document.getElementById('root');
 const state = new DataTree();
 const renderer = createRenderer(element, settings);
 const actions = createRedux(renderer, state, settings);
-debug('app ready');
+debug('bootstrap done');
 renderer(state, actions);

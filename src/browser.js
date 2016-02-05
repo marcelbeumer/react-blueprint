@@ -2,7 +2,7 @@ import './style/index.css';
 import createDebug from 'debug';
 import { expose } from './global';
 import settings from '../settings/browser';
-import createRenderer from './renderer';
+import createRenderer from './renderer/browser';
 import DataTree from './data/tree';
 import createRedux from './redux';
 

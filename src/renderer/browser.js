@@ -6,12 +6,12 @@ import { getRootComponent } from './component';
 const debug = createDebug('renderer');
 
 export default function createRenderer(element, /* settings */) {
-  return function render(renderData, actions) {
+  return function render(dataTree, actions) {
     const Root = getRootComponent();
     debug('render start');
 
     ReactDOM.render(
-      <Root {...renderData.toObject()} actions={actions}/>,
+      <Root {...dataTree.toObject()} actions={actions}/>,
       element, () => debug('render end'));
   };
 }

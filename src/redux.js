@@ -1,29 +1,35 @@
 import { createStore } from 'redux';
+import createDebug from 'debug';
 import reducer from './reducer';
 import * as actions from './action';
+import { expose } from './global';
 
-const actionNames = [
-  'testAction',
-];
+const debug = createDebug('redux');
 
-export default function createRedux(renderer, initialState, debug, settings) {
+export default function createRedux(renderer, initialState, /* settings */) {
   let lastState = initialState;
+  expose('lastState', lastState);
 
   const store = createStore(reducer, initialState);
-  if (settings.debug) debug.register('store', store);
+  expose('store', store);
 
   const boundActions = {};
-  if (settings.debug) debug.register('boundActions', boundActions);
+  expose('boundActions', boundActions);
 
-  actionNames.forEach(name => {
-    boundActions[name] = (...args) =>
-      store.dispatch(actions[name](...args));
+  Object.keys(actions).forEach(name => {
+    boundActions[name] = (...args) => {
+      debug(`bound action call ${name}`);
+      const action = actions[name](...args);
+      debug(`dispatch action ${name}`);
+      store.dispatch(action);
+    };
   });
 
   store.subscribe(() => {
     const state = store.getState();
     if (state !== lastState) {
       lastState = state;
+      expose('lastState', lastState);
       renderer(state, actions);
     }
   });

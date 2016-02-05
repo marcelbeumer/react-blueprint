@@ -1,15 +1,19 @@
 import React from 'react'; // eslint-disable-line no-unused-vars
 import ReactDOM from 'react-dom';
+import createDebug from 'debug';
 import { getRootComponent } from './component';
+import { expose } from './global';
 
-export default function createRenderer(element, debug, settings) {
+const debug = createDebug('renderer');
+
+export default function createRenderer(element, /* settings */) {
   return function render(renderData, actions) {
     const Root = getRootComponent();
-
-    if (settings.debug) debug.register('renderData', renderData);
+    expose('renderData', renderData);
+    debug('render start');
 
     ReactDOM.render(
       <Root {...renderData.toObject()} actions={actions}/>,
-      element);
+      element, () => debug('render end'));
   };
 }

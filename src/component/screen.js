@@ -3,6 +3,7 @@ const { Component } = React;
 
 export default class Screen extends Component {
   render() {
-    return <div>hello</div>;
+    const { props } = this;
+    return <div>hello {props.name}</div>;
   }
 }

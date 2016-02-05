@@ -24,7 +24,7 @@ export default function createRedux(initialState, onChange, /* settings */) {
     const state = store.getState();
     if (state !== lastState) {
       lastState = state;
-      if (onChange) onChange(state);
+      if (onChange) onChange(state, boundActions);
     }
   });
 

@@ -10,7 +10,7 @@ $ open http://localhost:8080
 
 ## Features
 
-- Babel: stage-0, react
+- Babel: es2015, stage-0, react
 - Eslint: airbnb style, babel parser
 - Immutable.js
 - React: standalone (redux-agnostic) rendering

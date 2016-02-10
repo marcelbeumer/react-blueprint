@@ -13,7 +13,8 @@ debug('starting server');
 const renderer = createRenderer(settings);
 const app = express();
 
-const getTemplate = memoize(() => String(fs.readFileSync(`${__dirname}/../dist/index.html`)));
+const getTemplate = memoize(() =>
+  String(fs.readFileSync(`${__dirname}/../dist/index.html`)));
 
 const injectData = (output, data) =>
   output.replace(/(id=(['"]?)data\2>)/, `$1${JSON.stringify(data)}`);

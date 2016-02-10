@@ -1,6 +1,8 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import cssnext from 'postcss-cssnext';
+import cssImport from 'postcss-import';
+import cssUrl from 'postcss-import';
 import env from 'node-env';
 
 const cssPipeline = ['style-loader', 'css-loader', 'postcss-loader'];
@@ -21,14 +23,23 @@ const config = {
         loader: 'babel-loader',
       },
       {
-        test: /\.css/,
+        test: /\.json/,
+        exclude: /node_modules/,
+        loader: 'json-loader',
+      },
+      {
+        test: /\.css$/,
         loader: extractCss ?
           ExtractTextPlugin.extract(cssPipeline[0], cssPipeline.slice(1)) :
           cssPipeline.join('!'),
       },
     ],
   },
-  postcss: () => [cssnext],
+  postcss: (webpack) => [
+    cssImport({ addDependencyTo: webpack }),
+    cssUrl(),
+    cssnext(),
+  ],
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',

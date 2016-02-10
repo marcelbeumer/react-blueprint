@@ -1,6 +1,11 @@
-body {
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  font-size: 16px;
-  background-color: #242424;
-  color: #2ea6d9;
+@import 'global/body.css';
+@import 'component/flat-button.css';
+/* @import './theme/default.css'; */
+
+:root {
+  --color: red;
+}
+
+.x-button {
+  color: var(--color);
 }

@@ -1,0 +1,21 @@
+:root {
+  --flat-button-color: #fff;
+  --flat-button-background-color: hsl(198, 69%, 52%);
+  --flat-button-active-background-color: hsl(198, 69%, 42%);
+  --flat-button-font-size: 0.9em;
+}
+
+.flat-button {
+  background-color: var(--flat-button-background-color);
+  color: var(--flat-button-color);
+  border-radius: 2px;
+  border: 0px;
+  font-size: var(--flat-button-font-size);
+  font-family: inherit;
+  outline: 0;
+  cursor: pointer;
+}
+
+.flat-button:active {
+  background-color: var(--flat-button-active-background-color);
+}

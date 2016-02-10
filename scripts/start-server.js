@@ -1,7 +1,7 @@
 require('babel-register');
 
 const settings = require('../settings/server').default;
-const server = require('../server').default;
+const server = require('../src/server').default;
 const port = settings.port;
 
 server.listen(port, () => {

@@ -6,11 +6,16 @@ import createRenderer from './renderer/browser';
 import DataTree from './data/tree';
 import createRedux from './redux';
 
+function getData(id) {
+  const json = (document.getElementById(id) || {}).textContent;
+  return json ? JSON.parse(json) : {};
+}
+
 const debug = createDebug('browser');
 debug('starting bootstrap');
 
 const element = document.getElementById('root');
-const initialState = new DataTree();
+const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
 const renderer = createRenderer(element, settings);
 const { store, actions } = createRedux(initialState, state => {
   expose('lastState', state);

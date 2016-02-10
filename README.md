@@ -16,13 +16,12 @@ $ open http://localhost:8080
 - React: standalone (redux-agnostic) rendering
 - Redux
 - Webpack
-- Express server
+- Server: express, isomorphic rendering
 
 Planned:
 
 - Complex react components
 - Complex redux with thunks, promises, etc.
-- Server side rendering
 - Hot module reloading
 - Dependency injection
 - Production builds

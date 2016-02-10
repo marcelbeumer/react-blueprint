@@ -5,13 +5,15 @@ import createRenderer from './renderer/server';
 import DataTree from './data/tree';
 import createRedux from './redux';
 import fs from 'fs';
+import { memoize } from 'lodash/function';
 
 const debug = createDebug('server');
 debug('starting server');
 
-const template = String(fs.readFileSync(`${__dirname}/../dist/index.html`));
 const renderer = createRenderer(settings);
 const app = express();
+
+const getTemplate = memoize(() => String(fs.readFileSync(`${__dirname}/../dist/index.html`)));
 
 const injectData = (output, data) =>
   output.replace(/(id=(['"]?)data\2>)/, `$1${JSON.stringify(data)}`);
@@ -23,7 +25,7 @@ app.get('/', (req, res) => {
   const initialState = new DataTree();
   const { actions } = createRedux(initialState);
   const rendered = renderer(initialState, actions);
-  const html = injectRender(injectData(template, initialState), rendered);
+  const html = injectRender(injectData(getTemplate(), initialState), rendered);
   res.send(html);
 });
 

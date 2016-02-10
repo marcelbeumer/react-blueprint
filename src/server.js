@@ -1,11 +1,11 @@
 import express from 'express';
 import createDebug from 'debug';
+import { memoize } from 'lodash/function';
+import fs from 'fs';
 import settings from '../settings/server';
 import createRenderer from './renderer/server';
 import DataTree from './data/tree';
 import createRedux from './redux';
-import fs from 'fs';
-import { memoize } from 'lodash/function';
 
 const debug = createDebug('server');
 debug('starting server');

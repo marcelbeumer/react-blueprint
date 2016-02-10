@@ -1,11 +1,3 @@
 @import 'global/body.css';
 @import 'component/flat-button.css';
 /* @import './theme/default.css'; */
-
-:root {
-  --color: red;
-}
-
-.x-button {
-  color: var(--color);
-}

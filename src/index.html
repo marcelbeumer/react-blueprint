@@ -5,6 +5,9 @@
   </head>
   <body>
     <div id="root"></div>
+    <% (htmlWebpackPlugin.options.scripts || []).forEach(function(script) { %>
+      <script src="<%= script %>"></script>
+    <% }) %>
     <script type="application/json" id="data"></script>
   </body>
 </html>

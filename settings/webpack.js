@@ -1,5 +1,6 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import cssnext from 'postcss-cssnext';
 import cssImport from 'postcss-import';
 import cssUrl from 'postcss-import';
@@ -10,7 +11,38 @@ const cssPipeline = ['style-loader', 'css-loader', 'postcss-loader'];
 const extractCss = env === 'production';
 const compressJs = env === 'production';
 
+const scripts = [
+  {
+    module: 'react',
+    external: 'window.React',
+    from: '../node_modules/react/dist/react.min.js',
+    to: 'react-__VERSION__.min.js',
+  },
+  {
+    module: 'react-dom',
+    external: 'window.ReactDOM',
+    from: '../node_modules/react-dom/dist/react-dom.min.js',
+    to: 'react-dom-__VERSION__.min.js',
+  },
+  {
+    module: 'immutable',
+    external: 'window.Immutable',
+    from: '../node_modules/immutable/dist/immutable.min.js',
+    to: 'immutable-__VERSION__.min.js',
+  },
+];
+
+scripts.forEach(script =>
+  script.to = script.to.replace('__VERSION__', // eslint-disable-line no-param-reassign
+    require(`${script.module}/package.json`).version));
+
+const externals = scripts.reduce((p, c) => {
+  p[c.module] = c.external; // eslint-disable-line no-param-reassign
+  return p;
+}, {});
+
 const config = {
+  externals,
   context: `${__dirname}/../src`,
   entry: ['./browser.js'],
   output: {
@@ -43,7 +75,9 @@ const config = {
     cssnext(),
   ],
   plugins: [
+    new CopyWebpackPlugin(scripts.map(({ from, to }) => ({ from, to }))),
     new HtmlWebpackPlugin({
+      scripts: scripts.map(script => script.to),
       template: './index.html',
       hash: true,
     }),

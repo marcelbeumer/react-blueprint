@@ -24,7 +24,6 @@ Planned:
 - Complex redux with thunks, promises, etc.
 - Hot module reloading
 - Dependency injection
-- Production builds
 
 ## Browser debugging
 

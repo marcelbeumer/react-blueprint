@@ -17,24 +17,29 @@ const scripts = [
     external: 'window.React',
     from: '../node_modules/react/dist/react.min.js',
     to: 'react-__VERSION__.min.js',
+    cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react.min.js',
   },
   {
     module: 'react-dom',
     external: 'window.ReactDOM',
     from: '../node_modules/react-dom/dist/react-dom.min.js',
     to: 'react-dom-__VERSION__.min.js',
+    cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react-dom.min.js',
   },
   {
     module: 'immutable',
     external: 'window.Immutable',
     from: '../node_modules/immutable/dist/immutable.min.js',
     to: 'immutable-__VERSION__.min.js',
+    cdn: 'https://cdn.jsdelivr.net/immutable.js/__VERSION__/immutable.min.js',
   },
 ];
 
-scripts.forEach(script =>
-  script.to = script.to.replace('__VERSION__', // eslint-disable-line no-param-reassign
-    require(`${script.module}/package.json`).version));
+scripts.forEach(script => {
+  const version = require(`${script.module}/package.json`).version;
+  ['to', 'cdn'].forEach(prop => script[prop] = // eslint-disable-line no-param-reassign
+    script[prop].replace('__VERSION__', version));
+});
 
 const externals = scripts.reduce((p, c) => {
   p[c.module] = c.external; // eslint-disable-line no-param-reassign
@@ -77,7 +82,7 @@ const config = {
   plugins: [
     new CopyWebpackPlugin(scripts.map(({ from, to }) => ({ from, to }))),
     new HtmlWebpackPlugin({
-      scripts: scripts.map(script => script.to),
+      scripts: scripts.map(script => env === 'production' ? script.cdn : script.to),
       template: './index.html',
       hash: true,
     }),

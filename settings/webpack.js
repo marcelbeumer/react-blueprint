@@ -8,29 +8,32 @@ import env from 'node-env';
 import webpack from 'webpack';
 
 const cssPipeline = ['style-loader', 'css-loader', 'postcss-loader'];
-const extractCss = env === 'production';
-const compressJs = env === 'production';
+const prod = env === 'production';
+const extractCss = prod;
+const compressJs = prod;
+const useCdn = prod;
+const useMin = prod;
 
 const scripts = [
   {
     module: 'react',
     external: 'window.React',
-    from: '../node_modules/react/dist/react.min.js',
-    to: 'react-__VERSION__.min.js',
+    from: `../node_modules/react/dist/react${useMin ? '.min' : ''}.js`,
+    to: `react-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react.min.js',
   },
   {
     module: 'react-dom',
     external: 'window.ReactDOM',
-    from: '../node_modules/react-dom/dist/react-dom.min.js',
-    to: 'react-dom-__VERSION__.min.js',
+    from: `../node_modules/react-dom/dist/react-dom${useMin ? '.min' : ''}.js`,
+    to: `react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react-dom.min.js',
   },
   {
     module: 'immutable',
     external: 'window.Immutable',
-    from: '../node_modules/immutable/dist/immutable.min.js',
-    to: 'immutable-__VERSION__.min.js',
+    from: `../node_modules/immutable/dist/immutable${useMin ? '.min' : ''}.js`,
+    to: `immutable-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/immutable.js/__VERSION__/immutable.min.js',
   },
 ];
@@ -82,7 +85,7 @@ const config = {
   plugins: [
     new CopyWebpackPlugin(scripts.map(({ from, to }) => ({ from, to }))),
     new HtmlWebpackPlugin({
-      scripts: scripts.map(script => env === 'production' ? script.cdn : script.to),
+      scripts: scripts.map(script => useCdn ? script.cdn : script.to),
       template: './index.html',
       hash: true,
     }),

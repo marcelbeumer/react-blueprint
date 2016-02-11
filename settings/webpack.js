@@ -4,9 +4,11 @@ import cssnext from 'postcss-cssnext';
 import cssImport from 'postcss-import';
 import cssUrl from 'postcss-import';
 import env from 'node-env';
+import webpack from 'webpack';
 
 const cssPipeline = ['style-loader', 'css-loader', 'postcss-loader'];
 const extractCss = env === 'production';
+const compressJs = env === 'production';
 
 const config = {
   context: `${__dirname}/../src`,
@@ -35,8 +37,8 @@ const config = {
       },
     ],
   },
-  postcss: (webpack) => [
-    cssImport({ addDependencyTo: webpack }),
+  postcss: (pack) => [
+    cssImport({ addDependencyTo: pack }),
     cssUrl(),
     cssnext(),
   ],
@@ -45,12 +47,21 @@ const config = {
       template: './index.html',
       hash: true,
     }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': `"${env}"`,
+    }),
   ],
 };
 
 if (extractCss) {
   config.plugins.push(
     new ExtractTextPlugin('bundle.css')
+  );
+}
+
+if (compressJs) {
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin()
   );
 }
 

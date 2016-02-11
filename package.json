@@ -9,6 +9,7 @@
     "server": "node scripts/start-server.js",
     "watch": "parallelshell 'webpack -w' 'nodemon scripts/start-server.js'",
     "lint": "eslint src",
+    "build": "NODE_ENV=production webpack",
     "start": "npm run watch"
   },
   "homepage": "https://github.com/marcelbeumer/react-starter-kit",

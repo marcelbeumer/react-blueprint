@@ -10,6 +10,11 @@ const { object, string } = React.PropTypes;
 @pureRender
 export default class Screen extends Component {
 
+  static propTypes = {
+    actions: object,
+    name: string,
+  };
+
   onButtonClick() {
     const { actions } = this.props;
     actions.setName('react...');
@@ -30,8 +35,3 @@ export default class Screen extends Component {
     );
   }
 }
-
-Screen.propTypes = {
-  actions: object,
-  name: string,
-};

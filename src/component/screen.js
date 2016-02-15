@@ -6,10 +6,10 @@ import pureRender from 'pure-render-decorator';
 const { Component } = React;
 const { object, string } = React.PropTypes;
 
+@autobind
 @pureRender
 export default class Screen extends Component {
 
-  @autobind
   onButtonClick() {
     const { actions } = this.props;
     actions.setName('react...');

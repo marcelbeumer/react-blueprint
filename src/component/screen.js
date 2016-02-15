@@ -1,12 +1,12 @@
 import React from 'react';
 import FlatButton from './flat-button';
 import autobind from 'autobind-decorator';
-import pure from 'pure-render-decorator';
+import pureRender from 'pure-render-decorator';
 
 const { Component } = React;
 const { object, string } = React.PropTypes;
 
-@pure
+@pureRender
 export default class Screen extends Component {
 
   @autobind

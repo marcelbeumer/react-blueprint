@@ -1,14 +1,15 @@
 import React from 'react';
 import FlatButton from './flat-button';
+import autobind from 'autobind-decorator';
+import pure from 'pure-render-decorator';
+
 const { Component } = React;
 const { object, string } = React.PropTypes;
 
+@pure
 export default class Screen extends Component {
-  constructor(props) {
-    super(props);
-    this.onButtonClick = this.onButtonClick.bind(this);
-  }
 
+  @autobind
   onButtonClick() {
     const { actions } = this.props;
     actions.setName('react...');

@@ -1,11 +1,14 @@
+/* eslint new-cap:0 */
 import { Record } from 'immutable';
 
-const DataTree = Record({ // eslint-disable-line new-cap
-  example: true,
-  name: 'world',
-  test: null,
+const TreeData = Record({
+  greeting: 'Hello world',
 });
 
-DataTree.fromServerData = data => DataTree(data); // eslint-disable-line new-cap
+TreeData.fromServerData = data => new TreeData(data);
 
-export default DataTree;
+TreeData.prototype.toServerData = function () {
+  return this.toJSON();
+};
+
+export default TreeData;

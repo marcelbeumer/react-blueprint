@@ -12,20 +12,19 @@ export default class Screen extends Component {
 
   static propTypes = {
     actions: object,
-    name: string,
+    greeting: string,
   };
 
   onButtonClick() {
     const { actions } = this.props;
-    actions.setName('react...');
+    actions.setGreeting('React...');
   }
 
   render() {
-    const { props } = this;
-    const { name } = props;
+    const { greeting } = this.props;
     return (
       <div>
-        <p>hello {name}</p>
+        <p>{greeting}</p>
         <p>
           <FlatButton onClick={this.onButtonClick}>
             Click this

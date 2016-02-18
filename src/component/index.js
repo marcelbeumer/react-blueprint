@@ -1,5 +1,5 @@
 import Screen from './screen';
 
-export function getRootComponent() {
+export function getRootComponent(/* dataTree */) {
   return Screen;
 }

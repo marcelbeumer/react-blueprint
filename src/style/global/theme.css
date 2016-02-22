@@ -1,10 +1,10 @@
 :root {
   --ui-font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
   --ui-font-size: 16px;
-  --ui-background-color: #242424;
+  --ui-background-color: #fff;
   --ui-highlight-color: #2ea6d9;
-  --ui-text-color: #fff;
+  --ui-text-color: #222;
 }
 
-@custom-media --until-desktop-viewport (min-width: 600px);
+@custom-media --until-desktop-viewport (max-width: 599px);
 @custom-media --from-desktop-viewport (min-width: 600px);

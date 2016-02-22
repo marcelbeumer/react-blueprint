@@ -1,5 +1,5 @@
 :root {
-  --home-screen-thin-header-bar-background-color: #000;
+  --home-screen-thin-header-bar-background-color: var(--ui-background-color);
   --home-screen-max-width: 1600px;
 }
 
@@ -24,6 +24,7 @@
   .home-screen--title {
     text-align: center;
     flex: 1;
+    font-size: 2rem;
   }
 
   .home-screen--primary-controls,

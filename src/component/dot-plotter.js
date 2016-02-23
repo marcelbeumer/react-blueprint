@@ -1,17 +1,16 @@
 import React from 'react';
 import { List } from 'immutable';
-import autobind from 'autobind-decorator';
 import pureRender from 'pure-render-decorator';
 
 const { Component } = React;
-const { object } = React.PropTypes;
+const { object, func } = React.PropTypes;
 
-@autobind
 @pureRender
 export default class DotPlotter extends Component {
 
   static propTypes = {
     dots: object,
+    onClick: func,
   }
 
   static defaultProps = {
@@ -20,12 +19,13 @@ export default class DotPlotter extends Component {
 
   renderDots() {
     const { dots } = this.props;
-    const getStyle = ({ x, y }) => ({
-      top: `${y * 100}%`,
-      left: `${x * 100}%`,
-    });
-    return dots.map((dot, x) =>
-      <div className="dot-plotter--dot" key={`dot-${x}`} style={getStyle(dot)}/>);
+    return dots.map(({ x, y }, i) =>
+      <div className="dot-plotter--dot"
+        key={`dot-${i}`}
+        style={{
+          top: `${y * 100}%`,
+          left: `${x * 100}%`,
+        }}/>);
   }
 
   render() {

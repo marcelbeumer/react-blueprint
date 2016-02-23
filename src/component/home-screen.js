@@ -1,7 +1,7 @@
 import React from 'react';
-import autobind from 'autobind-decorator';
 import pureRender from 'pure-render-decorator';
 import DotPlotter from './dot-plotter';
+import BarMeter from './bar-meter';
 
 const { Component } = React;
 const { object } = React.PropTypes;
@@ -13,14 +13,8 @@ export default class HomeScreen extends Component {
     dots: object,
   }
 
-  @autobind
-  onDotPlotterClick() {
-    const { actions } = this.props;
-    actions.generateDots();
-  }
-
   render() {
-    const { dots } = this.props;
+    const { actions, dots, bars } = this.props;
 
     return (
       <div className="home-screen">
@@ -28,7 +22,7 @@ export default class HomeScreen extends Component {
 
         <div className="home-screen--hero">
           <div className="home-screen--primary-controls">
-            <DotPlotter dots={dots} onClick={this.onDotPlotterClick}/>
+            <DotPlotter dots={dots} onClick={actions.generateDots}/>
           </div>
 
           <div className="home-screen--title">
@@ -36,7 +30,7 @@ export default class HomeScreen extends Component {
           </div>
 
           <div className="home-screen--secondary-controls">
-            ...
+            <BarMeter bars={bars} onClick={actions.generateBars}/>
           </div>
         </div>
 

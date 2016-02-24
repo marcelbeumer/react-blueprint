@@ -1,7 +1,6 @@
 import React from 'react';
-const { Component } = React;
 
-export default class FlatButton extends Component {
+export default class FlatButton extends React.Component {
   render() {
     const { props } = this;
     return (

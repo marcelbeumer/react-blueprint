@@ -11,5 +11,6 @@ export default function reducer(state, action = {}) {
     type === 'GENERATE_DOTS' ? state.set('dots', generateDots(state.get('dots').count())) :
     type === 'GENERATE_BARS' ? state.set('bars', generateBars(state.get('bars').count())) :
     type === 'UPDATE_SLIDERS' ? updateSliders(state, payload) :
+    type === 'SET_RESIZABLE_CONTENT_HEIGHT' ? state.set('resizableContentHeight', payload) :
     state;
 }

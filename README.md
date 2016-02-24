@@ -30,16 +30,16 @@ Planned:
 
 ## Architecture and patterns
 
-- Single store redux setup based on immutable data (code, article)
-- Compose redux reducers using middleware/plain-js-passthrough (code, article)
-- Immutable data structures adding import/export functions for server rendering and API data (code, article)
-- Complete decoupling for redux, routing and rendering (code, article)
-- Clean isomorphism by target specific bootstrap (code, article)
+- Single store redux setup based on immutable data
+- Compose redux reducers using middleware/plain-js-passthrough
+- Immutable data structures adding import/export functions for server rendering and API data
+- Complete decoupling for redux, routing and rendering
+- Clean isomorphism by target specific bootstrap
 - Routing using plain JS functions
-- All redux actions bound to top level data property (article)
-- Get root component using plain function passing single data tree as props (code, article)
-- Explicit prop passing from component to component (code, article)
-- Pure function, explicit react component event handler binding (code, article)
+- All redux actions bound to top level data property
+- Get root component using plain function passing single data tree as props
+- Explicit prop passing from component to component
+- Pure function, explicit react component event handler binding
 - TODO: Dependency injected, testable modules and react component
 - Prefer pure rendering components
 - Use pure (post)CSS stylesheets for the web

@@ -3,11 +3,10 @@ import { DraggableCore } from 'react-draggable';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 
-const { Component } = React;
 const { number, func } = React.PropTypes;
 
 @pureRender
-export default class SliderGrippy extends Component {
+export default class SliderGrippy extends React.Component {
   static propTypes = {
     value: number,
     onDrag: func,

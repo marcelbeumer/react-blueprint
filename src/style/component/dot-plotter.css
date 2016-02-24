@@ -1,5 +1,6 @@
 :root {
   --dot-plotter--dot-color: var(--ui-highlight-color);
+  --dot-plotter--line-color: var(--ui-primary-border-color);
 }
 
 .dot-plotter {
@@ -16,7 +17,7 @@
   left: 20px;
   width: calc(100% - 40px);
   height: 1px;
-  border: 1px dashed #ccc;
+  border: 1px dashed var(--dot-plotter--line-color);
   border-width: 1px 0 0;
 }
 

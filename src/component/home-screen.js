@@ -6,18 +6,20 @@ import DotPlotter from './dot-plotter';
 import BarMeter from './bar-meter';
 import Slider from './slider';
 import SliderGrippy from './slider-grippy';
+import ResizableContent from './resizable-content';
 
-const { Component } = React;
-const { object } = React.PropTypes;
+const { object, number } = React.PropTypes;
+const { list } = ImmutablePropTypes;
 
 @pureRender
-export default class HomeScreen extends Component {
+export default class HomeScreen extends React.Component {
 
   static propTypes = {
     actions: object,
-    dots: ImmutablePropTypes.list,
-    bars: ImmutablePropTypes.list,
-    sliders: ImmutablePropTypes.list,
+    dots: list,
+    bars: list,
+    sliders: list,
+    resizableContentHeight: number,
   }
 
   createGrippyChangeHandler = memoize(index => value => {
@@ -36,7 +38,7 @@ export default class HomeScreen extends Component {
   }
 
   render() {
-    const { actions, dots, bars, sliders } = this.props;
+    const { actions, dots, bars, sliders, resizableContentHeight } = this.props;
 
     return (
       <div className="home-screen">
@@ -55,6 +57,20 @@ export default class HomeScreen extends Component {
           <div className="home-screen--secondary-controls">
             <Slider values={sliders} onChange={actions.updateSliders}/>
             <BarMeter bars={bars} onClick={actions.generateBars}/>
+            <ResizableContent height={resizableContentHeight}
+              onResize={actions.setResizableContentHeight}>
+              Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+              sed diam nonumy eirmod tempor invidunt ut labore et
+              dolore magna aliquyam erat, sed diam voluptua. At vero
+              eos et accusam et justo duo dolores et ea rebum. Stet
+              clita kasd gubergren, no sea takimata sanctus est Lorem
+              ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+              consetetur sadipscing elitr, sed diam nonumy eirmod
+              tempor invidunt ut labore et dolore magna aliquyam erat,
+              sed diam voluptua. At vero eos et accusam et justo duo
+              dolores et ea rebum. Stet clita kasd gubergren, no sea
+              takimata sanctus est Lorem ipsum dolor sit amet...
+            </ResizableContent>
           </div>
         </div>
 

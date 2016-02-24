@@ -3,14 +3,14 @@ import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 
-const { Component } = React;
 const { number, func } = React.PropTypes;
+const { listOf, recordOf } = ImmutablePropTypes;
 
 @pureRender
-export default class BarMeter extends Component {
+export default class BarMeter extends React.Component {
 
   static propTypes = {
-    bars: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+    bars: listOf(recordOf({
       value: number,
     })),
     onClick: func,

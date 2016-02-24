@@ -5,16 +5,16 @@ import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 import SliderGrippy from './slider-grippy';
 
-const { Component, Children, cloneElement } = React;
-const { func, array, number } = React.PropTypes;
+const { func, any, number } = React.PropTypes;
+const { listOf } = ImmutablePropTypes;
 const { min, max } = Math;
 
 @pureRender
-export default class Slider extends Component {
+export default class Slider extends React.Component {
 
   static propTypes = {
-    values: ImmutablePropTypes.listOf(number),
-    children: array,
+    values: listOf(number),
+    children: any,
     onChange: func,
   }
 
@@ -45,8 +45,8 @@ export default class Slider extends Component {
   }
 
   cloneChildren() {
-    return Children.map(this.props.children, child =>
-      child.type === SliderGrippy ? cloneElement(child, { onDrag: this.onDrag }) :
+    return React.Children.map(this.props.children, child =>
+      child.type === SliderGrippy ? React.cloneElement(child, { onDrag: this.onDrag }) :
       child);
   }
 

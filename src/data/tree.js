@@ -8,6 +8,7 @@ const TreeData = Record({
   dots: generateDots(10),
   bars: generateBars(5),
   sliders: generateSliderValues(2),
+  resizableContentHeight: 200,
   greeting: 'Hello world',
 });
 

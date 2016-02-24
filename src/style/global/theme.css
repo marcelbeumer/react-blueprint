@@ -3,6 +3,8 @@
   --ui-font-size: 16px;
   --ui-background-color: #fff;
   --ui-highlight-color: #2ea6d9;
+  --ui-primary-border-color: rgb(204, 204, 204);
+  --ui-secondary-border-color: rgb(150, 150, 150);
   --ui-text-color: #222;
 }
 

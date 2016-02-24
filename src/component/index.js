@@ -1,5 +1,5 @@
-import Screen from './screen';
+import HomeScreen from './home-screen';
 
-export function getRootComponent() {
-  return Screen;
+export function getRootComponent(/* dataTree */) {
+  return HomeScreen;
 }

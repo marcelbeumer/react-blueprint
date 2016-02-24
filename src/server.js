@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
   const initialState = new DataTree();
   const { actions } = createRedux(initialState);
   const rendered = renderer(initialState, actions);
-  const html = injectRender(injectData(getTemplate(), initialState), rendered);
+  const html = injectRender(injectData(getTemplate(), initialState.toServerData()), rendered);
   res.send(html);
 });
 

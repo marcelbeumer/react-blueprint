@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--ui-font-family);
+  font-size: var(--ui-font-size);
+  background-color: var(--ui-background-color);
+  color: var(--ui-text-color);
+}

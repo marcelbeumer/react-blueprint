@@ -1,9 +1,17 @@
-export const setTest = value => ({
-  type: 'SET_TEST',
-  payload: value,
+export const setGreeting = greeting => ({
+  type: 'SET_GREETING',
+  payload: greeting,
 });
 
-export const setName = name => ({
-  type: 'SET_NAME',
-  payload: name,
+export const generateDots = () => ({
+  type: 'GENERATE_DOTS',
+});
+
+export const generateBars = () => ({
+  type: 'GENERATE_BARS',
+});
+
+export const updateSliders = (index, value) => ({
+  type: 'UPDATE_SLIDERS',
+  payload: { index, value },
 });

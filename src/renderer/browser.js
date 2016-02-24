@@ -7,7 +7,7 @@ const debug = createDebug('renderer');
 
 export default function createRenderer(element, /* settings */) {
   return function render(dataTree, actions) {
-    const Root = getRootComponent();
+    const Root = getRootComponent(dataTree);
     debug('render start');
 
     ReactDOM.render(

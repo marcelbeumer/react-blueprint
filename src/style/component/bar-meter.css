@@ -1,0 +1,27 @@
+:root {
+  --bar-meter--bar-color: var(--ui-highlight-color);
+}
+
+.bar-meter {
+  padding: 10px;
+  cursor: hand;
+  cursor: pointer;
+}
+
+.bar-meter--item {
+  display: flex;
+}
+
+.bar-meter--label {
+  flex: 0 0 3.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 5px;
+}
+
+.bar-meter--bar {
+  flex: 1 1 100%;
+  height: 1em;
+  background-color: var(--bar-meter--bar-color);
+  transition: 1s ease-in;
+}

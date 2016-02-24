@@ -1,3 +1,7 @@
-@import 'global/body.css';
+@import 'global/theme.css';
+@import 'global/html-body.css';
 @import 'component/flat-button.css';
-/* @import './theme/default.css'; */
+@import 'component/home-screen.css';
+@import 'component/dot-plotter.css';
+@import 'component/bar-meter.css';
+@import 'component/slider.css';

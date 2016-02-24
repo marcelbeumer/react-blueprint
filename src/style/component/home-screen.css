@@ -1,0 +1,41 @@
+:root {
+  --home-screen-thin-header-bar-background-color: var(--ui-background-color);
+  --home-screen-max-width: 1600px;
+}
+
+.home-screen {
+  margin: 0 auto;
+  max-width: var(--home-screen-max-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-screen--thin-header-bar {
+  background-color: var(--home-screen-thin-header-bar-background-color);
+}
+
+@media (--from-desktop-viewport) {
+  .home-screen--hero {
+    display: flex;
+    flex: 1;
+  }
+
+  .home-screen--title {
+    text-align: center;
+    flex: 1;
+    font-size: 2rem;
+  }
+
+  .home-screen--primary-controls,
+  .home-screen--secondary-controls {
+    flex: 0 1 30%;
+  }
+}
+
+.home-screen--profile {
+}
+
+.home-screen--websites {
+}
+

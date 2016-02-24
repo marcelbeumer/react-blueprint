@@ -1,15 +1,19 @@
 import React from 'react';
 import { List } from 'immutable';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 
 const { Component } = React;
-const { object, func } = React.PropTypes;
+const { number, func } = React.PropTypes;
 
 @pureRender
 export default class DotPlotter extends Component {
 
   static propTypes = {
-    dots: object,
+    dots: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+      x: number,
+      y: number,
+    })),
     onClick: func,
   }
 

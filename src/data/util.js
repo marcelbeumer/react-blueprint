@@ -14,3 +14,6 @@ export const generateBars = (num = 0) =>
   List(range(num).map(() => new Bar({
     value: Math.random(),
   })));
+
+export const generateSliderValues = (num = 0) =>
+  List(range(num).map(() => Math.random()));

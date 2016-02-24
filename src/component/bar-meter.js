@@ -1,16 +1,18 @@
 import React from 'react';
 import { List } from 'immutable';
-import autobind from 'autobind-decorator';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 
 const { Component } = React;
-const { object, func } = React.PropTypes;
+const { number, func } = React.PropTypes;
 
 @pureRender
 export default class BarMeter extends Component {
 
   static propTypes = {
-    bars: object,
+    bars: ImmutablePropTypes.listOf(ImmutablePropTypes.recordOf({
+      value: number,
+    })),
     onClick: func,
   }
 
@@ -23,13 +25,15 @@ export default class BarMeter extends Component {
     return bars.map(({ value }, i) => {
       const perc = value * 100;
       const label = `${Math.round(perc)}%`;
-      return <div className="bar-meter--item" key={`bar-${i}`}>
-        <div className="bar-meter--bar" style={{
-          transform: `translateX(-50%) scaleX(${value}) translateX(50%)`
-        }}>
+      return (
+        <div className="bar-meter--item" key={`bar-${i}`}>
+          <div className="bar-meter--bar" style={{
+            transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
+          }}>
+          </div>
+          <div className="bar-meter--label">{label}</div>
         </div>
-        <div className="bar-meter--label">{label}</div>
-      </div>
+      );
     });
   }
 

@@ -10,3 +10,8 @@ export const generateDots = () => ({
 export const generateBars = () => ({
   type: 'GENERATE_BARS',
 });
+
+export const updateSliders = (index, value) => ({
+  type: 'UPDATE_SLIDERS',
+  payload: { index, value },
+});

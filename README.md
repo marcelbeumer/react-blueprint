@@ -40,6 +40,7 @@ Planned:
 - Get root component using plain function passing single data tree as props (code, article)
 - Explicit prop passing from component to component (code, article)
 - Pure function, explicit react component event handler binding (code, article)
+- TODO: Dependency injected, testable modules and react component
 - Prefer pure rendering components
 - Use pure (post)CSS stylesheets for the web
 - Prefer to animate elements using CSS
@@ -51,7 +52,7 @@ Planned:
 - TODO: Deciding when to use component state (app state versus ui state)
 - TODO: Trigger run-once UI operations from redux (data properties with UUID)
 - TODO: Implement dragging (DONE), resizing and gestures
-- TOOD: Implement scroll to
+- TODO: Implement scroll to
 
 Consiously choosing:
 

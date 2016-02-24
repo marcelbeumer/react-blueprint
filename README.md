@@ -1,6 +1,6 @@
 # react-starter-kit
 
-Serves as a batteries included starter kit and demonstration of particular architectural choices and approaches to common react patterns.
+A batteries included starter kit and demonstration of particular architectural choices and approaches to common react patterns.
 
 ## Getting started
 

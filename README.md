@@ -31,11 +31,11 @@ Planned:
 ## Architecture and patterns
 
 - Single store redux setup based on immutable data
-- Compose redux reducers using middleware/plain-js-passthrough
-- Immutable data structures adding import/export functions for server rendering and API data
+- TODO Compose redux reducers using middleware/plain-js-passthrough
+- TODO Immutable data structures adding import/export functions for server rendering and API data
 - Complete decoupling for redux, routing and rendering
 - Clean isomorphism by target specific bootstrap
-- Routing using plain JS functions
+- TODO Routing using plain JS functions
 - All redux actions bound to top level data property
 - Get root component using plain function passing single data tree as props
 - Explicit prop passing from component to component

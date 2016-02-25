@@ -64,6 +64,10 @@ Consiously choosing:
 - Not to use JSX based Redux containers
 - Not to use JS based CSS (yet)
 
+## Concerns with current setip
+
+- Redux async actions need to manage their own asynchronicity and that's hard. When it calls `dispatch(otherAction())` it has to know if the other action is async or not to garantuee being able to return a single promise when doing server rendering. Better would be if redux would manage resolving all dispatched actions and provide a single callback.
+
 ## Browser debugging
 
 Enable [debug](https://www.npmjs.com/package/debug) output by executing `localStorage.debug = '*'` and reloading the page. See the [debug documentation](https://www.npmjs.com/package/debug#browser-support) for more information.

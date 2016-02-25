@@ -53,6 +53,7 @@ Planned:
 - TODO: Trigger run-once UI operations from redux (data properties with UUID)
 - TODO: Implement dragging (DONE), resizing and gestures
 - TODO: Implement scroll to
+- Rendering long lists
 
 Consiously choosing:
 

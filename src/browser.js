@@ -4,7 +4,7 @@ import { expose } from './global';
 import settings from '../settings/browser';
 import createRenderer from './renderer/browser';
 import DataTree from './data/tree';
-import createRedux from './redux';
+import createRedux from './flux';
 
 function getData(id) {
   const json = (document.getElementById(id) || {}).textContent;

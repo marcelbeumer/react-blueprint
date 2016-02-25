@@ -51,7 +51,7 @@ Planned:
 - TODO: Update component layout and positioning on resize
 - TODO: Deciding when to use component state (app state versus ui state)
 - TODO: Trigger run-once UI operations from redux (data properties with UUID)
-- TODO: Implement dragging (DONE), resizing and gestures
+- TODO: Implement dragging (DONE), resizing (DONE) and gestures
 - TODO: Implement scroll to
 
 Consiously choosing:

@@ -20,3 +20,8 @@ export const setResizableContentHeight = height => ({
   type: 'SET_RESIZABLE_CONTENT_HEIGHT',
   payload: height,
 });
+
+export const generateAll = () => dispatch => {
+  dispatch(generateDots());
+  dispatch(generateBars());
+};

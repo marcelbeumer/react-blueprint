@@ -64,13 +64,13 @@ export const styles = StyleSheet.create({
   label: {
     flex: '0 0 3.5em',
     overflow: 'hidden',
-    'text-overflow': 'ellipsis',
+    textOverflow: 'ellipsis',
     padding: '0 5px',
   },
   bar: {
     flex: '1 1 100%',
     height: '1em',
-    'background-color': barColor,
+    backgroundColor: barColor,
     transition: '1s ease-in',
   },
 });

@@ -6,6 +6,7 @@ import settings from '../settings/server';
 import createRenderer from './renderer/server';
 import DataTree from './data/tree';
 import createRedux from './redux';
+import { getCss } from './component/styles';
 
 const debug = createDebug('server');
 debug('starting server');

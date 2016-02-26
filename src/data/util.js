@@ -13,6 +13,7 @@ export const generateDots = (num = 0) =>
 export const generateBars = (num = 0) =>
   List(range(num).map(() => new Bar({
     value: Math.random(),
+    shade: Math.random(),
   })));
 
 export const generateSliderValues = (num = 0) =>

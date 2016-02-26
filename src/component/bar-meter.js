@@ -12,6 +12,7 @@ export default class BarMeter extends React.Component {
   static propTypes = {
     bars: listOf(recordOf({
       value: number,
+      shade: number,
     })),
     onClick: func,
   }

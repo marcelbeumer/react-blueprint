@@ -1,13 +1,14 @@
 import React from 'react';
 import { List } from 'immutable';
+import color from 'color';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 import StyleSheet from './styles';
-import color from 'color';
+import theme from './theme';
 
 const { number, func } = React.PropTypes;
 const { listOf, recordOf } = ImmutablePropTypes;
-const barColor = '#ccc';
+const barColor = theme.highlightColor;
 
 export const styles = StyleSheet.create({
   root: {
@@ -55,7 +56,7 @@ export default class BarMeter extends React.Component {
         <div className={styles.item} key={`bar-${i}`}>
           <div className={styles.bar} style={{
             transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
-            backgroundColor: color(barColor).darken(shade).rgbString(),
+            backgroundColor: color(barColor).darken(shade / 2).rgbString(),
           }}>
           </div>
           <div className={styles.label}>{label}</div>

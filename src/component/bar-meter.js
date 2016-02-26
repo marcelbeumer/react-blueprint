@@ -7,6 +7,29 @@ import color from 'color';
 
 const { number, func } = React.PropTypes;
 const { listOf, recordOf } = ImmutablePropTypes;
+const barColor = '#ccc';
+
+export const styles = StyleSheet.create({
+  root: {
+    padding: '10px',
+    cursor: 'hand',
+  },
+  item: {
+    display: 'flex',
+  },
+  label: {
+    flex: '0 0 3.5em',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    padding: '0 5px',
+  },
+  bar: {
+    flex: '1 1 100%',
+    height: '1em',
+    backgroundColor: barColor,
+    transition: '1s ease-in',
+  },
+});
 
 @pureRender
 export default class BarMeter extends React.Component {
@@ -50,27 +73,3 @@ export default class BarMeter extends React.Component {
     );
   }
 }
-
-const barColor = '#ccc';
-
-export const styles = StyleSheet.create({
-  root: {
-    padding: '10px',
-    cursor: 'hand',
-  },
-  item: {
-    display: 'flex',
-  },
-  label: {
-    flex: '0 0 3.5em',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    padding: '0 5px',
-  },
-  bar: {
-    flex: '1 1 100%',
-    height: '1em',
-    backgroundColor: barColor,
-    transition: '1s ease-in',
-  },
-});

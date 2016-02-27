@@ -72,13 +72,13 @@ export default class Slider extends React.Component {
   renderValues() {
     const { values } = this.props;
     return values.map((value, i) =>
-      <SliderGrippy key={`slider-${i}`} onDrag={this.onDrag} value={value}/>);
+      <SliderGrippy key={`slider-${i}`} onDrag={this.onDrag} value={value} />);
   }
 
   render() {
     return (
       <div className={styles.slider} ref={this.onRootRef}>
-        <div className={styles.line}/>
+        <div className={styles.line} />
         {this.cloneChildren()}
         {this.renderValues()}
       </div>

@@ -32,7 +32,7 @@ export default class HomeScreen extends React.Component {
   renderGrippies() {
     return this.props.sliders.map((value, i) =>
       <SliderGrippy key={`slider-${i}`} value={value}
-        onChange={this.createGrippyChangeHandler(i)}/>).toArray();
+        onChange={this.createGrippyChangeHandler(i)} />).toArray();
   }
 
   renderSlider() {
@@ -48,7 +48,7 @@ export default class HomeScreen extends React.Component {
 
         <div className={styles.hero}>
           <div className={styles.primaryControls}>
-            <DotPlotter dots={dots} onClick={actions.generateDots}/>
+            <DotPlotter dots={dots} onClick={actions.generateDots} />
             {this.renderSlider()}
             <FlatButton>Click here</FlatButton>
           </div>
@@ -58,8 +58,8 @@ export default class HomeScreen extends React.Component {
           </div>
 
           <div className={styles.secondaryControls}>
-            <Slider values={sliders} onChange={actions.updateSliders}/>
-            <BarMeter bars={bars} onClick={actions.generateBars}/>
+            <Slider values={sliders} onChange={actions.updateSliders} />
+            <BarMeter bars={bars} onClick={actions.generateBars} />
             <ResizableContent height={resizableContentHeight}
               onResize={actions.setResizableContentHeight}>
               Lorem ipsum dolor sit amet, consetetur sadipscing elitr,

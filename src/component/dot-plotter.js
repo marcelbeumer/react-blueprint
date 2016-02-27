@@ -60,14 +60,14 @@ export default class DotPlotter extends React.Component {
         style={{
           top: `${y * 100}%`,
           left: `${x * 100}%`,
-        }}/>);
+        }} />);
   }
 
   render() {
     const { props } = this;
     return (
       <div className={styles.root} onClick={props.onClick}>
-        <div className={styles.line}/>
+        <div className={styles.line} />
         {this.renderDots()}
       </div>
     );

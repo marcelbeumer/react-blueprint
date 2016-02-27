@@ -74,7 +74,7 @@ export default class ResizableContent extends React.Component {
       <DraggableCore handle={`.${styles.handle}`} onDrag={this.onDrag}>
         <div className="resizable-content" ref={this.onRootRef} style={style}>
           {this.props.children}
-          <div className={styles.handle} ref={this.onHandleRef}/>
+          <div className={styles.handle} ref={this.onHandleRef} />
         </div>
       </DraggableCore>
     );

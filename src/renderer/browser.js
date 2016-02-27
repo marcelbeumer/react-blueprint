@@ -11,7 +11,7 @@ export default function createRenderer(element, /* settings */) {
     debug('render start');
 
     ReactDOM.render(
-      <Root {...dataTree.toObject()} actions={actions}/>,
+      <Root {...dataTree.toObject()} actions={actions} />,
       element, () => debug('render end'));
   };
 }

@@ -43,7 +43,7 @@ export default class SliderGrippy extends React.Component {
     const { value } = this.props;
     return (
       <DraggableCore onDrag={this.onDrag}>
-        <div className={styles.grippy} style={{ left: `${value * 100}%` }}/>
+        <div className={styles.grippy} style={{ left: `${value * 100}%` }} />
       </DraggableCore>
     );
   }

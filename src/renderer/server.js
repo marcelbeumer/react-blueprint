@@ -11,7 +11,7 @@ export default function createRenderer() {
     debug('render start');
 
     const html = ReactDOMServer.renderToString(
-      <Root {...dataTree.toObject()} actions={actions}/>);
+      <Root {...dataTree.toObject()} actions={actions} />);
 
     debug('render end');
     return html;

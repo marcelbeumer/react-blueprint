@@ -1,4 +1,4 @@
-import './style/index.js';
+import './style/index.css';
 import createDebug from 'debug';
 import { expose } from './global';
 import settings from '../settings/browser';

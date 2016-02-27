@@ -30,8 +30,9 @@ export const styles = StyleSheet.create({
     width: '10px',
     height: '10px',
     borderRadius: '10px',
-    ransform: 'translate(-50%, -50%)',
+    transform: 'translate(-50%, -50%)',
     transition: '1s ease-in',
+    transitionProperty: 'top, left',
     backgroundColor: theme.highlightColor,
   },
 });

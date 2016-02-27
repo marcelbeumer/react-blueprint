@@ -49,13 +49,13 @@
     "html-webpack-plugin": "^2.7.2",
     "immutable": "^3.7.6",
     "json-loader": "^0.5.4",
-    "lodash": "^4.3.0",
+    "lodash": "^4.5.1",
     "mocha": "^2.4.5",
     "node-env": "^0.1.6",
-    "nodemon": "^1.8.1",
+    "nodemon": "^1.9.1",
     "normalize.css": "^3.0.3",
     "parallelshell": "^2.0.0",
-    "postcss": "^5.0.16",
+    "postcss": "^5.0.17",
     "postcss-cssnext": "^2.4.0",
     "postcss-import": "^8.0.2",
     "postcss-loader": "^0.8.0",
@@ -71,6 +71,6 @@
     "redux-thunk": "^1.0.3",
     "stilr": "^1.2.2",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.13"
+    "webpack": "^1.12.14"
   }
 }

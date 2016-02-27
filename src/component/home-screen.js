@@ -2,11 +2,13 @@ import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 import { memoize } from 'lodash';
+import FlatButton from './flat-button';
 import DotPlotter from './dot-plotter';
 import BarMeter from './bar-meter';
 import Slider from './slider';
 import SliderGrippy from './slider-grippy';
 import ResizableContent from './resizable-content';
+import styles from './home-screen-styles';
 
 const { object, number } = React.PropTypes;
 const { list } = ImmutablePropTypes;
@@ -41,20 +43,21 @@ export default class HomeScreen extends React.Component {
     const { actions, dots, bars, sliders, resizableContentHeight } = this.props;
 
     return (
-      <div className="home-screen">
-        <div className="home-screen--thin-header-bar">.</div>
+      <div className={styles.home}>
+        <div className={styles.thinHeaderBar}>.</div>
 
-        <div className="home-screen--hero">
-          <div className="home-screen--primary-controls">
+        <div className={styles.hero}>
+          <div className={styles.primaryControls}>
             <DotPlotter dots={dots} onClick={actions.generateDots}/>
             {this.renderSlider()}
+            <FlatButton>Click here</FlatButton>
           </div>
 
-          <div className="home-screen--title">
+          <div className={styles.title}>
             this is a React starter kit
           </div>
 
-          <div className="home-screen--secondary-controls">
+          <div className={styles.secondaryControls}>
             <Slider values={sliders} onChange={actions.updateSliders}/>
             <BarMeter bars={bars} onClick={actions.generateBars}/>
             <ResizableContent height={resizableContentHeight}
@@ -73,10 +76,6 @@ export default class HomeScreen extends React.Component {
             </ResizableContent>
           </div>
         </div>
-
-        <div className="home-screen--profile">...</div>
-        <div className="home-screen--details">...</div>
-        <div className="home-screen--websites">....</div>
       </div>
     );
   }

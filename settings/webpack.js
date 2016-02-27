@@ -65,12 +65,12 @@ const config = {
         loader: 'babel-loader',
       },
       {
-        test: /\.json/,
+        test: /\.json$/,
         exclude: /node_modules/,
         loader: 'json-loader',
       },
       {
-        test: /\.css/,
+        test: /\.css$/,
         exclude: /node_modules/,
         loader: extractCss ?
           ExtractTextPlugin.extract(cssPipeline[0], cssPipeline.slice(1)) :

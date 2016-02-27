@@ -6,4 +6,9 @@ export default {
   primaryBorderColor: 'rgb(204, 204, 204)',
   secondaryBorderColor: 'rgb(150, 150, 150)',
   textColor: '#222',
+  inverseTextColor: '#fff',
+  media: {
+    fromDesktop: '@media screen and (min-width: 600px)',
+    untilDesktop: '@media screen and (max-width: 599px)',
+  },
 };

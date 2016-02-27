@@ -4,10 +4,29 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 import SliderGrippy from './slider-grippy';
+import StyleSheet from './styles';
+import theme from './theme';
 
 const { func, any, number } = React.PropTypes;
 const { listOf } = ImmutablePropTypes;
 const { min, max } = Math;
+
+export const styles = StyleSheet.create({
+  slider: {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+    minHeight: '50px',
+  },
+  line: {
+    position: 'absolute',
+    top: '50%',
+    width: '100%',
+    height: '1px',
+    border: `1px solid ${theme.primaryBorderColor}`,
+    borderWidth: '1px 0 0',
+  },
+});
 
 @pureRender
 export default class Slider extends React.Component {
@@ -58,8 +77,8 @@ export default class Slider extends React.Component {
 
   render() {
     return (
-      <div className="slider" ref={this.onRootRef}>
-        <div className="slider--line"/>
+      <div className={styles.slider} ref={this.onRootRef}>
+        <div className={styles.line}/>
         {this.cloneChildren()}
         {this.renderValues()}
       </div>

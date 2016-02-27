@@ -10,7 +10,9 @@ import createRenderer from './renderer/server';
 import DataTree from './data/tree';
 import createRedux from './redux';
 import { getCss } from './component/styles';
+import env from 'node-env';
 
+const prod = env === 'production';
 const debug = createDebug('server');
 debug('starting server');
 
@@ -21,7 +23,7 @@ const getTemplate = memoize(() =>
   String(fs.readFileSync(`${__dirname}/../dist/index.html`)));
 
 const injectData = (output, data) =>
-  output.replace(/(id=(['"]?)data\2>)/, `$1${JSON.stringify(data)}`);
+  output.replace(/(id=(['"]?)data\2>)/, `$1${JSON.stringify(data, null, prod ? 0 : 2)}`);
 
 const injectRender = (output, render) =>
   output.replace(/(id=(['"]?)root\2>)/, `$1${render}`);
@@ -30,10 +32,9 @@ const injectCss = (output, css) =>
   output.replace(/(id=(['"]?)css\2>)/, `$1${css}`);
 
 export function getComponentCss() {
-  const source = getCss();
+  const source = getCss({ pretty: !prod });
   const css = String(postcss([autoprefixer]).process(source));
-  const minifiedCss = new CleanCSS().minify(css).styles;
-  return minifiedCss;
+  return prod ? new CleanCSS().minify(css).styles : css;
 }
 
 app.get('/', (req, res) => {

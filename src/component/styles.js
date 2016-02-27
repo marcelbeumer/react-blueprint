@@ -1,12 +1,11 @@
-import { render, create, Map } from 'stilr';
+import StyleSheet from 'stilr';
 
-const map = new Map();
+const map = new StyleSheet.Map();
+export const getCss = ({ pretty = false } = {}) => StyleSheet.render({ pretty }, map);
 
-export const getCss = () => render(undefined, map);
-
-export default class StyleSheet {
+export default class StyleSheetWrapper {
   static create(styles) {
-    const sheet = create(styles, map);
+    const sheet = StyleSheet.create(styles, map);
     sheet.getStyles = () => styles;
     return sheet;
   }

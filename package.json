@@ -53,6 +53,7 @@
     "mocha": "^2.4.5",
     "node-env": "^0.1.6",
     "nodemon": "^1.8.1",
+    "normalize.css": "^3.0.3",
     "parallelshell": "^2.0.0",
     "postcss": "^5.0.16",
     "postcss-cssnext": "^2.4.0",

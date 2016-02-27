@@ -7,7 +7,7 @@ import cssUrl from 'postcss-import';
 import env from 'node-env';
 import webpack from 'webpack';
 
-const cssPipeline = ['style-loader', 'css-loader', 'postcss-loader'];
+const cssPipeline = ['style-loader', 'css-loader?minimize', 'postcss-loader'];
 const prod = env === 'production';
 const extractCss = prod;
 const compressJs = prod;

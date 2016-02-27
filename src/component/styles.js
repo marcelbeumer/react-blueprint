@@ -5,7 +5,7 @@ export const getCss = () => render();
 export default class StyleSheet {
   static create(styles) {
     const sheet = create(styles);
-    sheet.getSource = () => styles;
+    sheet.getStyles = () => styles;
     return sheet;
   }
 }

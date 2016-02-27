@@ -1,2 +1,5 @@
 @import 'theme.css';
 @import 'html-body.css';
+@import 'component/home-screen.css';
+@import 'component/slider.css';
+@import 'component/resizable-content.css';

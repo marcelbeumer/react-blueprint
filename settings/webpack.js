@@ -7,7 +7,8 @@ import cssUrl from 'postcss-import';
 import env from 'node-env';
 import webpack from 'webpack';
 
-const cssPipeline = ['style-loader', 'css-loader', 'postcss-loader', 'val-loader'];
+const cssPipeline = ['style-loader', 'css-loader', 'postcss-loader'];
+const xxxPipeline = cssPipeline.concat('./xxx-loader');
 const prod = env === 'production';
 const extractCss = prod;
 const compressJs = prod;
@@ -70,7 +71,14 @@ const config = {
         loader: 'json-loader',
       },
       {
-        test: /\/style\/index.js/,
+        test: /\index\.foobar2000/,
+        exclude: /node_modules/,
+        loader: extractCss ?
+          ExtractTextPlugin.extract(xxxPipeline[0], xxxPipeline.slice(1)) :
+          xxxPipeline.join('!'),
+      },
+      {
+        test: /\.css$/,
         exclude: /node_modules/,
         loader: extractCss ?
           ExtractTextPlugin.extract(cssPipeline[0], cssPipeline.slice(1)) :

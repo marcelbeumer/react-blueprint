@@ -33,8 +33,11 @@ export const styles = StyleSheet.create({
     ransform: 'translate(-50%, -50%)',
     transition: '1s ease-in',
     backgroundColor: theme.highlightColor,
+    // backgroundColor: 'red',
   },
 });
+
+console.log(styles.getStyles().dot.backgroundColor);
 
 @pureRender
 export default class DotPlotter extends React.Component {

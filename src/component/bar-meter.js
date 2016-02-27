@@ -13,7 +13,7 @@ const barColor = theme.highlightColor;
 export const styles = StyleSheet.create({
   root: {
     padding: '10px',
-    cursor: 'hand',
+    cursor: 'pointer',
   },
   item: {
     display: 'flex',

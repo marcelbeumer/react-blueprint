@@ -26,6 +26,10 @@ export function getCss() {
   return sheets.map(styles => styles.toString()).join('\n');
 }
 
+export function flush() {
+  sheets.splice(0);
+}
+
 export default class StyleSheet {
   static create(styles) {
     return styleSheet(styles);

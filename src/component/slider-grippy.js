@@ -2,8 +2,23 @@ import React from 'react';
 import { DraggableCore } from 'react-draggable';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
+import StyleSheet from './styles';
+import theme from './theme';
 
 const { number, func } = React.PropTypes;
+
+export const styles = StyleSheet.create({
+  grippy: {
+    position: 'absolute',
+    width: '8px',
+    height: '30px',
+    top: 'calc(50% - 15px)',
+    transform: 'translate(-50%)',
+    borderRadius: '2px',
+    backgroundColor: theme.highlightColor,
+    cursor: 'pointer',
+  },
+});
 
 @pureRender
 export default class SliderGrippy extends React.Component {
@@ -28,7 +43,7 @@ export default class SliderGrippy extends React.Component {
     const { value } = this.props;
     return (
       <DraggableCore onDrag={this.onDrag}>
-        <div className="slider--grippy" style={{ left: `${value * 100}%` }}/>
+        <div className={styles.grippy} style={{ left: `${value * 100}%` }} />
       </DraggableCore>
     );
   }

@@ -18,7 +18,7 @@ $ open http://localhost:8080
 - React: standalone (redux-agnostic) rendering
 - Redux
 - Webpack
-- Server: express, isomorphic rendering
+- Server: express, react component rendering
 
 Planned:
 
@@ -34,7 +34,7 @@ Planned:
 - TODO Compose redux reducers using middleware/plain-js-passthrough
 - TODO Immutable data structures adding import/export functions for server rendering and API data
 - Complete decoupling for redux, routing and rendering
-- Clean isomorphism by target specific bootstrap
+- Clean browser/server rendering by target specific bootstrap
 - TODO Routing using plain JS functions
 - All redux actions bound to top level data property
 - Get root component using plain function passing single data tree as props
@@ -42,7 +42,8 @@ Planned:
 - Pure function, explicit react component event handler binding
 - TODO: Dependency injected, testable modules and react component
 - Prefer pure rendering components
-- Use pure (post)CSS stylesheets for the web
+- Use Stilr for component CSS (`StyleSheet.create`)
+- Use (post)CSS stylesheets for non component CSS
 - Prefer to animate elements using CSS
 - Picking between setting top/left and transform CSS properties
 - TODO: Animate elements using RAF when CSS is not possible
@@ -63,7 +64,6 @@ Consiously choosing:
 - Not to create smart components unless it really makes sense
 - Not to use JSX for routing
 - Not to use JSX based Redux containers
-- Not to use JS based CSS (yet)
 
 ## Concerns with current setup
 

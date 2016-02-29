@@ -7,12 +7,17 @@ import cssUrl from 'postcss-import';
 import env from 'node-env';
 import webpack from 'webpack';
 
-const cssPipeline = ['style-loader', 'css-loader', 'postcss-loader'];
 const prod = env === 'production';
-const extractCss = prod;
 const compressJs = prod;
+const extractCss = true;
 const useCdn = prod;
 const useMin = prod;
+
+const cssPipeline = [
+  'style-loader',
+  prod ? 'css-loader?minimize' : 'css-loader',
+  'postcss-loader',
+];
 
 const scripts = [
   {
@@ -65,12 +70,13 @@ const config = {
         loader: 'babel-loader',
       },
       {
-        test: /\.json/,
+        test: /\.json$/,
         exclude: /node_modules/,
         loader: 'json-loader',
       },
       {
         test: /\.css$/,
+        exclude: /node_modules/,
         loader: extractCss ?
           ExtractTextPlugin.extract(cssPipeline[0], cssPipeline.slice(1)) :
           cssPipeline.join('!'),
@@ -103,7 +109,11 @@ if (extractCss) {
 
 if (compressJs) {
   config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+    })
   );
 }
 

@@ -22,11 +22,9 @@ $ open http://localhost:8080
 
 Planned:
 
-- Complex react components
-- Complex redux with thunks, promises, etc.
+- Complex redux examples with thunks, promises, etc.
 - Hot module reloading
 - Dependency injection
-- Immutable proptypes
 
 ## Architecture and patterns
 
@@ -66,7 +64,7 @@ Consiously choosing:
 
 ## Concerns with current setup
 
-- Redux async actions need to manage their own asynchronicity and that's hard. When an async action calls `dispatch(otherAction())` internally it has to know if the other action is async or not to garantuee being able to return a single promise when doing server rendering. Better would be if redux would manage resolving all dispatched actions and provide a single callback like [fluxebu](https://github.com/uxebu/fluxebu) does.
+- Redux async actions need to manage their own asynchronicity and that's hard. When an async action calls `dispatch(otherAction())` internally it has to know if the other action is async or not to garantuee being able to return a single promise when doing server rendering. Better would be if a seperate component would manage resolving all dispatched actions and provide a single callback like [fluxebu](https://github.com/uxebu/fluxebu) does. Perhaps not redux itself, so redux can stay pure function.
 
 ## Browser debugging
 

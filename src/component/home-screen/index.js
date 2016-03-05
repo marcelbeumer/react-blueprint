@@ -40,7 +40,7 @@ export default class HomeScreen extends React.Component {
           </div>
 
           <div className={styles.footer}>
-            @marcelbeumer/react-blueprint
+            marcelbeumer/react-blueprint
           </div>
         </div>
         <div className={cx(styles.background, { [styles.backgroundShown]: showBackground })}>

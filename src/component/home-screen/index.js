@@ -32,7 +32,7 @@ export default class HomeScreen extends React.Component {
 
           <div className={styles.websites}>
             <a className={styles.githubIcon}
-              href="https://github.com/marcelbeumer/marcelbeumer.com"
+              href="https://github.com/marcelbeumer/react-github"
               alt="Github"
               target="_blank">
               <GithubIcon />

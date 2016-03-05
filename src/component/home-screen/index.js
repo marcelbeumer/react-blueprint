@@ -33,8 +33,7 @@ export default class HomeScreen extends React.Component {
           <div className={styles.websites}>
             <a className={styles.githubIcon}
               href="https://github.com/marcelbeumer/react-blueprint"
-              alt="Github"
-              target="_blank">
+              alt="Github">
               <GithubIcon />
             </a>
           </div>
@@ -73,7 +72,7 @@ export default class HomeScreen extends React.Component {
 
             <p>
               Check the
-              the <a target="_blank" href="https://github.com/marcelbeumer/react-blueprint">
+              the <a href="https://github.com/marcelbeumer/react-blueprint">
                 source on Github
               </a>.
             </p>

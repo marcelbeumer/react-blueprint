@@ -55,10 +55,9 @@ export default class HomeScreen extends React.Component {
             </p>
 
             <p>
-              What you see is backed by an efficient frontend
-              architecture based on React and Flux/Redux that has
-              no problem scaling up for very big and complex
-              applications. The page is pre-rendered by the server.
+              What you see is backed by a frontend
+              architecture based on React and Flux/Redux that scales up well
+              for big and complex applications too. The page is pre-rendered by the server.
             </p>
 
             <p>

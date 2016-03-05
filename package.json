@@ -14,17 +14,17 @@
     "build": "NODE_ENV=production webpack && NODE_ENV=production npm run render -- -f dist/index.html",
     "start": "npm run watch"
   },
-  "homepage": "https://github.com/marcelbeumer/react-starter-kit",
+  "homepage": "https://github.com/marcelbeumer/react-blueprint",
   "author": {
     "name": "Marcel Beumer",
     "email": "marcel@marcelbeumer.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:marcelbeumer/react-starter-kit.git"
+    "url": "git@github.com:marcelbeumer/react-blueprint.git"
   },
   "bugs": {
-    "url": "https://github.com/marcelbeumer/react-starter-kit/issues"
+      "url": "https://github.com/marcelbeumer/react-blueprint/issues"
   },
   "devDependencies": {
     "autobind-decorator": "^1.3.3",

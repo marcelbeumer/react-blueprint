@@ -2,54 +2,27 @@
 import React from 'react';
 import cx from 'classnames';
 import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
 import refHandler from './ref-handler';
 import HomeScreen from './home-screen';
 import TestScreen from './test-screen';
 import StyleSheet from './styles';
+import raf from '../raf';
 
+const { min, max } = Math;
 const { object, string } = React.PropTypes;
-
-const segueTransition = 'transform 3s ease-in';
+const { requestAnimationFrame } = raf();
 
 export const styles = StyleSheet.create({
-  root: {
-  },
   segueRoot: {
-    position: 'absolute',
     width: '100%',
     overflowX: 'hidden',
   },
-  segueFromRight: {
-    transition: segueTransition,
-    position: 'relative',
-    left: '100%',
-    transform: 'translateX(-100%)',
-  },
-  segueFromLeft: {
-    transition: segueTransition,
-    position: 'relative',
-    left: '-100%',
+  segueContainer: {
+    display: 'flex',
     width: '100%',
-    transform: 'translateX(100%)',
   },
-  segueToLeft: {
-    transition: segueTransition,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    transform: 'translateX(-100%)',
-    zIndex: 99,
-  },
-  segueToRight: {
-    transition: segueTransition,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    transform: 'translateX(100%)',
-    zIndex: 99,
+  segueScreen: {
+    flex: '1 0 100%',
   },
 });
 
@@ -61,29 +34,43 @@ export default class MainScreen extends React.Component {
     screen: string,
   }
 
-  state = {};
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    this._root.addEventListener('transitionend', this.stopSegue);
-    this._root.addEventListener('transitioncancel', this.stopSegue);
+    this.offsetRaf = null;
+    this.state = this.getCleanState();
   }
 
   componentWillReceiveProps(nextProps) {
-    const screenOrder = this.getScreenOrder();
+    if (!nextProps.screen) return;
 
-    if (nextProps.screen !== this.props.screen) {
-      Object.assign(this.state, { // no-render
-        segue: true,
-        segueDir:
-          screenOrder.indexOf(nextProps.screen) >
-          screenOrder.indexOf(this.props.screen) ? 1 : -1,
-        lastScreen: this.props.screen,
-      });
+    const targetScreen = nextProps.screen;
+    const screenOrder = this.getScreenOrder();
+    const { currentScreen, visibleScreens } = this.state;
+
+    this.state.targetScreen = targetScreen;
+
+    if (visibleScreens.indexOf(targetScreen) === -1) {
+      visibleScreens[
+        screenOrder.indexOf(targetScreen) > screenOrder.indexOf(currentScreen) ?
+        'push' : 'unshift'
+      ](targetScreen);
     }
+
+    this.animateToTargetScreen();
+  }
+
+  getCleanState() {
+    return {
+      offset: 0,
+      visibleScreens: [this.props.screen],
+      currentScreen: this.props.screen,
+      targetScreen: this.props.screen,
+    };
   }
 
   getScreenOrder() {
-    return ['home', 'test'];
+    return ['test', 'home'];
   }
 
   getScreenComponent(name) {
@@ -92,39 +79,70 @@ export default class MainScreen extends React.Component {
       undefined;
   }
 
-  refRoot = refHandler(this, '_root');
+  animateToTargetScreen() {
+    this._animate = true;
+    const screensPerSecond = 1.5;
+    let lastTimestamp;
 
-  @autobind
-  stopSegue() {
-    if (this.state.segue) {
-      this.setState({
-        segue: false,
-      });
-    }
+    const step = (timestamp) => {
+      const passed = (timestamp - (lastTimestamp || timestamp)) / 1000;
+      const delta = passed * screensPerSecond;
+      lastTimestamp = timestamp;
+
+      const { offset, currentScreen, targetScreen, visibleScreens } = this.state;
+      const targetOffset = visibleScreens.indexOf(targetScreen) -
+        visibleScreens.indexOf(currentScreen);
+
+      if (offset !== targetOffset) {
+        const updatedOffset = targetOffset < offset ?
+          max(targetOffset, offset - delta) :
+          min(targetOffset, offset + delta);
+        this.setState({ offset: updatedOffset });
+        requestAnimationFrame(step);
+      } else {
+        this.setState(this.getCleanState());
+      }
+    };
+
+    requestAnimationFrame(step);
+  }
+
+  refRoot = refHandler(this, '_root');
+  refContainer = refHandler(this, '_container');
+
+  renderScreens() {
+    const { visibleScreens } = this.state;
+    const segue = visibleScreens.length > 1;
+
+    const screens = visibleScreens.map((screenName, i) => {
+      const Screen = this.getScreenComponent(screenName);
+      return (
+        <div className={cx(segue && styles.segueScreen)} key={`screen-${i}`}>
+          <Screen {...this.props} />
+        </div>
+      );
+    });
+
+    return screens;
   }
 
   render() {
-    const { screen } = this.props;
-    const { lastScreen, segue, segueDir } = this.state;
-    const Screen = this.getScreenComponent(screen);
-    const LastScreen = lastScreen && this.getScreenComponent(lastScreen);
+    const { offset, visibleScreens, currentScreen } = this.state;
+    const segue = visibleScreens.length > 1;
+    const translateX = -((visibleScreens.indexOf(currentScreen) + offset) * 100);
+    const containerStyle = {};
 
-    const lastScreenClasses = cx(styles.screen, {
-      [segueDir > 0 ? styles.segueToLeft : styles.segueToRight]: segue,
-    });
-
-    const screenClasses = cx(styles.screen, {
-      [segueDir > 0 ? styles.segueFromRight : styles.segueFromLeft]: segue,
-    });
+    if (translateX !== 0) {
+      containerStyle.transform = `translateX(${translateX}%)`;
+    }
 
     return (
-      <div ref={this.refRoot}
-        className={cx(styles.root, { [styles.segueRoot]: segue })}>
-        <div className={lastScreenClasses}>
-          {lastScreen && segue && <LastScreen {...this.props} />}
-        </div>
-        <div className={screenClasses}>
-          {<Screen {...this.props} />}
+      <div ref={this.refRoot} className={cx(segue && styles.segueRoot)}>
+        <div
+          ref={this.refContainer}
+          className={cx(segue && styles.segueContainer)}
+          style={containerStyle}>
+          {this.renderScreens()}
         </div>
       </div>
     );

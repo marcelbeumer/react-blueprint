@@ -1,6 +1,6 @@
-# React blueprint
+# react-blueprint
 
-Ready for takeoff React setup. Demonstrates frontend architecture and approaches to common React patterns.
+> Ready for takeoff React setup. Demonstrates frontend architecture and approaches to common React patterns.
 
 ## Getting started
 

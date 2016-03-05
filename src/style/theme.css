@@ -1,6 +1,4 @@
 :root {
-  --ui-font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  --ui-font-size: 16px;
-  --ui-background-color: #fff;
+  --ui-background-color: #000;
   --ui-text-color: #222;
 }

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 require('babel-register');
 
 const settings = require('../settings/server').default;

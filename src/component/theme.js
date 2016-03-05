@@ -1,14 +1,28 @@
-export default {
-  fontFamily: 'Consolas, "Liberation Mono", Menlo, Courier, monospace',
-  fontSize: '16px',
+import StyleSheet from './styles';
+
+const theme = {
+  fontFamily: 'Helvetica, sans-serif',
+  fontWeight: '100',
   backgroundColor: '#fff',
-  highlightColor: '#2ea6d9',
-  primaryBorderColor: 'rgb(204, 204, 204)',
-  secondaryBorderColor: 'rgb(150, 150, 150)',
-  textColor: '#222',
+  highlightColor: '#000',
+  primaryBorderColor: '#000',
+  secondaryBorderColor: '#000',
+  textColor: '#000',
   inverseTextColor: '#fff',
+  baseBorderRadius: 3,
   media: {
-    fromDesktop: '@media screen and (min-width: 600px)',
-    untilDesktop: '@media screen and (max-width: 599px)',
+    fromTablet: '@media screen and (min-width: 600px)',
+    fromDesktop: '@media screen and (min-width: 800px)',
   },
 };
+
+// Workaround to force media queries to proper order
+StyleSheet.create({
+  __: Object.keys(theme.media).reduce((p, c, i) => {
+    const rules = p;
+    rules[theme.media[c]] = { fontSize: i };
+    return rules;
+  }, {}),
+});
+
+export default theme;

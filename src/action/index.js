@@ -1,27 +1,12 @@
-export const setGreeting = greeting => ({
-  type: 'SET_GREETING',
-  payload: greeting,
+const createSimpleAction = type => payload => ({ type, payload });
+
+export const setListStart = createSimpleAction('SET_LIST_START');
+export const setListEnd = createSimpleAction('SET_LIST_END');
+
+export const setListRange = (start, end) => ({
+  type: 'SET_LIST_RANGE',
+  payload: { start, end },
 });
 
-export const generateDots = () => ({
-  type: 'GENERATE_DOTS',
-});
-
-export const generateBars = () => ({
-  type: 'GENERATE_BARS',
-});
-
-export const updateSliders = (index, value) => ({
-  type: 'UPDATE_SLIDERS',
-  payload: { index, value },
-});
-
-export const setResizableContentHeight = height => ({
-  type: 'SET_RESIZABLE_CONTENT_HEIGHT',
-  payload: height,
-});
-
-export const generateAll = () => dispatch => {
-  dispatch(generateDots());
-  dispatch(generateBars());
-};
+export const showBackground = () => ({ type: 'SHOW_BACKGROUND' });
+export const hideBackground = () => ({ type: 'HIDE_BACKGROUND' });

@@ -7,9 +7,11 @@
   "scripts": {
     "test": "mocha --compilers js:babel-register",
     "server": "node scripts/start-server.js",
+    "render": "node scripts/render-homepage.js",
     "watch": "parallelshell 'webpack -w' 'nodemon scripts/start-server.js'",
     "lint": "eslint src",
-    "build": "NODE_ENV=production webpack",
+    "prebuild": "rimraf dist/*",
+    "build": "NODE_ENV=production webpack && NODE_ENV=production npm run render -- -f dist/index.html",
     "start": "npm run watch"
   },
   "homepage": "https://github.com/marcelbeumer/react-starter-kit",
@@ -36,6 +38,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "babel-register": "^6.4.3",
+    "classnames": "^2.2.3",
     "clean-css": "^3.4.9",
     "color": "^0.11.1",
     "copy-webpack-plugin": "^1.1.1",
@@ -69,8 +72,10 @@
     "redux-devtools": "^3.1.0",
     "redux-promise": "^0.5.1",
     "redux-thunk": "^1.0.3",
+    "rimraf": "^2.5.2",
     "stilr": "^1.2.2",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.14"
+    "webpack": "^1.12.14",
+    "yargs": "^4.2.0"
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
-import refs from './refs-decorator';
+import refHandler from './ref-handler';
 import { DraggableCore } from 'react-draggable';
 import StyleSheet, { px } from './styles';
 import theme from './theme';
@@ -41,7 +41,6 @@ export const styles = StyleSheet.create({
   }, scrollbarStyle),
 });
 
-@refs
 @pureRender
 export default class ResizableContent extends React.Component {
 
@@ -66,6 +65,7 @@ export default class ResizableContent extends React.Component {
   }
 
   componentDidMount() {
+    this.x = this.x ? this.x++ : 1;
     const { toPx } = this.props;
     this._content.style.marginRight = px(-this.getScrollbarWidth());
     this._content.style.overflow = 'auto';
@@ -103,6 +103,11 @@ export default class ResizableContent extends React.Component {
     return el.offsetWidth - el.clientWidth;
   }
 
+  refContent = refHandler(this, '_content');
+  refInnerContent = refHandler(this, '_innerContent');
+  refScrollBarSizer = refHandler(this, '_scrollBarSizer');
+  refHandle = refHandler(this, '_handle');
+
   render() {
     const { height, scrollTop, toUnit } = this.props;
 
@@ -118,16 +123,16 @@ export default class ResizableContent extends React.Component {
     return (
       <DraggableCore handle={`.${styles.handle}`} onDrag={this.onDrag}>
         <div className={styles.root}>
-          <div className={styles.scrollbarSizer} ref={this.onRef('_scrollBarSizer')} />
-          <div ref={this.onRef('_content')}
+          <div className={styles.scrollbarSizer} ref={this.refScrollBarSizer} />
+          <div ref={this.refContent}
             className={styles.content}
             style={contentStyle}
             onScroll={this.onScroll}>
-            <div ref={this.onRef('_innerContent')} style={innerContentStyle}>
+            <div ref={this.refInnerContent} style={innerContentStyle}>
               {this.props.children}
             </div>
           </div>
-          <div className={styles.handle} ref={this.onRef('_handle')} />
+          <div className={styles.handle} ref={this.refHandle} />
         </div>
       </DraggableCore>
     );

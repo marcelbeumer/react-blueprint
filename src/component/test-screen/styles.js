@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     height: '25px',
   },
   footer: {
-    padding: '0 10px 10px 0',
+    padding: '0 10px',
   },
   mailto: {
     display: 'block',

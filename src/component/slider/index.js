@@ -3,7 +3,7 @@ import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
-import refs from '../refs-decorator';
+import refHandler from '../ref-handler';
 import SliderGrippy from './grippy';
 import StyleSheet from '../styles';
 import theme from '../theme';
@@ -31,7 +31,6 @@ export const styles = StyleSheet.create({
   },
 });
 
-@refs
 @pureRender
 export default class Slider extends React.Component {
 
@@ -58,6 +57,8 @@ export default class Slider extends React.Component {
     this.changeValue(value, updatedValue, grippy);
   }
 
+  refRoot = refHandler(this, '_root');
+
   changeValue(value, updatedValue, grippy) {
     const { values } = this.props;
     const index = values.lastIndexOf(value);
@@ -81,7 +82,7 @@ export default class Slider extends React.Component {
 
   render() {
     return (
-      <div className={styles.slider} ref={this.onRef('_root')}>
+      <div className={styles.slider} ref={this.refRoot}>
         <div className={styles.line} />
         {this.cloneChildren()}
         {this.renderValues()}

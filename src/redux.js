@@ -18,8 +18,10 @@ export default function createRedux(initialState, onChange, /* settings */) {
     boundActions[name] = (...args) => {
       debug(`bound action call ${name}`);
       const action = actions[name](...args);
-      debug(`dispatch action ${name}`);
-      store.dispatch(action);
+      if (action) {
+        debug(`dispatch action ${name}`);
+        store.dispatch(action);
+      }
     };
   });
 

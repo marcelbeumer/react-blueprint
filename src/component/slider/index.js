@@ -3,9 +3,12 @@ import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
-import SliderGrippy from './slider-grippy';
-import StyleSheet from './styles';
-import theme from './theme';
+import refs from '../refs-decorator';
+import SliderGrippy from './grippy';
+import StyleSheet from '../styles';
+import theme from '../theme';
+
+export SliderGrippy from './grippy';
 
 const { func, any, number } = React.PropTypes;
 const { listOf } = ImmutablePropTypes;
@@ -22,12 +25,13 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     width: '100%',
-    height: '1px',
+    height: '0',
     border: `1px solid ${theme.primaryBorderColor}`,
-    borderWidth: '1px 0 0',
+    borderWidth: '1px 0 0 0',
   },
 });
 
+@refs
 @pureRender
 export default class Slider extends React.Component {
 
@@ -44,28 +48,28 @@ export default class Slider extends React.Component {
 
   @autobind
   onDrag(e, ui, grippy) {
-    const { width, left } = this.root.getBoundingClientRect();
-    const ratio = 100 / width;
-    const { value } = grippy.props;
-    const { clientX } = ui.position;
-    const updatedValue = min(max((clientX - left) * ratio / 100, 0), 1);
-    this.changeValue(value, updatedValue, grippy);
-  }
+    const { deltaX } = ui.position;
+    if (isNaN(deltaX)) return;
 
-  @autobind
-  onRootRef(root) {
-    this.root = root;
+    const { width } = this._root.getBoundingClientRect();
+    const ratio = 1 / width;
+    const { value } = grippy.props;
+    const updatedValue = min(max(value + (deltaX * ratio), 0), 1);
+    this.changeValue(value, updatedValue, grippy);
   }
 
   changeValue(value, updatedValue, grippy) {
     const { values } = this.props;
-    this.props.onChange(values.indexOf(value), updatedValue);
+    const index = values.lastIndexOf(value);
+    if (index !== -1) this.props.onChange(values.set(index, updatedValue), index, updatedValue);
     if (grippy) grippy.props.onChange(updatedValue);
   }
 
   cloneChildren() {
     return React.Children.map(this.props.children, child =>
-      child.type === SliderGrippy ? React.cloneElement(child, { onDrag: this.onDrag }) :
+      child.type === SliderGrippy ? React.cloneElement(child, {
+        onDrag: this.onDrag,
+      }) :
       child);
   }
 
@@ -77,7 +81,7 @@ export default class Slider extends React.Component {
 
   render() {
     return (
-      <div className={styles.slider} ref={this.onRootRef}>
+      <div className={styles.slider} ref={this.onRef('_root')}>
         <div className={styles.line} />
         {this.cloneChildren()}
         {this.renderValues()}

@@ -1,24 +1,21 @@
 /* eslint new-cap:0 */
-import { Record, List } from 'immutable';
-import { generateDots, generateBars, generateSliderValues } from './util';
-import Dot from './dot';
-import Bar from './bar';
+import { Record } from 'immutable';
+import ListData from './list';
 
 const TreeData = Record({
-  dots: generateDots(10),
-  bars: generateBars(5),
-  sliders: generateSliderValues(2),
-  resizableContentHeight: 200,
-  greeting: 'Hello world',
+  showBackground: false,
+  list: new ListData({
+    length: 30,
+    start: 13,
+    end: 16.2,
+  }),
 });
 
-global.TreeData = TreeData;
-
-TreeData.fromServerData = data => new TreeData({
-  dots: List((data.dots || []).map(dot => new Dot(dot))),
-  bars: List((data.bars || []).map(bar => new Bar(bar))),
-  sliders: List(data.sliders || []),
-});
+TreeData.fromServerData = data => {
+  const values = Object.assign({}, data);
+  if (values.list) values.list = new ListData(values.list);
+  return TreeData(values);
+};
 
 TreeData.prototype.toServerData = function () {
   return this.toJSON();

@@ -2,19 +2,19 @@ import React from 'react';
 import { DraggableCore } from 'react-draggable';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
-import StyleSheet from './styles';
-import theme from './theme';
+import StyleSheet, { px } from '../styles';
+import theme from '../theme';
 
 const { number, func } = React.PropTypes;
 
 export const styles = StyleSheet.create({
   grippy: {
     position: 'absolute',
-    width: '8px',
-    height: '30px',
-    top: 'calc(50% - 15px)',
+    width: '15px',
+    height: '34px',
+    top: 'calc(50% - 17px)',
     transform: 'translate(-50%)',
-    borderRadius: '2px',
+    borderRadius: px(theme.baseBorderRadius),
     backgroundColor: theme.highlightColor,
     cursor: 'pointer',
   },

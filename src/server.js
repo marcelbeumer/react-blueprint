@@ -37,14 +37,18 @@ export function getComponentCss() {
   return prod ? new CleanCSS().minify(css).styles : css;
 }
 
-app.get('/', (req, res) => {
+export function renderHomepage() {
   const initialState = new DataTree();
   const { actions } = createRedux(initialState);
   const rendered = renderer(initialState, actions);
   const css = getComponentCss();
   const html = injectRender(injectData(injectCss(getTemplate(),
     css), initialState.toServerData()), rendered);
-  res.send(html);
+  return html;
+}
+
+app.get('/', (req, res) => {
+  res.send(renderHomepage());
 });
 
 app.use(express.static('dist'));

@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
           <div className={styles.backgroundContent}>
             <p>
               <strong>Hello.</strong> Just drag and scroll around with the widgets.
-              It's not supposed to make sense: is purely a tech demo wiring widgets together.
+              It's not supposed to make sense: it's purely a tech demo wiring widgets together.
             </p>
 
             <p>

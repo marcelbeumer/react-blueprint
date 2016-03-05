@@ -99,6 +99,12 @@ const styles = StyleSheet.create({
     },
   },
   githubIcon: websiteIconShared,
+  link: {
+    textDecoration: 'none',
+    ':hover': {
+      textDecoration: 'underline',
+    },
+  },
   controls: {
     display: 'flex',
     padding: '120px 10% 80px 10%',

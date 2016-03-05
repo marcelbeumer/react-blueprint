@@ -80,20 +80,20 @@ const styles = StyleSheet.create({
   },
   widgets: {
     margin: '0 auto',
-    padding: '35px 0 20px',
-    width: '170px',
-    [theme.media.fromTablet]: {
-      padding: '45px 0 20px',
-      width: '270px',
+    padding: '35px 20px 20px 20px',
+    [theme.media.biggerPhones]: {
+      maxWidth: '354px',
     },
-    [theme.media.fromDesktop]: {
-      padding: '65px 0 20px',
-      width: '354px',
+    [theme.media.fromTablet]: {
+      padding: '65px 20px 20px 20px',
     },
   },
   websites: {
     padding: '20px 0',
-    marginTop: '50px',
+    marginTop: '40px',
+    [theme.media.biggerPhones]: {
+      marginTop: '35px',
+    },
     [theme.media.fromDesktop]: {
       marginTop: '40px',
     },

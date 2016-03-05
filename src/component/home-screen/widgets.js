@@ -15,7 +15,10 @@ const { object } = React.PropTypes;
 
 const styles = StyleSheet.create({
   fontSizeContainer: {
-    fontSize: '30px',
+    fontSize: '40px',
+    [theme.media.biggerPhones]: {
+      fontSize: '60px',
+    },
     [theme.media.fromDesktop]: {
       fontSize: '60px',
     },

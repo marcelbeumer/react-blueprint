@@ -66,8 +66,7 @@ export default class HomeScreen extends React.Component {
               full server pre-rendering.
               Widget event handlers convert relative values to pixel values.
               Other tricks include pixel perfect scrollbar hiding on both the client and server,
-              drag and support using react-draggable and JS-based
-              stylesheet generation using stilr.
+              dragging using react-draggable and JS-based stylesheet generation using stilr.
             </p>
 
             <p>

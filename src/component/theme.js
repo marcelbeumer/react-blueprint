@@ -3,12 +3,12 @@ import StyleSheet from './styles';
 const theme = {
   fontFamily: 'Helvetica, sans-serif',
   fontWeight: '100',
-  backgroundColor: '#fff',
-  highlightColor: '#000',
-  primaryBorderColor: '#000',
-  secondaryBorderColor: '#000',
-  textColor: '#000',
-  inverseTextColor: '#fff',
+  backgroundColor: '#415793',
+  highlightColor: '#c7dfff',
+  primaryBorderColor: '#c7dfff',
+  secondaryBorderColor: '#c7dfff',
+  textColor: '#c7dfff',
+  inverseTextColor: '#415793',
   baseBorderRadius: 3,
   media: {
     fromTablet: '@media screen and (min-width: 600px)',

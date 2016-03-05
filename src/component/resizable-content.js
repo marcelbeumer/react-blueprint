@@ -9,14 +9,21 @@ import theme from './theme';
 const { any, number, func } = React.PropTypes;
 const { max } = Math;
 
+const scrollbarStyle = {
+  msOverflowStyle: 'none',
+  '::-webkit-scrollbar': {
+    display: 'none',
+  },
+};
+
 export const styles = StyleSheet.create({
   root: {
     overflow: 'hidden',
   },
-  content: {
+  content: Object.assign({
     overflow: 'hidden',
     borderBottom: `1px solid ${theme.highlightColor}`,
-  },
+  }, scrollbarStyle),
   handle: {
     cursor: 'pointer',
     width: px(60),
@@ -25,13 +32,13 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.highlightColor,
     borderRadius: `0 0 ${theme.baseBorderRadius}px ${theme.baseBorderRadius}px`,
   },
-  scrollbarSizer: {
+  scrollbarSizer: Object.assign({
     position: 'absolute',
     top: '-9999px',
     width: '100px',
     height: '100px',
     overflow: 'scroll',
-  },
+  }, scrollbarStyle),
 });
 
 @refs
@@ -60,10 +67,10 @@ export default class ResizableContent extends React.Component {
 
   componentDidMount() {
     const { toPx } = this.props;
+    this._content.style.marginRight = px(-this.getScrollbarWidth());
+    this._content.style.overflow = 'auto';
     this._usesScrollTop = true;
     this._innerContent.style.top = 0;
-    this._content.style.overflow = 'auto';
-    this._content.style.marginRight = px(-this.getScrollbarWidth());
     this._content.scrollTop = toPx(this.props.scrollTop);
   }
 

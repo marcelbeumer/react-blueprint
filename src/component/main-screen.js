@@ -7,10 +7,12 @@ import HomeScreen from './home-screen';
 import TestScreen from './test-screen';
 import StyleSheet from './styles';
 import raf from '../raf';
+import { easeInQuad as easing } from 'penner';
 
+const screensPerSecond = 0.3;
 const { min, max } = Math;
 const { object, string } = React.PropTypes;
-const { requestAnimationFrame } = raf();
+const { requestAnimationFrame, cancelAnimationFrame } = raf();
 
 export const styles = StyleSheet.create({
   segueRoot: {
@@ -57,6 +59,7 @@ export default class MainScreen extends React.Component {
       ](targetScreen);
     }
 
+    this.stopAnimations();
     this.animateToTargetScreen();
   }
 
@@ -79,32 +82,47 @@ export default class MainScreen extends React.Component {
       undefined;
   }
 
+  stopAnimations() {
+    cancelAnimationFrame(this._rafHandle);
+  }
+
   animateToTargetScreen() {
-    this._animate = true;
-    const screensPerSecond = 1.5;
-    let lastTimestamp;
+    const duration = screensPerSecond * 1000;
+    const { offset, currentScreen, targetScreen, visibleScreens } = this.state;
+    const targetOffset = visibleScreens.indexOf(targetScreen) -
+      visibleScreens.indexOf(currentScreen);
+    const delta = targetOffset - offset;
 
+    let start;
     const step = (timestamp) => {
-      const passed = (timestamp - (lastTimestamp || timestamp)) / 1000;
-      const delta = passed * screensPerSecond;
-      lastTimestamp = timestamp;
+      if (!start) start = timestamp;
+      const passed = timestamp - start;
+      const position = passed / duration;
+      const easePosition = easing(position, 0, 1, 1);
+      let updatedOffset;
+      let updatedEaseOffset;
 
-      const { offset, currentScreen, targetScreen, visibleScreens } = this.state;
-      const targetOffset = visibleScreens.indexOf(targetScreen) -
-        visibleScreens.indexOf(currentScreen);
+      if (position >= 1) {
+        updatedOffset = targetOffset;
+        updatedEaseOffset = targetOffset;
+      } else {
+        const limit = targetOffset < offset ? max : min;
+        updatedOffset = limit(targetOffset, offset + (position * delta));
+        updatedEaseOffset = limit(targetOffset, offset + (easePosition * delta));
+      }
 
-      if (offset !== targetOffset) {
-        const updatedOffset = targetOffset < offset ?
-          max(targetOffset, offset - delta) :
-          min(targetOffset, offset + delta);
-        this.setState({ offset: updatedOffset });
-        requestAnimationFrame(step);
+      if (this.state.offset !== targetOffset) {
+        this.setState({
+          offset: updatedOffset,
+          easeOffset: updatedEaseOffset,
+        });
+        this._rafHandle = requestAnimationFrame(step);
       } else {
         this.setState(this.getCleanState());
       }
     };
 
-    requestAnimationFrame(step);
+    this._rafHandle = requestAnimationFrame(step);
   }
 
   refRoot = refHandler(this, '_root');
@@ -127,12 +145,12 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    const { offset, visibleScreens, currentScreen } = this.state;
+    const { easeOffset, visibleScreens, currentScreen } = this.state;
     const segue = visibleScreens.length > 1;
-    const translateX = -((visibleScreens.indexOf(currentScreen) + offset) * 100);
+    const translateX = -((visibleScreens.indexOf(currentScreen) + easeOffset) * 100);
     const containerStyle = {};
 
-    if (translateX !== 0) {
+    if (segue) {
       containerStyle.transform = `translateX(${translateX}%)`;
     }
 

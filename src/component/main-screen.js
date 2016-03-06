@@ -15,16 +15,26 @@ const { object, string } = React.PropTypes;
 const { requestAnimationFrame, cancelAnimationFrame } = raf();
 
 export const styles = StyleSheet.create({
+  root: {
+  },
+  container: {
+  },
+  screen: {
+  },
   segueRoot: {
     width: '100%',
     overflowX: 'hidden',
   },
   segueContainer: {
-    display: 'flex',
+    position: 'relative',
     width: '100%',
+    whiteSpace: 'nowrap',
+    verticalAlign: 'top',
   },
   segueScreen: {
-    flex: '1 0 100%',
+    verticalAlign: 'top',
+    display: 'inline-block',
+    width: '100%',
   },
 });
 
@@ -135,7 +145,7 @@ export default class MainScreen extends React.Component {
     const screens = visibleScreens.map((screenName, i) => {
       const Screen = this.getScreenComponent(screenName);
       return (
-        <div className={cx(segue && styles.segueScreen)} key={`screen-${i}`}>
+        <div className={cx(styles.screen, segue && styles.segueScreen)} key={`screen-${i}`}>
           <Screen {...this.props} />
         </div>
       );
@@ -155,10 +165,10 @@ export default class MainScreen extends React.Component {
     }
 
     return (
-      <div ref={this.refRoot} className={cx(segue && styles.segueRoot)}>
+      <div ref={this.refRoot} className={cx(styles.root, segue && styles.segueRoot)}>
         <div
           ref={this.refContainer}
-          className={cx(segue && styles.segueContainer)}
+          className={cx(styles.container, segue && styles.segueContainer)}
           style={containerStyle}>
           {this.renderScreens()}
         </div>

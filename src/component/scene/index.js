@@ -95,6 +95,7 @@ export default class MainScreen extends React.Component {
   getCleanState() {
     return {
       offset: 0,
+      easeOffset: 0,
       visibleScreens: [this.props.screen],
       currentScreen: this.props.screen,
       targetScreen: this.props.screen,

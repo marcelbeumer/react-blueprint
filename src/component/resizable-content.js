@@ -2,8 +2,8 @@ import React from 'react';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 import refHandler from './ref-handler';
-import { DraggableCore } from 'react-draggable';
 import StyleSheet, { px } from './styles';
+import Hammer from 'react-hammerjs';
 import theme from './theme';
 
 const { any, number, func } = React.PropTypes;
@@ -13,6 +13,14 @@ const scrollbarStyle = {
   msOverflowStyle: 'none',
   '::-webkit-scrollbar': {
     display: 'none',
+  },
+};
+
+const hammerOptions = {
+  recognizers: {
+    pan: {
+      threshold: 0,
+    },
   },
 };
 
@@ -64,6 +72,8 @@ export default class ResizableContent extends React.Component {
     toPx: val => val,
   }
 
+  state = {};
+
   componentDidMount() {
     this.x = this.x ? this.x++ : 1;
     const { toPx } = this.props;
@@ -90,6 +100,22 @@ export default class ResizableContent extends React.Component {
   }
 
   @autobind
+  onPan(e) {
+    const { fromPx } = this.props;
+    const { top: rootTop } = this._content.getBoundingClientRect();
+    const { height: handleHeight } = this._handle.getBoundingClientRect();
+    const { clientY } = e.pointers[0];
+    const value = clientY - rootTop;
+    this.setState({ panning: true });
+    this.props.onResize(fromPx(max(handleHeight, value)));
+  }
+
+  @autobind
+  onPanEnd() {
+    this.setState({ panning: false });
+  }
+
+  @autobind
   onScroll() {
     const { fromPx } = this.props;
     const scrollTop = fromPx(this._content.scrollTop);
@@ -110,6 +136,12 @@ export default class ResizableContent extends React.Component {
 
   render() {
     const { height, scrollTop, toUnit } = this.props;
+    const userSelect = this.state.panning ? 'none' : 'text';
+
+    const rootStyle = {
+      userSelect,
+      WebkitUserSelect: userSelect,
+    };
 
     const contentStyle = {
       height: toUnit(height),
@@ -121,20 +153,24 @@ export default class ResizableContent extends React.Component {
     };
 
     return (
-      <DraggableCore handle={`.${styles.handle}`} onDrag={this.onDrag}>
-        <div className={styles.root}>
-          <div className={styles.scrollbarSizer} ref={this.refScrollBarSizer} />
-          <div ref={this.refContent}
-            className={styles.content}
-            style={contentStyle}
-            onScroll={this.onScroll}>
-            <div ref={this.refInnerContent} style={innerContentStyle}>
-              {this.props.children}
-            </div>
+      <div className={styles.root} style={rootStyle}>
+        <div className={styles.scrollbarSizer} ref={this.refScrollBarSizer} />
+        <div ref={this.refContent}
+          className={styles.content}
+          style={contentStyle}
+          onScroll={this.onScroll}>
+          <div ref={this.refInnerContent} style={innerContentStyle}>
+            {this.props.children}
           </div>
-          <div className={styles.handle} ref={this.refHandle} />
         </div>
-      </DraggableCore>
+        <Hammer
+          vertical
+          options={hammerOptions}
+          onPan={this.onPan}
+          onPanEnd={this.onPanEnd}>
+          <div className={styles.handle} ref={this.refHandle} />
+        </Hammer>
+      </div>
     );
   }
 }

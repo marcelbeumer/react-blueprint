@@ -1,5 +1,5 @@
 import React from 'react';
-import { DraggableCore } from 'react-draggable';
+import Hammer from 'react-hammerjs';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 import StyleSheet, { px } from '../styles';
@@ -18,6 +18,14 @@ export const styles = StyleSheet.create({
   },
 });
 
+const hammerOptions = {
+  recognizers: {
+    pan: {
+      threshold: 0,
+    },
+  },
+};
+
 @pureRender
 export default class BarMeterItem extends React.Component {
   static propTypes = {
@@ -33,19 +41,27 @@ export default class BarMeterItem extends React.Component {
   }
 
   @autobind
-  onDrag(e, ui) {
-    this.props.onDrag(e, ui, this);
+  onPan(e) {
+    this._panX = this._panX || 0;
+    const deltaX = e.deltaX - this._panX;
+    this._panX = e.deltaX;
+    this.props.onDrag(e, deltaX, this);
+  }
+
+  @autobind
+  onPanEnd() {
+    delete this._panX;
   }
 
   render() {
     const { value } = this.props;
     return (
-      <DraggableCore onDrag={this.onDrag}>
+      <Hammer options={hammerOptions} onPan={this.onPan} onPanEnd={this.onPanEnd}>
         <div className={styles.bar} style={{
           transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
           backgroundColor: barColor,
         }} />
-      </DraggableCore>
+      </Hammer>
     );
   }
 }

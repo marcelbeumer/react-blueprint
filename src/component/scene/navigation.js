@@ -1,9 +1,9 @@
 import React from 'react';
-import { List } from 'immutable';
 import { memoize } from 'lodash';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 import cx from 'classnames';
+import screens from './screens';
 import StyleSheet, { em } from '../styles';
 import theme from '../theme';
 
@@ -66,46 +66,41 @@ export default class SceneNavigation extends React.Component {
   }
 
   static defaultProps = {
-    items: new List([
-      { screen: 'home', label: '1' },
-      { screen: 'second', label: '2' },
-      { screen: 'third', label: '2' },
-    ]),
     screen: '',
     onChange: () => null,
   }
 
   getScreenIndex(screen) {
-    return this.props.items.map(item => item.screen).indexOf(screen);
+    return screens.map(item => item.name).indexOf(screen);
   }
 
   getItemHandler = memoize(screen => () => this.props.onChange(screen));
 
   renderItems() {
-    const { items, screen } = this.props;
-    const index = this.getScreenIndex(screen);
-    return items.map((item, i) => {
+    const { screen: currentScreen } = this.props;
+    const index = this.getScreenIndex(currentScreen);
+    return screens.map((screen, i) => {
       const itemClasses = cx(styles.item, {
         [styles.itemActive]: i === index,
       });
       return (
         <div key={`item-${i}`} className={itemClasses}
-          onClick={this.getItemHandler(item.screen)}>
-          {item.label}
+          onClick={this.getItemHandler(screen.name)}>
+          {screen.label}
         </div>
       );
     });
   }
 
   renderArrow(label, indexOffset) {
-    const { items, screen } = this.props;
+    const { screen } = this.props;
     const index = this.getScreenIndex(screen);
     const arrowIndex = index + indexOffset;
-    const item = arrowIndex >= 0 && items.get(arrowIndex);
+    const item = screens[arrowIndex];
     return (
       <div key={`${label}-arrow`}
         className={cx(styles[`${label}Arrow`], !item && styles.inactiveArrow)}
-        onClick={item && this.getItemHandler(item.screen)} />
+        onClick={item && this.getItemHandler(item.name)} />
     );
   }
 

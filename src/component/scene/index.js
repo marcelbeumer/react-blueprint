@@ -3,11 +3,9 @@ import React from 'react';
 import cx from 'classnames';
 import pureRender from 'pure-render-decorator';
 import refHandler from '../ref-handler';
-import HomeScreen from '../screen/home';
-import SecondScreen from '../screen/second';
-import ThirdScreen from '../screen/third';
 import StyleSheet from '../styles';
 import SceneNavigation from './navigation';
+import screens from './screens';
 import raf from '../../raf';
 import theme from '../theme';
 import { easeInQuad as easing } from 'penner';
@@ -78,7 +76,7 @@ export default class MainScreen extends React.Component {
     if (!nextProps.screen) return;
 
     const targetScreen = nextProps.screen;
-    const screenOrder = this.getScreenOrder();
+    const screenOrder = screens.map(screen => screen.name);
     const { currentScreen, visibleScreens } = this.state;
 
     this.state.targetScreen = targetScreen;
@@ -101,17 +99,6 @@ export default class MainScreen extends React.Component {
       currentScreen: this.props.screen,
       targetScreen: this.props.screen,
     };
-  }
-
-  getScreenOrder() {
-    return ['home', 'second', 'third'];
-  }
-
-  getScreenComponent(name) {
-    return name === 'home' ? HomeScreen :
-      name === 'second' ? SecondScreen :
-      name === 'third' ? ThirdScreen :
-      undefined;
   }
 
   stopAnimations() {
@@ -164,16 +151,14 @@ export default class MainScreen extends React.Component {
     const { visibleScreens } = this.state;
     const segue = visibleScreens.length > 1;
 
-    const screens = visibleScreens.map((screenName, i) => {
-      const Screen = this.getScreenComponent(screenName);
+    return visibleScreens.map((screenName, i) => {
+      const [{ component: Screen }] = screens.filter(screen => screen.name === screenName);
       return (
         <div className={cx(styles.screen, segue && styles.segueScreen)} key={`screen-${i}`}>
           <Screen {...this.props} />
         </div>
       );
     });
-
-    return screens;
   }
 
   render() {

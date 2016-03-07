@@ -136,8 +136,7 @@ export default class ResizableContent extends React.Component {
 
   render() {
     const { height, scrollTop, toUnit } = this.props;
-    const { panning } = this.state;
-    const userSelect = panning ? 'none' : 'text';
+    const userSelect = this.state.panning ? 'none' : 'text';
 
     const rootStyle = {
       userSelect,

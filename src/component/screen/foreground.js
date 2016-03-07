@@ -8,9 +8,9 @@ const { array, bool } = React.PropTypes;
 
 const styles = StyleSheet.create({
   foreground: {
-    margin: '0 auto',
     minWidth: '320px',
     minHeight: '100vh',
+    margin: '0 auto',
     width: '100%',
     backgroundColor: theme.backgroundColor,
     transform: 'translateZ(0)',

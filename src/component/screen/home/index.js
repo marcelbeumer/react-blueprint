@@ -49,7 +49,7 @@ export default class HomeScreen extends React.Component {
             </a>
           </div>
         </ScreenForeground>
-        <ScreenBackground>
+        <ScreenBackground {...this.props}>
           <ScreenBackgroundControls>
             <Button type="inverse" onClick={actions.hideBackground}>Back</Button>
           </ScreenBackgroundControls>

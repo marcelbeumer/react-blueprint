@@ -15,12 +15,9 @@ const websiteIconShared = {
 const styles = StyleSheet.create({
   widgets: {
     margin: '0 auto',
-    padding: '35px 20px 20px 20px',
+    padding: '0px 20px 20px 20px',
     [theme.media.biggerPhones]: {
       maxWidth: '354px',
-    },
-    [theme.media.fromTablet]: {
-      padding: '65px 20px 20px 20px',
     },
   },
   websites: {

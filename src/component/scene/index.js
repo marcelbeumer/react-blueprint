@@ -9,6 +9,7 @@ import ThirdScreen from '../screen/third';
 import StyleSheet from '../styles';
 import SceneNavigation from './navigation';
 import raf from '../../raf';
+import theme from '../theme';
 import { easeInQuad as easing } from 'penner';
 
 const screensPerSecond = 0.3;
@@ -20,11 +21,18 @@ export const styles = StyleSheet.create({
   root: {
   },
   navigation: {
+    minWidth: '320px',
+    width: '100%',
     zIndex: 1,
     position: 'absolute',
-    top: '100px',
-    left: '50%',
-    transform: 'translate(-50%)',
+    transition: 'transform 0.3s ease-in',
+    top: '20px',
+    [theme.media.fromTablet]: {
+      top: '40px',
+    },
+    [theme.media.fromDesktop]: {
+      top: '100px',
+    },
   },
   navigationUp: {
     display: 'none',
@@ -96,7 +104,7 @@ export default class MainScreen extends React.Component {
   }
 
   getScreenOrder() {
-    return ['test', 'home'];
+    return ['home', 'second', 'third'];
   }
 
   getScreenComponent(name) {

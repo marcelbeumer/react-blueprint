@@ -14,6 +14,7 @@ const itemSize = 1.2;
 const itemMargin = Math.round((itemSize / 8) * 10) / 10;
 
 const arrowStyle = {
+  display: 'inline-block',
   width: em(itemSize),
   height: em(itemSize),
   backgroundColor: theme.highlightColor,
@@ -24,9 +25,11 @@ const arrowStyle = {
 export const styles = StyleSheet.create({
   root: {
     color: theme.textColor,
-    display: 'flex',
+    width: '100%',
+    textAlign: 'center',
   },
   item: {
+    display: 'inline-block',
     width: em(itemSize),
     height: em(itemSize),
     borderRadius: em(itemSize),

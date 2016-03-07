@@ -2,6 +2,8 @@
 
 > Ready for takeoff React setup. Demonstrates frontend architecture and approaches to common React patterns.
 
+[![devDependency Status](https://david-dm.org/marcelbeumer/react-blueprint/dev-status.svg)](https://david-dm.org/marcelbeumer/react-blueprint#info=devDependencies)
+
 ## Getting started
 
 ```bash

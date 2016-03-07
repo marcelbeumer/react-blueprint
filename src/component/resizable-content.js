@@ -129,7 +129,6 @@ export default class ResizableContent extends React.Component {
     return el.offsetWidth - el.clientWidth;
   }
 
-  refRoto = refHandler(this, '_root');
   refContent = refHandler(this, '_content');
   refInnerContent = refHandler(this, '_innerContent');
   refScrollBarSizer = refHandler(this, '_scrollBarSizer');
@@ -155,7 +154,7 @@ export default class ResizableContent extends React.Component {
     };
 
     return (
-      <div ref={this.refRoot} className={styles.root} style={rootStyle}>
+      <div className={styles.root} style={rootStyle}>
         <div className={styles.scrollbarSizer} ref={this.refScrollBarSizer} />
         <div ref={this.refContent}
           className={styles.content}

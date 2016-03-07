@@ -1,6 +1,6 @@
 {
   "name": "react-blueprint",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Ready for takeoff React setup",
   "license": "ISC",
   "main": "src/index.js",

@@ -4,6 +4,8 @@ import cx from 'classnames';
 import pureRender from 'pure-render-decorator';
 import refHandler from '../ref-handler';
 import HomeScreen from '../screen/home';
+import SecondScreen from '../screen/second';
+import ThirdScreen from '../screen/third';
 import StyleSheet from '../styles';
 import SceneNavigation from './navigation';
 import raf from '../../raf';
@@ -99,6 +101,8 @@ export default class MainScreen extends React.Component {
 
   getScreenComponent(name) {
     return name === 'home' ? HomeScreen :
+      name === 'second' ? SecondScreen :
+      name === 'third' ? ThirdScreen :
       undefined;
   }
 

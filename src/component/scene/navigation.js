@@ -65,7 +65,8 @@ export default class SceneNavigation extends React.Component {
   static defaultProps = {
     items: new List([
       { screen: 'home', label: '1' },
-      { screen: 'test', label: '2' },
+      { screen: 'second', label: '2' },
+      { screen: 'third', label: '2' },
     ]),
     screen: '',
     onChange: () => null,

@@ -66,19 +66,8 @@ export default class HomeScreen extends React.Component {
             </p>
 
             <p>
-              Widgets use relative (em/vw/vh) units while rendering and pixel values in
-              the stylesheet so it's possible to use media queries <strong>and</strong> do
-              full server pre-rendering.
-              Widget event handlers convert relative values to pixel values.
-              Other tricks include pixel perfect scrollbar hiding on both the client and server,
-              dragging using react-draggable and JS-based stylesheet generation using stilr.
-            </p>
-
-            <p>
-              Check the
-              the <a href="https://github.com/marcelbeumer/react-blueprint">
-                source on Github
-              </a>.
+              Check <a href="https://github.com/marcelbeumer/react-blueprint">Github</a> for
+              more details.
             </p>
           </ScreenBackgroundContent>
         </ScreenBackground>

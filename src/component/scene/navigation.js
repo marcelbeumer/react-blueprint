@@ -8,7 +8,7 @@ import StyleSheet, { em } from '../styles';
 import theme from '../theme';
 
 const { assign } = Object;
-const { bool,string, shape, func } = React.PropTypes;
+const { bool, string, shape, func } = React.PropTypes;
 const { listOf } = ImmutablePropTypes;
 const itemSize = 1;
 const itemMargin = Math.round((itemSize / 6) * 10) / 10;

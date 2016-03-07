@@ -1,5 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
 import pureRender from 'pure-render-decorator';
 import ScreenContainer from '../container';
 import ScreenForeground from '../foreground';

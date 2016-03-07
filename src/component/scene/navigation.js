@@ -15,11 +15,10 @@ const itemMargin = Math.round((itemSize / 8) * 10) / 10;
 
 const arrowStyle = {
   display: 'inline-block',
-  width: em(itemSize),
-  height: em(itemSize),
-  backgroundColor: theme.highlightColor,
-  margin: `0 ${itemMargin * 2}em`,
+  margin: `0 ${itemMargin * 5}em`,
+  border: `${itemSize / 2}em solid transparent`,
   cursor: 'pointer',
+  transform: 'scale(1.8, 0.9)',
 };
 
 export const styles = StyleSheet.create({
@@ -40,9 +39,11 @@ export const styles = StyleSheet.create({
     cursor: 'pointer',
     transition: 'background-color 0.3s linear',
   },
-  prevArrow: assign(arrowStyle, {
+  prevArrow: assign({}, arrowStyle, {
+    borderRightColor: theme.highlightColor,
   }),
-  nextArrow: assign(arrowStyle, {
+  nextArrow: assign({}, arrowStyle, {
+    borderLeftColor: theme.highlightColor,
   }),
   inactiveArrow: {
     cursor: 'default',

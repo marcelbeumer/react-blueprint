@@ -25,7 +25,7 @@ export default class SecondScreen extends React.Component {
       <ScreenContainer>
         <ScreenForeground {...this.props}>
           <div className={styles.content}>
-            2
+            Page 2
           </div>
           <div className={styles.note}>
             more coming soon...

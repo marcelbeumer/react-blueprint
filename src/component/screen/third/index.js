@@ -25,7 +25,7 @@ export default class ThirdScreen extends React.Component {
       <ScreenContainer>
         <ScreenForeground {...this.props}>
           <div className={styles.content}>
-            3
+            Page 3
           </div>
           <div className={styles.note}>
             more coming soon...

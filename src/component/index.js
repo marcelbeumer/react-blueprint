@@ -1,5 +1,5 @@
-import HomeScreen from './home-screen';
+import Scene from './scene';
 
 export function getRootComponent(/* dataTree */) {
-  return HomeScreen;
+  return Scene;
 }

@@ -3,7 +3,7 @@ import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
-import refs from '../refs-decorator';
+import refHandler from '../ref-handler';
 import BarMeterItem from './item';
 
 export BarMeterItem from './item';
@@ -12,7 +12,6 @@ const { min, max } = Math;
 const { number, func, array } = React.PropTypes;
 const { listOf } = ImmutablePropTypes;
 
-@refs
 @pureRender
 export default class BarMeter extends React.Component {
 
@@ -40,6 +39,8 @@ export default class BarMeter extends React.Component {
     this.changeValue(value, updatedValue, item);
   }
 
+  refRoot = refHandler(this, '_root');
+
   changeValue(value, updatedValue, item) {
     const { values } = this.props;
     const index = values.lastIndexOf(value);
@@ -63,7 +64,7 @@ export default class BarMeter extends React.Component {
 
   render() {
     return (
-      <div ref={this.onRef('_root')}>
+      <div ref={this.refRoot}>
         {this.cloneChildren()}
         {this.renderValues()}
       </div>

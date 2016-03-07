@@ -1,5 +1,6 @@
 const createSimpleAction = type => payload => ({ type, payload });
 
+export const setScreen = createSimpleAction('SET_SCREEN');
 export const setListStart = createSimpleAction('SET_LIST_START');
 export const setListEnd = createSimpleAction('SET_LIST_END');
 

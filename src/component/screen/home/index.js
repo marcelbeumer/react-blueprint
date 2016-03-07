@@ -1,11 +1,16 @@
 import React from 'react';
 import cx from 'classnames';
 import pureRender from 'pure-render-decorator';
-import GithubIcon from '../github-icon';
+import ScreenContainer from '../container';
+import ScreenForeground from '../foreground';
+import ScreenBackground from '../background';
+import ScreenBackgroundContent from '../background/content';
+import ScreenBackgroundControls from '../background/controls';
+import GithubIcon from '../../github-icon';
 import HomeScreenWidgets from './widgets';
-import Button from '../button';
+import Button from '../../button';
 import styles from './styles';
-import { listType } from './types';
+import { listType } from '../../types';
 
 const { object, bool } = React.PropTypes;
 
@@ -19,11 +24,11 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    const { showBackground, list, actions } = this.props;
+    const { list, actions } = this.props;
 
     return (
-      <div className={styles.root}>
-        <div className={cx(styles.foreground, { [styles.foregroundOpen]: showBackground })}>
+      <ScreenContainer>
+        <ScreenForeground {...this.props}>
           <div className={styles.widgets}>
             <HomeScreenWidgets list={list} actions={actions} />
           </div>
@@ -43,12 +48,12 @@ export default class HomeScreen extends React.Component {
               marcelbeumer/react-blueprint
             </a>
           </div>
-        </div>
-        <div className={cx(styles.background, { [styles.backgroundShown]: showBackground })}>
-          <div className={styles.backgroundControls}>
+        </ScreenForeground>
+        <ScreenBackground {...this.props}>
+          <ScreenBackgroundControls>
             <Button type="inverse" onClick={actions.hideBackground}>Back</Button>
-          </div>
-          <div className={styles.backgroundContent}>
+          </ScreenBackgroundControls>
+          <ScreenBackgroundContent>
             <p>
               <strong>Hello.</strong> Just drag and scroll around with the widgets.
               It's not supposed to make sense: it's purely a tech demo wiring widgets together.
@@ -61,24 +66,12 @@ export default class HomeScreen extends React.Component {
             </p>
 
             <p>
-              Widgets use relative (em/vw/vh) units while rendering and pixel values in
-              the stylesheet so it's possible to use media queries <strong>and</strong> do
-              full server pre-rendering.
-              Widget event handlers convert relative values to pixel values.
-              Other tricks include pixel perfect scrollbar hiding on both the client and server,
-              dragging using react-draggable and JS-based stylesheet generation using stilr.
+              Check <a href="https://github.com/marcelbeumer/react-blueprint">Github</a> for
+              more details.
             </p>
-
-            <p>
-              Check the
-              the <a href="https://github.com/marcelbeumer/react-blueprint">
-                source on Github
-              </a>.
-            </p>
-
-          </div>
-        </div>
-      </div>
+          </ScreenBackgroundContent>
+        </ScreenBackground>
+      </ScreenContainer>
     );
   }
 }

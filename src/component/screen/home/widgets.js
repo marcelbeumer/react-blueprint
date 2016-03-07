@@ -3,13 +3,13 @@ import { range } from 'lodash';
 import { List } from 'immutable';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
-import Slider, { SliderGrippy } from '../slider';
-import BarMeter, { BarMeterItem } from '../bar-meter';
-import ItemList from '../item-list';
-import ResizableContent from '../resizable-content';
-import StyleSheet, { em, resolveMedia } from '../styles';
-import theme from '../theme';
-import { listType } from './types';
+import Slider, { SliderGrippy } from '../../slider';
+import BarMeter, { BarMeterItem } from '../../bar-meter';
+import ItemList from '../../item-list';
+import ResizableContent from '../../resizable-content';
+import StyleSheet, { em, resolveMedia } from '../../styles';
+import theme from '../../theme';
+import { listType } from '../../types';
 
 const { object } = React.PropTypes;
 

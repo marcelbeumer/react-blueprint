@@ -1,16 +1,7 @@
-import StyleSheet from '../styles';
+import React from 'react';
+import pureRender from 'pure-render-decorator';
+import StyleSheet from './styles';
 import theme from '../theme';
-
-const websiteIconShared = {
-  display: 'inline-block',
-  position: 'relative',
-  width: '35px',
-  margin: '0 10px',
-  [theme.media.fromDesktop]: {
-    width: '48px',
-    margin: '0 5px',
-  },
-};
 
 const styles = StyleSheet.create({
   root: {
@@ -131,3 +122,27 @@ const styles = StyleSheet.create({
 });
 
 export default styles;
+
+@pureRender
+export default class TestScreen extends React.Component {
+  render() {
+    return (
+      <div className={styles.root}>
+        <div className={cx(styles.foreground, { [styles.foregroundOpen]: showBackground })}>
+          <Button onClick={actions.showBackground}>Background</Button>
+
+        </div>
+        <div className={cx(styles.background, { [styles.backgroundShown]: showBackground })}>
+          <div className={styles.backgroundControls}>
+            <Button type="inverse" onClick={actions.hideBackground}>Back</Button>
+          </div>
+          <div className={styles.backgroundContent}>
+            <p>
+              Hello there
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}

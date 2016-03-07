@@ -8,17 +8,17 @@ import StyleSheet, { em } from '../styles';
 import theme from '../theme';
 
 const { assign } = Object;
-const { string, shape, func } = React.PropTypes;
+const { bool,string, shape, func } = React.PropTypes;
 const { listOf } = ImmutablePropTypes;
-const itemSize = 1.2;
-const itemMargin = Math.round((itemSize / 8) * 10) / 10;
+const itemSize = 1;
+const itemMargin = Math.round((itemSize / 6) * 10) / 10;
 
 const arrowStyle = {
   display: 'inline-block',
   margin: `0 ${itemMargin * 5}em`,
   border: `${itemSize / 2}em solid transparent`,
   cursor: 'pointer',
-  transform: 'scale(1.8, 0.9)',
+  transform: 'scaleX(2)',
 };
 
 export const styles = StyleSheet.create({
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     borderRadius: em(itemSize),
     textIndent: '-300px',
     overflow: 'hidden',
-    border: `1px solid ${theme.highlightColor}`,
+    border: `2px solid ${theme.highlightColor}`,
     margin: `0 ${itemMargin}em`,
     cursor: 'pointer',
     transition: 'background-color 0.3s linear',
@@ -63,12 +63,14 @@ export default class SceneNavigation extends React.Component {
       label: string,
     })),
     screen: string,
+    arrows: bool,
     onChange: func,
   }
 
   static defaultProps = {
     screen: '',
     onChange: () => null,
+    arrows: false,
   }
 
   getScreenIndex(screen) {
@@ -106,11 +108,12 @@ export default class SceneNavigation extends React.Component {
   }
 
   render() {
+    const { arrows } = this.props;
     return (
       <div className={styles.root}>
-        {this.renderArrow('prev', -1)}
+        {arrows && this.renderArrow('prev', -1)}
         {this.renderItems()}
-        {this.renderArrow('next', 1)}
+        {arrows && this.renderArrow('next', 1)}
       </div>
     );
   }

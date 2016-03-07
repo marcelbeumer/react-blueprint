@@ -26,10 +26,10 @@ export const styles = StyleSheet.create({
     transition: 'transform 0.3s ease-in',
     top: '20px',
     [theme.media.fromTablet]: {
-      top: '40px',
+      top: '60px',
     },
     [theme.media.fromDesktop]: {
-      top: '100px',
+      top: '120px',
     },
   },
   navigationUp: {

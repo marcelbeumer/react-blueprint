@@ -2,12 +2,11 @@
 import React from 'react';
 import cx from 'classnames';
 import pureRender from 'pure-render-decorator';
-import refHandler from './ref-handler';
-import HomeScreen from './home-screen';
-import TestScreen from './test-screen';
-import StyleSheet from './styles';
-import MainNavigation from './main-navigation';
-import raf from '../raf';
+import refHandler from '../ref-handler';
+import HomeScreen from '../screen/home';
+import StyleSheet from '../styles';
+import SceneNavigation from './navigation';
+import raf from '../../raf';
 import { easeInQuad as easing } from 'penner';
 
 const screensPerSecond = 0.3;
@@ -100,7 +99,6 @@ export default class MainScreen extends React.Component {
 
   getScreenComponent(name) {
     return name === 'home' ? HomeScreen :
-      name === 'test' ? TestScreen :
       undefined;
   }
 
@@ -180,7 +178,7 @@ export default class MainScreen extends React.Component {
     return (
       <div ref={this.refRoot} className={cx(styles.root, segue && styles.segueRoot)}>
         <div className={cx(styles.navigation, showBackground && styles.navigationUp)}>
-          <MainNavigation screen={screen} onChange={actions.setScreen} />
+          <SceneNavigation screen={screen} onChange={actions.setScreen} />
         </div>
         <div
           ref={this.refContainer}

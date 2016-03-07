@@ -1,5 +1,5 @@
-import MainScreen from './main-screen';
+import Scene from './scene';
 
 export function getRootComponent(/* dataTree */) {
-  return MainScreen;
+  return Scene;
 }

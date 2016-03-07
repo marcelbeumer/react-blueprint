@@ -6,16 +6,27 @@ import refHandler from './ref-handler';
 import HomeScreen from './home-screen';
 import TestScreen from './test-screen';
 import StyleSheet from './styles';
+import MainNavigation from './main-navigation';
 import raf from '../raf';
 import { easeInQuad as easing } from 'penner';
 
 const screensPerSecond = 0.3;
 const { min, max } = Math;
-const { object, string } = React.PropTypes;
+const { object, string, bool } = React.PropTypes;
 const { requestAnimationFrame, cancelAnimationFrame } = raf();
 
 export const styles = StyleSheet.create({
   root: {
+  },
+  navigation: {
+    zIndex: 1,
+    position: 'absolute',
+    top: '100px',
+    left: '50%',
+    transform: 'translate(-50%)',
+  },
+  navigationUp: {
+    display: 'none',
   },
   container: {
   },
@@ -44,6 +55,7 @@ export default class MainScreen extends React.Component {
   static propTypes = {
     actions: object,
     screen: string,
+    showBackground: bool,
   }
 
   constructor(props) {
@@ -155,6 +167,7 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
+    const { actions, screen, showBackground } = this.props;
     const { easeOffset, visibleScreens, currentScreen } = this.state;
     const segue = visibleScreens.length > 1;
     const translateX = -((visibleScreens.indexOf(currentScreen) + easeOffset) * 100);
@@ -166,6 +179,9 @@ export default class MainScreen extends React.Component {
 
     return (
       <div ref={this.refRoot} className={cx(styles.root, segue && styles.segueRoot)}>
+        <div className={cx(styles.navigation, showBackground && styles.navigationUp)}>
+          <MainNavigation screen={screen} onChange={actions.setScreen} />
+        </div>
         <div
           ref={this.refContainer}
           className={cx(styles.container, segue && styles.segueContainer)}

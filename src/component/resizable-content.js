@@ -19,7 +19,7 @@ const scrollbarStyle = {
 const hammerOptions = {
   recognizers: {
     pan: {
-      threshold: 1,
+      threshold: 0,
     },
   },
 };
@@ -165,7 +165,11 @@ export default class ResizableContent extends React.Component {
             {this.props.children}
           </div>
         </div>
-        <Hammer options={hammerOptions} onPan={this.onPan} onPanEnd={this.onPanEnd}>
+        <Hammer
+          vertical
+          options={hammerOptions}
+          onPan={this.onPan}
+          onPanEnd={this.onPanEnd}>
           <div className={styles.handle} ref={this.refHandle} />
         </Hammer>
       </div>

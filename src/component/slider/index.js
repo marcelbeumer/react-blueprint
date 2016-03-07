@@ -46,8 +46,7 @@ export default class Slider extends React.Component {
   }
 
   @autobind
-  onDrag(e, ui, grippy) {
-    const { deltaX } = ui.position;
+  onDrag(e, deltaX, grippy) {
     if (isNaN(deltaX)) return;
 
     const { width } = this._root.getBoundingClientRect();

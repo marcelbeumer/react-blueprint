@@ -19,7 +19,7 @@ const scrollbarStyle = {
 const hammerOptions = {
   recognizers: {
     pan: {
-      threshold: 0,
+      threshold: 1,
     },
   },
 };
@@ -72,6 +72,8 @@ export default class ResizableContent extends React.Component {
     toPx: val => val,
   }
 
+  state = {};
+
   componentDidMount() {
     this.x = this.x ? this.x++ : 1;
     const { toPx } = this.props;
@@ -104,7 +106,13 @@ export default class ResizableContent extends React.Component {
     const { height: handleHeight } = this._handle.getBoundingClientRect();
     const { clientY } = e.pointers[0];
     const value = clientY - rootTop;
+    this.setState({ panning: true });
     this.props.onResize(fromPx(max(handleHeight, value)));
+  }
+
+  @autobind
+  onPanEnd() {
+    this.setState({ panning: false });
   }
 
   @autobind
@@ -129,6 +137,13 @@ export default class ResizableContent extends React.Component {
 
   render() {
     const { height, scrollTop, toUnit } = this.props;
+    const { panning } = this.state;
+    const userSelect = panning ? 'none' : 'text';
+
+    const rootStyle = {
+      userSelect,
+      WebkitUserSelect: userSelect,
+    };
 
     const contentStyle = {
       height: toUnit(height),
@@ -140,7 +155,7 @@ export default class ResizableContent extends React.Component {
     };
 
     return (
-      <div ref={this.refRoot} className={styles.root}>
+      <div ref={this.refRoot} className={styles.root} style={rootStyle}>
         <div className={styles.scrollbarSizer} ref={this.refScrollBarSizer} />
         <div ref={this.refContent}
           className={styles.content}
@@ -150,7 +165,7 @@ export default class ResizableContent extends React.Component {
             {this.props.children}
           </div>
         </div>
-        <Hammer options={hammerOptions} onPan={this.onPan}>
+        <Hammer options={hammerOptions} onPan={this.onPan} onPanEnd={this.onPanEnd}>
           <div className={styles.handle} ref={this.refHandle} />
         </Hammer>
       </div>

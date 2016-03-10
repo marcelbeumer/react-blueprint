@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     minHeight: '100vh',
     width: '100%',
     backgroundColor: theme.backgroundColor,
-    transform: 'translateZ(0)',
     color: theme.textColor,
     textAlign: 'center',
     paddingTop: '60px',

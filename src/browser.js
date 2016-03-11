@@ -6,7 +6,7 @@ import DataTree from './data/tree';
 import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
-import createRouter from './router';
+import { StatefulRouter } from './router';
 
 let router;
 
@@ -23,18 +23,14 @@ const element = document.getElementById('root');
 const renderer = createRenderer(element);
 const renderServices = {};
 const actions = createActions(() => router);
-const { store, boundActions } = createRedux(initialState, actions, state => {
-  expose('lastState', state);
-  renderer(state, boundActions, renderServices);
-});
+const { store, boundActions } = createRedux(initialState, actions, state =>
+  renderer(state, boundActions, renderServices));
 
-router = createRouter(createRoutes(() => boundActions),
-  (url, title) => global.history.pushState(null, title, url));
+router = new StatefulRouter(createRoutes(boundActions), location.pathname,
+  (url, title) => location.pathname !== url && history.pushState('', title, url));
 
-global.addEventListener('popstate', () =>
-  router.setUrl(location.pathname));
+global.addEventListener('popstate', () => router.setUrl(location.pathname));
 
-expose('lastState', initialState);
 expose('renderer', renderer);
 expose('store', store);
 expose('actions', actions);

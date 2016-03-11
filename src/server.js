@@ -11,7 +11,7 @@ import createRenderer from './renderer/server';
 import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
-import createRouter from './router';
+import { StatelessRouter } from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
 
@@ -50,18 +50,19 @@ export function renderApp(location, callback) {
   const { boundActions } = createRedux(initialState, actions, state => {
     const rendered = renderer(state, boundActions, router.getUrl, renderServices);
     const css = getComponentCss();
-    const html = injectRender(injectData(injectCss(getTemplate(),
-      css), state.toServerData()), rendered);
+    let html = getTemplate();
+
+    html = injectCss(html, css);
+    html = injectData(html, state.toServerData());
+    html = injectRender(html, rendered);
     callback(null, html);
   });
 
-  router = createRouter(createRoutes(() => boundActions));
+  router = new StatelessRouter(createRoutes(boundActions));
   renderServices.getUrl = router.getUrl.bind(router);
 
-  if (!router.match(location)) {
+  if (!router.setUrl(location)) {
     callback(null, null);
-  } else {
-    router.setUrl(location);
   }
 }
 

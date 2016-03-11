@@ -1,7 +1,7 @@
 import { createRoute } from './router';
 
-export default function createRoutes(getActions) {
-  const setScreen = match => getActions().setScreen(match.name);
+export default function createRoutes(actions) {
+  const setScreen = match => actions.setScreen(match.name);
 
   return {
     third: createRoute('/3.html', setScreen),

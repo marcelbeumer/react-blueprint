@@ -1,6 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
 
-export function createRoute(path, handler) {
+export function createRoute(path, handler = () => null) {
   const keys = [];
   const re = pathToRegexp(path, keys);
   const toPath = pathToRegexp.compile(path);
@@ -30,26 +30,38 @@ export function matchRoute(routes, path) {
   };
 }
 
-export default function createRouter(routes, onSet) {
-  return {
-    match(path) {
-      return matchRoute(routes, path);
-    },
+export class StatelessRouter {
+  constructor(routes) {
+    this.routes = routes;
+  }
 
-    getUrl(name, params) {
-      const route = routes[name];
-      if (!route) throw new Error(`could not find router: ${name}`);
-      return route.toPath(params);
-    },
+  getUrl(name, params) {
+    const route = this.routes[name];
+    if (!route) throw new Error(`could not find route: ${name}`);
+    return route.toPath(params);
+  }
 
-    setUrl(path) {
-      const match = matchRoute(routes, path);
-      if (match) {
-        const handler = match.route.handler;
-        if (handler) handler(match);
-        if (onSet) onSet();
-      }
-      return match;
-    },
-  };
+  setUrl(url) {
+    const match = matchRoute(this.routes, url);
+    if (match) match.route.handler(match);
+    return match;
+  }
+}
+
+export class StatefulRouter extends StatelessRouter {
+  constructor(routes, initialUrl, onChange) {
+    super(routes);
+    this.url = initialUrl;
+    this.onChange = onChange;
+  }
+
+  setUrl(url, title) {
+    if (url === this.url) return false;
+    const match = super.setUrl(url);
+    if (match) {
+      this.url = url;
+      this.onChange(url, title);
+    }
+    return match;
+  }
 }

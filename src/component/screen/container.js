@@ -1,8 +1,9 @@
 import React from 'react';
+import pureRender from 'pure-render-decorator';
 import StyleSheet from '../styles';
 import theme from '../theme';
 
-const { any } = React.PropTypes;
+const { array } = React.PropTypes;
 
 const styles = StyleSheet.create({
   root: {
@@ -21,14 +22,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function HomeScreen(props) {
-  return (
-    <div className={styles.root}>
-      {props.children}
-    </div>
-  );
+@pureRender
+export default class HomeScreen extends React.Component {
+
+  static propTypes = {
+    children: array,
+  }
+
+  render() {
+    return (
+      <div className={styles.root}>
+        {this.props.children}
+      </div>
+    );
+  }
 }
 
-HomeScreen.propTypes = {
-  children: any,
-};

@@ -158,8 +158,7 @@ export default class ResizableContent extends React.Component {
         <div ref={this.refContent}
           className={styles.content}
           style={contentStyle}
-          onScroll={this.onScroll}
-        >
+          onScroll={this.onScroll}>
           <div ref={this.refInnerContent} style={innerContentStyle}>
             {this.props.children}
           </div>
@@ -168,8 +167,7 @@ export default class ResizableContent extends React.Component {
           vertical
           options={hammerOptions}
           onPan={this.onPan}
-          onPanEnd={this.onPanEnd}
-        >
+          onPanEnd={this.onPanEnd}>
           <div className={styles.handle} ref={this.refHandle} />
         </Hammer>
       </div>

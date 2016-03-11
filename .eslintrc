@@ -2,5 +2,8 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "rules": {
+    "func-names": 0,
+    "react/jsx-closing-bracket-location": 0,
+    "react/prefer-stateless-function": 0
   }
 }

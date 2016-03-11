@@ -1,6 +1,8 @@
 import React from 'react';
 import { range } from 'lodash';
 import { List } from 'immutable';
+import pureRender from 'pure-render-decorator';
+import autobind from 'autobind-decorator';
 import Slider, { SliderGrippy } from '../../slider';
 import BarMeter, { BarMeterItem } from '../../bar-meter';
 import ItemList from '../../item-list';
@@ -23,78 +25,90 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function HomeScreenWidgets(props) {
-  const { actions, list } = props;
+@pureRender
+export default class HomeScreenWidgets extends React.Component {
 
-  function onStartChange(value) {
+  static propTypes = {
+    actions: object,
+    list: listType,
+  }
+
+  @autobind
+  onStartChange(value) {
+    const { actions, list } = this.props;
     actions.setListStart(value * list.length);
   }
 
-  function onEndChange(value) {
+  @autobind
+  onEndChange(value) {
+    const { actions, list } = this.props;
     actions.setListEnd(value * list.length);
   }
 
-  function onListResize(height) {
+  @autobind
+  onListResize(height) {
+    const { actions, list } = this.props;
     actions.setListEnd(list.start + height);
   }
 
-  function onListScroll(scrollTop) {
+  @autobind
+  onListScroll(scrollTop) {
+    const { actions, list } = this.props;
     const items = list.end - list.start;
     const start = scrollTop;
     const end = start + items;
     actions.setListRange(start, end);
   }
 
-  function getFontSizeContainerPx() {
+  getFontSizeContainerPx() {
     const resolved = resolveMedia(styles.getStyles().fontSizeContainer);
     return parseInt(resolved.fontSize, 10);
   }
 
-  function fromPx(px) {
-    return px / getFontSizeContainerPx();
+  @autobind
+  fromPx(px) {
+    return px / this.getFontSizeContainerPx();
   }
 
-  function toPx(val) {
-    return val * getFontSizeContainerPx();
+  @autobind
+  toPx(val) {
+    return val * this.getFontSizeContainerPx();
   }
 
-  const length = list.length;
-  const startRatio = list.start / list.length;
-  const endRatio = list.end / list.length;
+  render() {
+    const { list } = this.props;
+    const length = list.length;
+    const startRatio = list.start / list.length;
+    const endRatio = list.end / list.length;
 
-  const listItems = new List(range(length).map(num => String(num)));
-  const listHeight = (endRatio - startRatio) * length;
-  const scrollTop = list.start;
+    const listItems = new List(range(length).map(num => String(num)));
+    const listHeight = (endRatio - startRatio) * length;
+    const scrollTop = list.start;
 
-  return (
-    <div>
-      <BarMeter>
-        <BarMeterItem value={startRatio} onChange={onStartChange} />
-        <BarMeterItem value={endRatio} onChange={onEndChange} />
-      </BarMeter>
-      <Slider>
-        <SliderGrippy value={startRatio} onChange={onStartChange} />
-        <SliderGrippy value={endRatio} onChange={onEndChange} />
-      </Slider>
-      <div className={styles.fontSizeContainer}>
-        <ResizableContent
-          height={listHeight}
-          scrollTop={scrollTop}
-          onResize={onListResize}
-          onScroll={onListScroll}
-          toUnit={em}
-          fromPx={fromPx}
-          toPx={toPx}
-        >
-          <ItemList items={listItems} />
-        </ResizableContent>
+    return (
+      <div>
+        <BarMeter>
+          <BarMeterItem value={startRatio} onChange={this.onStartChange} />
+          <BarMeterItem value={endRatio} onChange={this.onEndChange} />
+        </BarMeter>
+        <Slider>
+          <SliderGrippy value={startRatio} onChange={this.onStartChange} />
+          <SliderGrippy value={endRatio} onChange={this.onEndChange} />
+        </Slider>
+        <div className={styles.fontSizeContainer}>
+          <ResizableContent
+            height={listHeight}
+            scrollTop={scrollTop}
+            onResize={this.onListResize}
+            onScroll={this.onListScroll}
+            toUnit={em}
+            fromPx={this.fromPx}
+            toPx={this.toPx}
+            >
+            <ItemList items={listItems} />
+          </ResizableContent>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
-
-
-HomeScreenWidgets.propTypes = {
-  actions: object,
-  list: listType,
-};

@@ -1,4 +1,5 @@
 import React from 'react';
+import pureRender from 'pure-render-decorator';
 import StyleSheet from '../../styles';
 
 const { any } = React.PropTypes;
@@ -11,10 +12,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ScreenBackgroundContent(props) {
-  return <div className={styles.backgroundContent}>{props.children}</div>;
+@pureRender
+export default class ScreenBackgroundContent extends React.Component {
+  static propTypes = {
+    children: any,
+  }
+  render() {
+    return <div className={styles.backgroundContent}>{this.props.children}</div>;
+  }
 }
-
-ScreenBackgroundContent.propTypes = {
-  children: any,
-};

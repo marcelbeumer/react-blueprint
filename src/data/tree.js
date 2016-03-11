@@ -18,10 +18,8 @@ TreeData.fromServerData = data => {
   return TreeData(values);
 };
 
-Object.assign(TreeData.prototype, {
-  toServerData() {
-    return this.toJSON();
-  },
-});
+TreeData.prototype.toServerData = function () {
+  return this.toJSON();
+};
 
 export default TreeData;

@@ -1,4 +1,5 @@
 import React from 'react';
+import pureRender from 'pure-render-decorator';
 import ScreenContainer from '../container';
 import ScreenForeground from '../foreground';
 import ScreenBackground from '../background';
@@ -16,18 +17,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function SecondScreen(props) {
-  return (
-    <ScreenContainer>
-      <ScreenForeground {...props}>
-        <div className={styles.content}>
-          Page 2
-        </div>
-        <div className={styles.note}>
-          more coming soon...
-        </div>
-      </ScreenForeground>
-      <ScreenBackground />
-    </ScreenContainer>
-  );
+@pureRender
+export default class SecondScreen extends React.Component {
+
+  render() {
+    return (
+      <ScreenContainer>
+        <ScreenForeground {...this.props}>
+          <div className={styles.content}>
+            Page 2
+          </div>
+          <div className={styles.note}>
+            more coming soon...
+          </div>
+        </ScreenForeground>
+        <ScreenBackground />
+      </ScreenContainer>
+    );
+  }
 }

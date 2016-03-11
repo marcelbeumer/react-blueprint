@@ -1,4 +1,5 @@
 import React from 'react';
+import pureRender from 'pure-render-decorator';
 import StyleSheet from './styles';
 import theme from './theme';
 import cx from 'classnames';
@@ -20,18 +21,21 @@ export const styles = StyleSheet.create({
   },
 });
 
-export default function Button(props) {
-  const { type, className } = props;
-  const classes = cx({
-    [styles.button]: true,
-    [styles.buttonInverse]: type === 'inverse',
-  }, className);
-  return (
-    <div {...props} className={classes} />
-  );
-}
+@pureRender
+export default class Button extends React.Component {
+  static propTypes = {
+    className: string,
+    type: string,
+  };
 
-Button.propTypes = {
-  className: string,
-  type: string,
-};
+  render() {
+    const { type, className } = this.props;
+    const classes = cx({
+      [styles.button]: true,
+      [styles.buttonInverse]: type === 'inverse',
+    }, className);
+    return (
+      <div {...this.props} className={classes} />
+    );
+  }
+}

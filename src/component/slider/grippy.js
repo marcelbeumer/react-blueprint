@@ -42,20 +42,17 @@ export default class SliderGrippy extends React.Component {
     onChange: () => null,
   }
 
-  state = {
-    panX: 0,
-  }
-
   @autobind
   onPan(e) {
-    const deltaX = e.deltaX - this.state.panX;
-    this.state.panX = e.deltaX;
+    this._panX = this._panX || 0;
+    const deltaX = e.deltaX - this._panX;
+    this._panX = e.deltaX;
     this.props.onDrag(e, deltaX, this);
   }
 
   @autobind
   onPanEnd() {
-    this.state.panX = 0;
+    delete this._panX;
   }
 
   render() {

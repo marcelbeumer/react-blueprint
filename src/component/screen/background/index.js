@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import pureRender from 'pure-render-decorator';
 import StyleSheet from '../../styles';
 import theme from '../../theme';
 export ScreenBackgroundContent from './content';
@@ -26,16 +27,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ScreenBackground(props) {
-  const { showBackground } = props;
-  return (
-    <div className={cx(styles.background, { [styles.backgroundShown]: showBackground })}>
-      {props.children}
-    </div>
-  );
-}
+@pureRender
+export default class ScreenBackground extends React.Component {
+  static propTypes = {
+    children: any,
+    showBackground: bool,
+  }
 
-ScreenBackground.propTypes = {
-  children: any,
-  showBackground: bool,
-};
+  render() {
+    const { showBackground } = this.props;
+    return (
+      <div className={cx(styles.background, { [styles.backgroundShown]: showBackground })}>
+        {this.props.children}
+      </div>
+    );
+  }
+}

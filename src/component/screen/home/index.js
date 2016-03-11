@@ -37,7 +37,8 @@ export default class HomeScreen extends React.Component {
           <div className={styles.websites}>
             <a className={styles.githubIcon}
               href="https://github.com/marcelbeumer/react-blueprint"
-              alt="Github">
+              alt="Github"
+            >
               <GithubIcon />
             </a>
           </div>

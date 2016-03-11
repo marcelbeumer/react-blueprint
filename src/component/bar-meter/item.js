@@ -60,7 +60,8 @@ export default class BarMeterItem extends React.Component {
         <div className={styles.bar} style={{
           transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
           backgroundColor: barColor,
-        }} />
+        }}
+        />
       </Hammer>
     );
   }

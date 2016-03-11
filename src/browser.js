@@ -7,6 +7,7 @@ import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
 import createRouter from './router';
+
 let router;
 
 const debug = createDebug('browser');

@@ -6,9 +6,12 @@ import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import CleanCSS from 'clean-css';
 import settings from '../settings/server';
-import createRenderer from './renderer/server';
 import DataTree from './data/tree';
+import createRenderer from './renderer/server';
+import createActions from './action';
 import createRedux from './redux';
+import createRoutes from './route';
+import { StatelessRouter } from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
 
@@ -37,20 +40,42 @@ export function getComponentCss() {
   return prod ? new CleanCSS().minify(css).styles : css;
 }
 
-export function renderHomepage() {
+export function renderApp(location, callback) {
+  let router;
+
+  const renderServices = {};
   const initialState = new DataTree();
-  const { actions } = createRedux(initialState);
-  const rendered = renderer(initialState, actions);
-  const css = getComponentCss();
-  const html = injectRender(injectData(injectCss(getTemplate(),
-    css), initialState.toServerData()), rendered);
-  return html;
+  const actions = createActions(() => router);
+
+  const { boundActions } = createRedux(initialState, actions, state => {
+    const rendered = renderer(state, boundActions, router.getUrl, renderServices);
+    const css = getComponentCss();
+    let html = getTemplate();
+
+    html = injectCss(html, css);
+    html = injectData(html, state.toServerData());
+    html = injectRender(html, rendered);
+    callback(null, html);
+  });
+
+  router = new StatelessRouter(createRoutes(boundActions));
+  renderServices.getUrl = router.getUrl.bind(router);
+
+  if (!router.setUrl(location)) {
+    callback(null, null);
+  }
 }
 
-app.get('/', (req, res) => {
-  res.send(renderHomepage());
-});
+app.use('/asset', express.static('dist/asset'));
 
-app.use(express.static('dist'));
+app.use((req, res, next) => {
+  renderApp(req.path, (err, html) => {
+    if (html) {
+      res.send(html);
+    } else {
+      next();
+    }
+  });
+});
 
 export default app;

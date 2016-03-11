@@ -181,7 +181,8 @@ export default class MainScreen extends React.Component {
         <div
           ref={this.refContainer}
           className={cx(styles.container, segue && styles.segueContainer)}
-          style={containerStyle}>
+          style={containerStyle}
+        >
           {this.renderScreens()}
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import pureRender from 'pure-render-decorator';
 import ScreenContainer from '../container';
 import ScreenForeground from '../foreground';
 import ScreenBackground from '../background';
@@ -17,22 +16,18 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
-export default class ThirdScreen extends React.Component {
-
-  render() {
-    return (
-      <ScreenContainer>
-        <ScreenForeground {...this.props}>
-          <div className={styles.content}>
-            Page 3
-          </div>
-          <div className={styles.note}>
-            more coming soon...
-          </div>
-        </ScreenForeground>
-        <ScreenBackground />
-      </ScreenContainer>
-    );
-  }
+export default function ThirdScreen(props) {
+  return (
+    <ScreenContainer>
+      <ScreenForeground {...props}>
+        <div className={styles.content}>
+          Page 3
+        </div>
+        <div className={styles.note}>
+          more coming soon...
+        </div>
+      </ScreenForeground>
+      <ScreenBackground />
+    </ScreenContainer>
+  );
 }

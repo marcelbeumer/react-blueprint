@@ -1,7 +1,6 @@
 import React from 'react';
 import { memoize } from 'lodash';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import pureRender from 'pure-render-decorator';
 import cx from 'classnames';
 import screens from './screens';
 import StyleSheet, { em } from '../styles';
@@ -54,67 +53,65 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
-export default class SceneNavigation extends React.Component {
-
-  static propTypes = {
-    items: listOf(shape({
-      screen: string,
-      label: string,
-    })),
-    screen: string,
-    arrows: bool,
-    onChange: func,
-  }
-
-  static defaultProps = {
-    screen: '',
-    onChange: () => null,
-    arrows: false,
-  }
-
-  getScreenIndex(screen) {
+export default function SceneNavigation(props) {
+  function getScreenIndex(screen) {
     return screens.map(item => item.name).indexOf(screen);
   }
 
-  getItemHandler = memoize(screen => () => this.props.onChange(screen));
+  const getItemHandler = memoize(screen => () => props.onChange(screen));
 
-  renderItems() {
-    const { screen: currentScreen } = this.props;
-    const index = this.getScreenIndex(currentScreen);
+  function renderItems() {
+    const { screen: currentScreen } = props;
+    const index = getScreenIndex(currentScreen);
     return screens.map((screen, i) => {
       const itemClasses = cx(styles.item, {
         [styles.itemActive]: i === index,
       });
       return (
         <div key={`item-${i}`} className={itemClasses}
-          onClick={this.getItemHandler(screen.name)}>
+          onClick={getItemHandler(screen.name)}
+        >
           {screen.label}
         </div>
       );
     });
   }
 
-  renderArrow(label, indexOffset) {
-    const { screen } = this.props;
+  function renderArrow(label, indexOffset) {
+    const { screen } = props;
     const index = this.getScreenIndex(screen);
     const arrowIndex = index + indexOffset;
     const item = screens[arrowIndex];
     return (
       <div key={`${label}-arrow`}
         className={cx(styles[`${label}Arrow`], !item && styles.inactiveArrow)}
-        onClick={item && this.getItemHandler(item.name)} />
+        onClick={item && getItemHandler(item.name)}
+      />
     );
   }
 
-  render() {
-    const { arrows } = this.props;
-    return (
-      <div className={styles.root}>
-        {arrows && this.renderArrow('prev', -1)}
-        {this.renderItems()}
-        {arrows && this.renderArrow('next', 1)}
-      </div>
-    );
-  }
+  const { arrows } = props;
+  return (
+    <div className={styles.root}>
+      {arrows && renderArrow('prev', -1)}
+      {renderItems()}
+      {arrows && renderArrow('next', 1)}
+    </div>
+  );
 }
+
+SceneNavigation.propTypes = {
+  items: listOf(shape({
+    screen: string,
+    label: string,
+  })),
+  screen: string,
+  arrows: bool,
+  onChange: func,
+};
+
+SceneNavigation.defaultProps = {
+  screen: '',
+  onChange: () => null,
+  arrows: false,
+};

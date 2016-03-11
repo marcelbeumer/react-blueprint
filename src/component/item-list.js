@@ -1,7 +1,6 @@
 import React from 'react';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import pureRender from 'pure-render-decorator';
 import StyleSheet, { px } from './styles';
 import theme from './theme';
 
@@ -31,33 +30,29 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
-export default class ItemList extends React.Component {
-
-  static propTypes = {
-    items: listOf(string),
-  }
-
-  static defaultProps = {
-    items: new List(),
-  }
-
-  renderItems() {
-    const { items } = this.props;
-    return items.map((value, i) =>
-      <div className={styles.item} key={`item-${i}`}>
-        <div className={styles.itemInner}>
-          {value}
-        </div>
+function renderItems(props) {
+  const { items } = props;
+  return items.map((value, i) =>
+    <div className={styles.item} key={`item-${i}`}>
+      <div className={styles.itemInner}>
+        {value}
       </div>
-    );
-  }
-
-  render() {
-    return (
-      <div className={styles.root}>
-        {this.renderItems()}
-      </div>
-    );
-  }
+    </div>
+  );
 }
+
+export default function ItemList(props) {
+  return (
+    <div className={styles.root}>
+      {renderItems(props)}
+    </div>
+  );
+}
+
+ItemList.propTypes = {
+  items: listOf(string),
+};
+
+ItemList.defaultProps = {
+  items: new List(),
+};

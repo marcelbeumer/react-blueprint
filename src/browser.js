@@ -32,7 +32,7 @@ const { store, boundActions } = createRedux(initialState, actions, state => {
 const routes = createRoutes(boundActions, settings);
 const router = createRouter(routes);
 
-history.setLocationHandler(router.match);
+history.setLocationHandler(router.handle.bind(router));
 history.initPopState();
 
 expose('lastState', initialState);

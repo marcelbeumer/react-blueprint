@@ -1,6 +1,5 @@
 import React from 'react';
 import { memoize } from 'lodash';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import pureRender from 'pure-render-decorator';
 import cx from 'classnames';
 import screens from './screens';
@@ -8,8 +7,7 @@ import StyleSheet, { em } from '../styles';
 import theme from '../theme';
 
 const { assign } = Object;
-const { bool, string, shape, func } = React.PropTypes;
-const { listOf } = ImmutablePropTypes;
+const { bool, string, object } = React.PropTypes;
 const itemSize = 1;
 const itemMargin = Math.round((itemSize / 6) * 10) / 10;
 
@@ -58,18 +56,13 @@ export const styles = StyleSheet.create({
 export default class SceneNavigation extends React.Component {
 
   static propTypes = {
-    items: listOf(shape({
-      screen: string,
-      label: string,
-    })),
     screen: string,
     arrows: bool,
-    onChange: func,
+    actions: object,
   }
 
   static defaultProps = {
     screen: '',
-    onChange: () => null,
     arrows: false,
   }
 
@@ -77,7 +70,8 @@ export default class SceneNavigation extends React.Component {
     return screens.map(item => item.name).indexOf(screen);
   }
 
-  getItemHandler = memoize(screen => () => this.props.onChange(screen));
+  getItemHandler = memoize((title, location) =>
+    () => this.props.actions.setLocation(title, location));
 
   renderItems() {
     const { screen: currentScreen } = this.props;
@@ -88,7 +82,7 @@ export default class SceneNavigation extends React.Component {
       });
       return (
         <div key={`item-${i}`} className={itemClasses}
-          onClick={this.getItemHandler(screen.name)}
+          onClick={this.getItemHandler(screen.name, screen.location)}
         >
           {screen.label}
         </div>

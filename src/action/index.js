@@ -6,7 +6,7 @@ export default function createActions(history) {
     setListStart: createSimpleAction('SET_LIST_START'),
     setListEnd: createSimpleAction('SET_LIST_END'),
     setLocation: (title, location) => {
-      history.setLocation(location);
+      history.setLocation(title, location);
     },
     setListRange: (start, end) => ({
       type: 'SET_LIST_RANGE',

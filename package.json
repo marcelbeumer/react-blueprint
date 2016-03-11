@@ -8,11 +8,11 @@
     "pretest": "npm run build -s",
     "test": "mocha --compilers js:babel-register",
     "server": "node scripts/start-server.js",
-    "render": "node scripts/render-homepage.js",
+    "render": "node scripts/render-pages.js",
     "watch": "parallelshell 'webpack -w' 'nodemon scripts/start-server.js'",
     "lint": "eslint src",
     "prebuild": "rimraf dist/*",
-    "build": "NODE_ENV=production webpack && NODE_ENV=production npm run render -- -f dist/index.html",
+    "build": "NODE_ENV=production webpack && NODE_ENV=production npm run render -- -o dist",
     "start": "npm run watch"
   },
   "homepage": "https://github.com/marcelbeumer/react-blueprint",

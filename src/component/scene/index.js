@@ -176,7 +176,7 @@ export default class MainScreen extends React.Component {
     return (
       <div ref={this.refRoot} className={cx(styles.root, segue && styles.segueRoot)}>
         <div className={cx(styles.navigation, showBackground && styles.navigationUp)}>
-          <SceneNavigation screen={screen} onChange={actions.setScreen} />
+          <SceneNavigation screen={screen} actions={actions} />
         </div>
         <div
           ref={this.refContainer}

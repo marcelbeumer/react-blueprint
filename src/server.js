@@ -11,6 +11,8 @@ import createRenderer from './renderer/server';
 import createHistory from './history/server';
 import createActions from './action';
 import createRedux from './redux';
+import createRoutes from './route';
+import createRouter from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
 
@@ -39,21 +41,38 @@ export function getComponentCss() {
   return prod ? new CleanCSS().minify(css).styles : css;
 }
 
-export function renderHomepage() {
+export function renderApp(location, callback) {
   const initialState = new DataTree();
   const actions = createActions(createHistory());
-  const { boundActions } = createRedux(initialState, actions);
-  const rendered = renderer(initialState, boundActions);
-  const css = getComponentCss();
-  const html = injectRender(injectData(injectCss(getTemplate(),
-    css), initialState.toServerData()), rendered);
-  return html;
+
+  const { boundActions } = createRedux(initialState, actions, state => {
+    const rendered = renderer(state, boundActions);
+    const css = getComponentCss();
+    const html = injectRender(injectData(injectCss(getTemplate(),
+      css), state.toServerData()), rendered);
+    callback(null, html);
+  });
+
+  const routes = createRoutes(boundActions);
+  const router = createRouter(routes);
+
+  if (!router.match(location)) {
+    callback(null, null);
+  } else {
+    router.handle(location);
+  }
 }
 
-app.get('/', (req, res) => {
-  res.send(renderHomepage());
-});
+app.use('/asset', express.static('dist/asset'));
 
-app.use(express.static('dist'));
+app.use((req, res, next) => {
+  renderApp(req.path, (err, html) => {
+    if (html) {
+      res.send(html);
+    } else {
+      next();
+    }
+  });
+});
 
 export default app;

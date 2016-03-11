@@ -25,21 +25,21 @@ const scripts = [
     module: 'react',
     external: 'window.React',
     from: `../node_modules/react/dist/react${useMin ? '.min' : ''}.js`,
-    to: `react-__VERSION__${useMin ? '.min' : ''}.js`,
+    to: `asset/react-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react.min.js',
   },
   {
     module: 'react-dom',
     external: 'window.ReactDOM',
     from: `../node_modules/react-dom/dist/react-dom${useMin ? '.min' : ''}.js`,
-    to: `react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
+    to: `asset/react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react-dom.min.js',
   },
   {
     module: 'immutable',
     external: 'window.Immutable',
     from: `../node_modules/immutable/dist/immutable${useMin ? '.min' : ''}.js`,
-    to: `immutable-__VERSION__${useMin ? '.min' : ''}.js`,
+    to: `asset/immutable-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/immutable.js/__VERSION__/immutable.min.js',
   },
 ];
@@ -52,7 +52,7 @@ scripts.forEach(script => {
 });
 
 const externals = scripts.reduce((p, c) => {
-  p[c.module] = c.external;
+  p[c.module] = c.external; // eslint-disable-line no-param-reassign
   return p;
 }, {});
 
@@ -62,7 +62,7 @@ const config = {
   entry: ['./browser.js'],
   output: {
     path: `${__dirname}/../dist`,
-    filename: 'bundle.js',
+    filename: 'asset/bundle.js',
   },
   module: {
     loaders: [
@@ -105,7 +105,7 @@ const config = {
 
 if (extractCss) {
   config.plugins.push(
-    new ExtractTextPlugin('bundle.css')
+    new ExtractTextPlugin('asset/bundle.css')
   );
 }
 

@@ -21,6 +21,8 @@ export function matchRoute(routes, path) {
     return !!result;
   });
 
+  if (!name) return false;
+
   return {
     name,
     result,
@@ -31,13 +33,15 @@ export function matchRoute(routes, path) {
 export default function createRouter(routes) {
   return {
     match(path) {
+      return matchRoute(routes, path);
+    },
+    handle(path) {
       const match = matchRoute(routes, path);
-      if (match.name) {
+      if (match) {
         const handler = match.route.handler;
         if (handler) handler(match);
-        return true;
       }
-      return false;
+      return match;
     },
   };
 }

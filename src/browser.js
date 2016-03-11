@@ -1,7 +1,6 @@
 import './style/index.css';
 import createDebug from 'debug';
 import { expose } from './global';
-import settings from '../settings/browser';
 import createRenderer from './renderer/browser';
 import DataTree from './data/tree';
 import createActions from './action';
@@ -20,15 +19,15 @@ function getData(id) {
 
 const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
 const element = document.getElementById('root');
-const renderer = createRenderer(element, settings);
+const renderer = createRenderer(element);
 const renderServices = {};
 const actions = createActions(() => router);
 const { store, boundActions } = createRedux(initialState, actions, state => {
   expose('lastState', state);
   renderer(state, boundActions, renderServices);
-}, settings);
+});
 
-router = createRouter(createRoutes(boundActions, settings),
+router = createRouter(createRoutes(() => boundActions),
   (url, title) => global.history.pushState(null, title, url));
 
 global.addEventListener('popstate', () =>

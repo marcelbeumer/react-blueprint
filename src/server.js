@@ -55,7 +55,7 @@ export function renderApp(location, callback) {
     callback(null, html);
   });
 
-  router = createRouter(createRoutes(boundActions));
+  router = createRouter(createRoutes(() => boundActions));
   renderServices.getUrl = router.getUrl.bind(router);
 
   if (!router.match(location)) {

@@ -6,8 +6,10 @@ import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import CleanCSS from 'clean-css';
 import settings from '../settings/server';
-import createRenderer from './renderer/server';
 import DataTree from './data/tree';
+import createRenderer from './renderer/server';
+import createHistory from './history/server';
+import createActions from './action';
 import createRedux from './redux';
 import { getCss } from './component/styles';
 import env from 'node-env';
@@ -39,8 +41,9 @@ export function getComponentCss() {
 
 export function renderHomepage() {
   const initialState = new DataTree();
-  const { actions } = createRedux(initialState);
-  const rendered = renderer(initialState, actions);
+  const actions = createActions(createHistory());
+  const { boundActions } = createRedux(initialState, actions);
+  const rendered = renderer(initialState, boundActions);
   const css = getComponentCss();
   const html = injectRender(injectData(injectCss(getTemplate(),
     css), initialState.toServerData()), rendered);

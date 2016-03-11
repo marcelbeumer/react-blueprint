@@ -3,11 +3,10 @@ import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import createDebug from 'debug';
 import reducer from './reducer';
-import * as actions from './action';
 
 const debug = createDebug('redux');
 
-export default function createRedux(initialState, onChange, /* settings */) {
+export default function createRedux(initialState, actions, onChange, /* settings */) {
   let lastState = initialState;
 
   const middleware = applyMiddleware(promise, thunk);
@@ -33,5 +32,5 @@ export default function createRedux(initialState, onChange, /* settings */) {
     }
   });
 
-  return { store, actions: boundActions };
+  return { store, boundActions };
 }

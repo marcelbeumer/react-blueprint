@@ -1,3 +1,4 @@
+/* eslint no-param-reassign:0 */
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -45,12 +46,13 @@ const scripts = [
 
 scripts.forEach(script => {
   const version = require(`${script.module}/package.json`).version;
-  ['to', 'cdn'].forEach(prop => script[prop] = // eslint-disable-line no-param-reassign
-    script[prop].replace('__VERSION__', version));
+  ['to', 'cdn'].forEach(prop => {
+    script[prop] = script[prop].replace('__VERSION__', version);
+  });
 });
 
 const externals = scripts.reduce((p, c) => {
-  p[c.module] = c.external; // eslint-disable-line no-param-reassign
+  p[c.module] = c.external;
   return p;
 }, {});
 

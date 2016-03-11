@@ -40,17 +40,20 @@ export default class BarMeterItem extends React.Component {
     onChange: () => null,
   }
 
+  state = {
+    panX: 0,
+  };
+
   @autobind
   onPan(e) {
-    this._panX = this._panX || 0;
-    const deltaX = e.deltaX - this._panX;
-    this._panX = e.deltaX;
+    const deltaX = e.deltaX - this.state.panX;
+    this.state.panX = e.deltaX;
     this.props.onDrag(e, deltaX, this);
   }
 
   @autobind
   onPanEnd() {
-    delete this._panX;
+    this.state.panX = 0;
   }
 
   render() {
@@ -60,7 +63,8 @@ export default class BarMeterItem extends React.Component {
         <div className={styles.bar} style={{
           transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
           backgroundColor: barColor,
-        }} />
+        }}
+        />
       </Hammer>
     );
   }

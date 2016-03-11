@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
 });
 
 @pureRender
-export default class MainScreen extends React.Component {
+export default class Scene extends React.Component {
 
   static propTypes = {
     actions: object,

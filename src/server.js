@@ -48,7 +48,7 @@ export function renderApp(location, callback) {
   const actions = createActions(() => router);
 
   const { boundActions } = createRedux(initialState, actions, state => {
-    const rendered = renderer(state, boundActions, router.getUrl, renderServices);
+    const rendered = renderer(state, boundActions, renderServices);
     const css = getComponentCss();
     let html = getTemplate();
 

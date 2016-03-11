@@ -1,9 +1,16 @@
 /* eslint-env node, mocha */
 import assert from 'assert';
-import { renderHomepage } from '../src/server';
+import { renderApp } from '../src/server';
 
 describe('server module', () => {
-  const html = renderHomepage();
+  let html;
+
+  beforeEach(done => {
+    renderApp('/', (err, out) => {
+      html = out;
+      done();
+    });
+  });
 
   it('renders the homepage as string', () => {
     assert(typeof(html) === 'string');

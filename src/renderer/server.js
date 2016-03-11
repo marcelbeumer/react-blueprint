@@ -6,12 +6,12 @@ import { getRootComponent } from '../component';
 const debug = createDebug('renderer');
 
 export default function createRenderer() {
-  return function render(dataTree, actions, getUrl) {
+  return function render(dataTree, actions, services) {
     const Root = getRootComponent(dataTree);
     debug('render start');
 
     const html = ReactDOMServer.renderToString(
-      <Root {...dataTree.toObject()} actions={actions} getUrl={getUrl} />);
+      <Root {...dataTree.toObject()} actions={actions} services={services} />);
 
     debug('render end');
     return html;

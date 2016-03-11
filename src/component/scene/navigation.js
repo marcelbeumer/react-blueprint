@@ -7,7 +7,7 @@ import StyleSheet, { em } from '../styles';
 import theme from '../theme';
 
 const { assign } = Object;
-const { bool, func, string, object } = React.PropTypes;
+const { bool, func, string } = React.PropTypes;
 const itemSize = 1;
 const itemMargin = Math.round((itemSize / 6) * 10) / 10;
 
@@ -58,7 +58,7 @@ export default class SceneNavigation extends React.Component {
   static propTypes = {
     screen: string,
     arrows: bool,
-    actions: object,
+    setUrl: func,
     getUrl: func,
   }
 
@@ -72,8 +72,8 @@ export default class SceneNavigation extends React.Component {
   }
 
   getItemHandler = memoize(name => () => {
-    const { actions, getUrl } = this.props;
-    actions.setLocation(name, getUrl(name));
+    const { setUrl, getUrl } = this.props;
+    setUrl(getUrl(name), name);
   })
 
   renderItems() {

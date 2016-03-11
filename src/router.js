@@ -30,22 +30,24 @@ export function matchRoute(routes, path) {
   };
 }
 
-export default function createRouter(routes) {
+export default function createRouter(routes, onSet) {
   return {
-    routes,
     match(path) {
       return matchRoute(routes, path);
     },
+
     getUrl(name, params) {
       const route = routes[name];
       if (!route) throw new Error(`could not find router: ${name}`);
       return route.toPath(params);
     },
-    route(path) {
+
+    setUrl(path) {
       const match = matchRoute(routes, path);
       if (match) {
         const handler = match.route.handler;
         if (handler) handler(match);
+        if (onSet) onSet();
       }
       return match;
     },

@@ -1,8 +1,10 @@
 const createSimpleAction = type => payload => ({ type, payload });
 
-export default function createActions(setLocation = () => null) {
+export default function createActions(getRouter = () => null) {
   return {
-    setLocation,
+    setUrl: (url, title) => {
+      getRouter().setUrl(url, title);
+    },
     setScreen: createSimpleAction('SET_SCREEN'),
     setListStart: createSimpleAction('SET_LIST_START'),
     setListEnd: createSimpleAction('SET_LIST_END'),

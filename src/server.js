@@ -41,12 +41,14 @@ export function getComponentCss() {
 }
 
 export function renderApp(location, callback) {
-  const initialState = new DataTree();
-  const actions = createActions();
   let router;
 
+  const renderServices = {};
+  const initialState = new DataTree();
+  const actions = createActions(() => router);
+
   const { boundActions } = createRedux(initialState, actions, state => {
-    const rendered = renderer(state, boundActions, router.getUrl);
+    const rendered = renderer(state, boundActions, router.getUrl, renderServices);
     const css = getComponentCss();
     const html = injectRender(injectData(injectCss(getTemplate(),
       css), state.toServerData()), rendered);
@@ -54,11 +56,12 @@ export function renderApp(location, callback) {
   });
 
   router = createRouter(createRoutes(boundActions));
+  renderServices.getUrl = router.getUrl.bind(router);
 
   if (!router.match(location)) {
     callback(null, null);
   } else {
-    router.route(location);
+    router.setUrl(location);
   }
 }
 

@@ -18,24 +18,22 @@ function getData(id) {
   return json ? JSON.parse(json) : {};
 }
 
-function setLocation(title, location) {
-  global.history.pushState(null, title, location);
-  router.route(location);
-}
+global.addEventListener('popstate', () =>
+  router.setUrl(location.pathname));
 
-const element = document.getElementById('root');
 const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
+const element = document.getElementById('root');
 const renderer = createRenderer(element, settings);
-const actions = createActions(setLocation);
-
+const renderServices = {};
+const actions = createActions(() => router);
 const { store, boundActions } = createRedux(initialState, actions, state => {
   expose('lastState', state);
-  renderer(state, boundActions, router.getUrl);
+  renderer(state, boundActions, renderServices);
 }, settings);
 
-router = createRouter(createRoutes(boundActions, settings));
-global.addEventListener('popstate', () =>
-  router.route(location.pathname));
+router = createRouter(createRoutes(boundActions, settings),
+  (url, title) => global.history.pushState(null, title, url));
+
 
 expose('lastState', initialState);
 expose('renderer', renderer);
@@ -44,4 +42,5 @@ expose('actions', actions);
 expose('router', router);
 debug('bootstrap done');
 
-renderer(initialState, boundActions, router.getUrl);
+renderServices.getUrl = router.getUrl.bind(router);
+renderer(initialState, boundActions, renderServices);

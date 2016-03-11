@@ -18,9 +18,6 @@ function getData(id) {
   return json ? JSON.parse(json) : {};
 }
 
-global.addEventListener('popstate', () =>
-  router.setUrl(location.pathname));
-
 const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
 const element = document.getElementById('root');
 const renderer = createRenderer(element, settings);
@@ -33,6 +30,9 @@ const { store, boundActions } = createRedux(initialState, actions, state => {
 
 router = createRouter(createRoutes(boundActions, settings),
   (url, title) => global.history.pushState(null, title, url));
+
+global.addEventListener('popstate', () =>
+  router.setUrl(location.pathname));
 
 expose('lastState', initialState);
 expose('renderer', renderer);

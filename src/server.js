@@ -8,7 +8,6 @@ import CleanCSS from 'clean-css';
 import settings from '../settings/server';
 import DataTree from './data/tree';
 import createRenderer from './renderer/server';
-import createHistory from './history/server';
 import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
@@ -43,23 +42,23 @@ export function getComponentCss() {
 
 export function renderApp(location, callback) {
   const initialState = new DataTree();
-  const actions = createActions(createHistory());
+  const actions = createActions();
+  let router;
 
   const { boundActions } = createRedux(initialState, actions, state => {
-    const rendered = renderer(state, boundActions);
+    const rendered = renderer(state, boundActions, router.getUrl);
     const css = getComponentCss();
     const html = injectRender(injectData(injectCss(getTemplate(),
       css), state.toServerData()), rendered);
     callback(null, html);
   });
 
-  const routes = createRoutes(boundActions);
-  const router = createRouter(routes);
+  router = createRouter(createRoutes(boundActions));
 
   if (!router.match(location)) {
     callback(null, null);
   } else {
-    router.handle(location);
+    router.route(location);
   }
 }
 

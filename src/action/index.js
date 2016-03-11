@@ -1,13 +1,11 @@
 const createSimpleAction = type => payload => ({ type, payload });
 
-export default function createActions(history) {
+export default function createActions(setLocation = () => null) {
   return {
+    setLocation,
     setScreen: createSimpleAction('SET_SCREEN'),
     setListStart: createSimpleAction('SET_LIST_START'),
     setListEnd: createSimpleAction('SET_LIST_END'),
-    setLocation: (title, location) => {
-      history.setLocation(title, location);
-    },
     setListRange: (start, end) => ({
       type: 'SET_LIST_RANGE',
       payload: { start, end },

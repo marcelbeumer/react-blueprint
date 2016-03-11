@@ -32,10 +32,16 @@ export function matchRoute(routes, path) {
 
 export default function createRouter(routes) {
   return {
+    routes,
     match(path) {
       return matchRoute(routes, path);
     },
-    handle(path) {
+    getUrl(name, params) {
+      const route = routes[name];
+      if (!route) throw new Error(`could not find router: ${name}`);
+      return route.toPath(params);
+    },
+    route(path) {
       const match = matchRoute(routes, path);
       if (match) {
         const handler = match.route.handler;

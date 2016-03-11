@@ -7,7 +7,7 @@ import StyleSheet, { em } from '../styles';
 import theme from '../theme';
 
 const { assign } = Object;
-const { bool, string, object } = React.PropTypes;
+const { bool, func, string, object } = React.PropTypes;
 const itemSize = 1;
 const itemMargin = Math.round((itemSize / 6) * 10) / 10;
 
@@ -59,6 +59,7 @@ export default class SceneNavigation extends React.Component {
     screen: string,
     arrows: bool,
     actions: object,
+    getUrl: func,
   }
 
   static defaultProps = {
@@ -70,8 +71,10 @@ export default class SceneNavigation extends React.Component {
     return screens.map(item => item.name).indexOf(screen);
   }
 
-  getItemHandler = memoize((title, location) =>
-    () => this.props.actions.setLocation(title, location));
+  getItemHandler = memoize(name => () => {
+    const { actions, getUrl } = this.props;
+    actions.setLocation(name, getUrl(name));
+  })
 
   renderItems() {
     const { screen: currentScreen } = this.props;
@@ -82,7 +85,7 @@ export default class SceneNavigation extends React.Component {
       });
       return (
         <div key={`item-${i}`} className={itemClasses}
-          onClick={this.getItemHandler(screen.name, screen.location)}
+          onClick={this.getItemHandler(screen.name)}
         >
           {screen.label}
         </div>

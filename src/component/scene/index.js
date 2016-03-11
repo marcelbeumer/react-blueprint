@@ -12,7 +12,7 @@ import { easeInQuad as easing } from 'penner';
 
 const screensPerSecond = 0.3;
 const { min, max } = Math;
-const { object, string, bool } = React.PropTypes;
+const { object, func, string, bool } = React.PropTypes;
 const { requestAnimationFrame, cancelAnimationFrame } = raf();
 
 export const styles = StyleSheet.create({
@@ -63,6 +63,7 @@ export default class MainScreen extends React.Component {
     actions: object,
     screen: string,
     showBackground: bool,
+    getUrl: func,
   }
 
   constructor(props) {
@@ -163,7 +164,7 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-    const { actions, screen, showBackground } = this.props;
+    const { actions, screen, showBackground, getUrl } = this.props;
     const { easeOffset, visibleScreens, currentScreen } = this.state;
     const segue = visibleScreens.length > 1;
     const translateX = -((visibleScreens.indexOf(currentScreen) + easeOffset) * 100);
@@ -176,7 +177,7 @@ export default class MainScreen extends React.Component {
     return (
       <div ref={this.refRoot} className={cx(styles.root, segue && styles.segueRoot)}>
         <div className={cx(styles.navigation, showBackground && styles.navigationUp)}>
-          <SceneNavigation screen={screen} actions={actions} />
+          <SceneNavigation screen={screen} actions={actions} getUrl={getUrl} />
         </div>
         <div
           ref={this.refContainer}

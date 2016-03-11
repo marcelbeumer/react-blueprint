@@ -104,7 +104,7 @@ export default class HomeScreenWidgets extends React.Component {
             toUnit={em}
             fromPx={this.fromPx}
             toPx={this.toPx}
-            >
+          >
             <ItemList items={listItems} />
           </ResizableContent>
         </div>

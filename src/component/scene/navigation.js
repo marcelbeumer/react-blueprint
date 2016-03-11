@@ -88,7 +88,8 @@ export default class SceneNavigation extends React.Component {
       });
       return (
         <div key={`item-${i}`} className={itemClasses}
-          onClick={this.getItemHandler(screen.name)}>
+          onClick={this.getItemHandler(screen.name)}
+        >
           {screen.label}
         </div>
       );
@@ -103,7 +104,8 @@ export default class SceneNavigation extends React.Component {
     return (
       <div key={`${label}-arrow`}
         className={cx(styles[`${label}Arrow`], !item && styles.inactiveArrow)}
-        onClick={item && this.getItemHandler(item.name)} />
+        onClick={item && this.getItemHandler(item.name)}
+      />
     );
   }
 

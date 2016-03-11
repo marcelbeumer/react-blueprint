@@ -34,7 +34,6 @@ const { store, boundActions } = createRedux(initialState, actions, state => {
 router = createRouter(createRoutes(boundActions, settings),
   (url, title) => global.history.pushState(null, title, url));
 
-
 expose('lastState', initialState);
 expose('renderer', renderer);
 expose('store', store);

@@ -6,8 +6,6 @@
   "main": "src/index.js",
   "scripts": {
     "clean": "rimraf dist/*",
-    "clean-pages": "rimraf asset/* *.html",
-    "copy-pages": "cpy -r dist/* .",
     "pretest": "npm run build -s",
     "test": "mocha --compilers js:babel-register",
     "server": "node scripts/start-server.js",
@@ -15,7 +13,7 @@
     "watch": "parallelshell 'webpack -w' 'nodemon scripts/start-server.js'",
     "lint": "eslint src",
     "build": "npm run clean && NODE_ENV=production webpack && NODE_ENV=production npm run render -- -o dist",
-    "deploy": "git checkout master && npm run build && git checkout gh-pages && npm run clean-pages && npm copy-pages",
+    "deploy": "git checkout master && npm run build && git checkout gh-pages && rimraf asset/* *.html && cpy -r dist/*",
     "start": "npm run watch"
   },
   "homepage": "https://github.com/marcelbeumer/react-blueprint",

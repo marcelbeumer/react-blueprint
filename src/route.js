@@ -1,12 +1,11 @@
 import { createRoute } from './router';
 
 export default function createRoutes(store, actions) {
-  const setScreen = ({ match, url }, done) => {
+  const setScreen = ({ match, url }) => {
     store.dispatch([
       actions.setRenderedUrl(url),
       actions.setScreen(match.name),
     ]);
-    done();
   };
 
   return {

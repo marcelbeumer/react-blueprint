@@ -43,11 +43,14 @@ export class StatelessRouter {
 
   setUrl(url, title, callback) {
     const match = matchRoute(this.routes, url);
+
     if (match) {
       const handler = match.route.handler;
       const props = { match, url, router: this };
       handler(props, callback);
       if (callback && handler.length < 2) callback();
+    } else {
+      callback(new Error('No match'));
     }
 
     return match;
@@ -63,10 +66,12 @@ export class StatefulRouter extends StatelessRouter {
 
   setUrl(url, title, callback) {
     if (url === this.url) return false;
-    return super.setUrl(url, title, () => {
-      this.url = url;
-      this.onChange(url, title);
-      if (callback) callback();
+    return super.setUrl(url, title, err => {
+      if (!err) {
+        this.url = url;
+        this.onChange(url, title);
+      }
+      if (callback) callback(err);
     });
   }
 }

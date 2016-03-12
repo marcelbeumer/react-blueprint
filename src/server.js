@@ -51,7 +51,12 @@ export function renderApp(location, callback) {
   router = new StatelessRouter(createRoutes(store, actions));
   renderServices.getUrl = router.getUrl.bind(router);
 
-  const routeDone = () => {
+  router.setUrl(location, null, err => {
+    if (err) {
+      callback();
+      return;
+    }
+
     const state = store.getState();
     const rendered = renderer(state, boundActions, renderServices);
     const css = getComponentCss();
@@ -61,11 +66,7 @@ export function renderApp(location, callback) {
     html = injectData(html, state.toServerData());
     html = injectRender(html, rendered);
     callback(null, html);
-  };
-
-  if (!router.setUrl(location, null, routeDone)) {
-    callback(null, null);
-  }
+  });
 }
 
 app.use('/asset', express.static('dist/asset'));

@@ -2,6 +2,7 @@ import express from 'express';
 import createDebug from 'debug';
 import { memoize } from 'lodash/function';
 import fs from 'fs';
+import { join } from 'path';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import CleanCSS from 'clean-css';
@@ -69,9 +70,9 @@ export function renderApp(location, callback) {
   });
 }
 
-app.use(`${basePath}/asset`, express.static('dist/asset'));
+app.use(join(basePath, '/asset'), express.static('dist/asset'));
 
-app.use(`${basePath}/`, (req, res, next) => {
+app.use(join(basePath, '/'), (req, res, next) => {
   renderApp(basePath + req.path, (err, html) => {
     if (html) {
       res.send(html);
@@ -81,6 +82,6 @@ app.use(`${basePath}/`, (req, res, next) => {
   });
 });
 
-app.get('/', (req, res) => res.redirect(`${basePath}/`));
+app.get('/', (req, res) => res.redirect(join(basePath, '/')));
 
 export default app;

@@ -3,6 +3,8 @@ import settings from '../settings/route';
 
 export const { basePath } = settings;
 
+const route = createRoute.base(basePath);
+
 export default function createRoutes(store, actions) {
   const setScreen = ({ match, url }) => {
     store.dispatch([
@@ -12,8 +14,8 @@ export default function createRoutes(store, actions) {
   };
 
   return {
-    third: createRoute('/react-blueprint/3.html', setScreen),
-    second: createRoute('/react-blueprint/2.html', setScreen),
-    home: createRoute('/react-blueprint/', setScreen),
+    third: route('/3.html', setScreen),
+    second: route('2.html', setScreen),
+    home: route('/', setScreen),
   };
 }

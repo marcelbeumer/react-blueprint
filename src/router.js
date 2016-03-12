@@ -14,9 +14,6 @@ export function createRoute(path, handler = () => null) {
   };
 }
 
-createRoute.base = basePath =>
-  (path, handler) => createRoute(join(basePath, path), handler);
-
 export function matchRoute(routes, path) {
   let result;
 

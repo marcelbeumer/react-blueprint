@@ -1,20 +1,13 @@
 import { createRoute } from './router';
-import settings from '../settings/route';
-
-export const { basePath } = settings;
 
 export default function createRoutes(store, actions) {
-  const route = createRoute.base(basePath);
-
   const setScreen = ({ match }) => {
-    store.dispatch([
-      actions.setScreen(match.name),
-    ]);
+    store.dispatch(actions.setScreen(match.name));
   };
 
   return {
-    third: route('/3.html', setScreen),
-    second: route('2.html', setScreen),
-    home: route('/', setScreen),
+    third: createRoute('/3.html', setScreen),
+    second: createRoute('/2.html', setScreen),
+    home: createRoute('/', setScreen),
   };
 }

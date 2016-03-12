@@ -2,7 +2,6 @@ import express from 'express';
 import createDebug from 'debug';
 import { memoize } from 'lodash/function';
 import fs from 'fs';
-import { join } from 'path';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import CleanCSS from 'clean-css';
@@ -11,7 +10,7 @@ import DataTree from './data/tree';
 import createRenderer from './renderer/server';
 import createActions from './action';
 import createRedux from './redux';
-import createRoutes, { basePath } from './route';
+import createRoutes from './route';
 import { StatelessRouter } from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
@@ -70,10 +69,10 @@ export function renderApp(location, callback) {
   });
 }
 
-app.use(join(basePath, '/asset'), express.static('dist/asset'));
+app.use('/asset', express.static('dist/asset'));
 
-app.use(join(basePath, '/'), (req, res, next) => {
-  renderApp(join(basePath, req.path), (err, html) => {
+app.use((req, res, next) => {
+  renderApp(req.path, (err, html) => {
     if (html) {
       res.send(html);
     } else {
@@ -81,7 +80,5 @@ app.use(join(basePath, '/'), (req, res, next) => {
     }
   });
 });
-
-app.get('/', (req, res) => res.redirect(join(basePath, '/')));
 
 export default app;

@@ -38,6 +38,16 @@ export default class Router {
     this.onChange = onChange;
   }
 
+  _getDoneHandler(url, callback) {
+    return (err) => {
+      if (callback) callback(err);
+      if (!err) {
+        this.url = url;
+        this.onChange(url);
+      }
+    };
+  }
+
   getUrl(name, params) {
     const route = this.routes[name];
     if (!route) throw new Error(`could not find route: ${name}`);
@@ -50,13 +60,7 @@ export default class Router {
     if (match) {
       const handler = match.route.handler;
       const props = { match, url, router: this };
-      const done = (err) => {
-        if (callback) callback(err);
-        if (!err) {
-          this.url = url;
-          this.onChange(url);
-        }
-      };
+      const done = this._getDoneHandler(url, callback);
       handler(props, done);
       if (handler.length < 2) done();
     } else {

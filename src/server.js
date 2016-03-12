@@ -47,7 +47,17 @@ export function renderApp(location, callback) {
   const initialState = new DataTree();
   const actions = createActions(() => router);
 
-  const { boundActions } = createRedux(initialState, actions, state => {
+  const { store, boundActions } = createRedux(initialState, actions);
+  router = new StatelessRouter(createRoutes(store, actions));
+  renderServices.getUrl = router.getUrl.bind(router);
+
+  router.setUrl(location, null, err => {
+    if (err) {
+      callback();
+      return;
+    }
+
+    const state = store.getState();
     const rendered = renderer(state, boundActions, renderServices);
     const css = getComponentCss();
     let html = getTemplate();
@@ -57,13 +67,6 @@ export function renderApp(location, callback) {
     html = injectRender(html, rendered);
     callback(null, html);
   });
-
-  router = new StatelessRouter(createRoutes(boundActions));
-  renderServices.getUrl = router.getUrl.bind(router);
-
-  if (!router.setUrl(location)) {
-    callback(null, null);
-  }
 }
 
 app.use('/asset', express.static('dist/asset'));

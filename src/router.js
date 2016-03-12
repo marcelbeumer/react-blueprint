@@ -1,4 +1,5 @@
 import pathToRegexp from 'path-to-regexp';
+import { join } from 'path';
 
 export function createRoute(path, handler = () => null) {
   const keys = [];
@@ -41,9 +42,18 @@ export class StatelessRouter {
     return route.toPath(params);
   }
 
-  setUrl(url) {
+  setUrl(url, title, callback) {
     const match = matchRoute(this.routes, url);
-    if (match) match.route.handler(match);
+
+    if (match) {
+      const handler = match.route.handler;
+      const props = { match, url, router: this };
+      handler(props, callback);
+      if (callback && handler.length < 2) callback();
+    } else {
+      callback(new Error('No match'));
+    }
+
     return match;
   }
 }
@@ -55,13 +65,14 @@ export class StatefulRouter extends StatelessRouter {
     this.onChange = onChange;
   }
 
-  setUrl(url, title) {
+  setUrl(url, title, callback) {
     if (url === this.url) return false;
-    const match = super.setUrl(url);
-    if (match) {
-      this.url = url;
-      this.onChange(url, title);
-    }
-    return match;
+    return super.setUrl(url, title, err => {
+      if (!err) {
+        this.url = url;
+        this.onChange(url, title);
+      }
+      if (callback) callback(err);
+    });
   }
 }

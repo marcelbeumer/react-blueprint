@@ -18,18 +18,6 @@ function getData(id) {
   return json ? JSON.parse(json) : {};
 }
 
-// workaround for hosting on sub paths
-function getUrl() {
-  return `/${location.pathname.split('/').pop()}`;
-}
-
-// workaround for hosting on sub paths
-function toPathname(url) {
-  const base = location.pathname.split('/');
-  base.pop();
-  return base.join('/') + url;
-}
-
 const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
 const element = document.getElementById('root');
 const renderer = createRenderer(element);
@@ -38,16 +26,17 @@ const actions = createActions(() => router);
 const { store, boundActions } = createRedux(initialState, actions, state =>
   renderer(state, boundActions, renderServices));
 
-router = new StatefulRouter(createRoutes(boundActions), getUrl(),
-  (url, title) => getUrl() !== url && history.pushState('', title, toPathname(url)));
-
-global.addEventListener('popstate', () => router.setUrl(getUrl()));
+router = new StatefulRouter(createRoutes(store, actions), location.pathname,
+  (url, title) => location.pathname !== url && history.pushState('', title, url));
 
 expose('renderer', renderer);
 expose('store', store);
 expose('actions', actions);
+expose('boundActions', boundActions);
 expose('router', router);
 debug('bootstrap done');
 
 renderServices.getUrl = router.getUrl.bind(router);
 renderer(initialState, boundActions, renderServices);
+
+global.addEventListener('popstate', () => router.setUrl(location.pathname));

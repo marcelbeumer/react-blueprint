@@ -1,7 +1,9 @@
 import { createRoute } from './router';
 
-export default function createRoutes(actions) {
-  const setScreen = match => actions.setScreen(match.name);
+export default function createRoutes(store, actions) {
+  const setScreen = ({ match }) => {
+    store.dispatch(actions.setScreen(match.name));
+  };
 
   return {
     third: createRoute('/3.html', setScreen),

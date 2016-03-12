@@ -43,7 +43,7 @@ export class StatelessRouter {
 
   setUrl(url) {
     const match = matchRoute(this.routes, url);
-    if (match) match.route.handler(match);
+    if (match) match.route.handler(match, this, url);
     return match;
   }
 }

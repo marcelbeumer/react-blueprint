@@ -5,6 +5,7 @@ export default function createActions(getRouter = () => null) {
     setUrl: (url, title) => {
       getRouter().setUrl(url, title);
     },
+    setRenderedUrl: createSimpleAction('SET_RENDERED_URL'),
     setScreen: createSimpleAction('SET_SCREEN'),
     setListStart: createSimpleAction('SET_LIST_START'),
     setListEnd: createSimpleAction('SET_LIST_END'),

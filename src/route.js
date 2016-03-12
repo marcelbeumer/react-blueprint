@@ -3,9 +3,9 @@ import settings from '../settings/route';
 
 export const { basePath } = settings;
 
-const route = createRoute.base(basePath);
-
 export default function createRoutes(store, actions) {
+  const route = createRoute.base(basePath);
+
   const setScreen = ({ match, url }) => {
     store.dispatch([
       actions.setRenderedUrl(url),

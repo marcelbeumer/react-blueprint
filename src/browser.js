@@ -20,14 +20,16 @@ function getData(id) {
 
 // workaround for hosting on sub paths
 function getUrl() {
-  return `/${location.pathname.split('/').pop()}`;
+  return location.pathname;
+  // return `/${location.pathname.split('/').pop()}`;
 }
 
 // workaround for hosting on sub paths
 function toPathname(url) {
-  const base = location.pathname.split('/');
-  base.pop();
-  return base.join('/') + url;
+  return url;
+  // const base = location.pathname.split('/');
+  // base.pop();
+  // return base.join('/') + url;
 }
 
 const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap

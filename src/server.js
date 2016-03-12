@@ -10,7 +10,7 @@ import DataTree from './data/tree';
 import createRenderer from './renderer/server';
 import createActions from './action';
 import createRedux from './redux';
-import createRoutes from './route';
+import createRoutes, { basePath } from './route';
 import { StatelessRouter } from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
@@ -69,10 +69,10 @@ export function renderApp(location, callback) {
   });
 }
 
-app.use('/asset', express.static('dist/asset'));
+app.use(`${basePath}/asset`, express.static('dist/asset'));
 
-app.use((req, res, next) => {
-  renderApp(req.path, (err, html) => {
+app.use(`${basePath}/`, (req, res, next) => {
+  renderApp(basePath + req.path, (err, html) => {
     if (html) {
       res.send(html);
     } else {
@@ -80,5 +80,7 @@ app.use((req, res, next) => {
     }
   });
 });
+
+app.get('/', (req, res) => res.redirect(`${basePath}/`));
 
 export default app;

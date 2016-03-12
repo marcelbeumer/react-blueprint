@@ -31,9 +31,11 @@ export function matchRoute(routes, path) {
   };
 }
 
-export class StatelessRouter {
-  constructor(routes) {
+export default class Router {
+  constructor(routes, initialUrl, onChange = () => null) {
     this.routes = routes;
+    this.url = initialUrl;
+    this.onChange = onChange;
   }
 
   getUrl(name, params) {
@@ -42,37 +44,30 @@ export class StatelessRouter {
     return route.toPath(params);
   }
 
-  setUrl(url, title, callback) {
+  runUrl(url, callback) {
     const match = matchRoute(this.routes, url);
 
     if (match) {
       const handler = match.route.handler;
       const props = { match, url, router: this };
-      handler(props, callback);
-      if (callback && handler.length < 2) callback();
+      const done = (err) => {
+        if (callback) callback(err);
+        if (!err) {
+          this.url = url;
+          this.onChange(url);
+        }
+      };
+      handler(props, done);
+      if (handler.length < 2) done();
     } else {
       callback(new Error('No match'));
     }
 
     return match;
   }
-}
 
-export class StatefulRouter extends StatelessRouter {
-  constructor(routes, initialUrl, onChange) {
-    super(routes);
-    this.url = initialUrl;
-    this.onChange = onChange;
-  }
-
-  setUrl(url, title, callback) {
+  setUrl(url, callback) {
     if (url === this.url) return false;
-    return super.setUrl(url, title, err => {
-      if (!err) {
-        this.url = url;
-        this.onChange(url, title);
-      }
-      if (callback) callback(err);
-    });
+    return this.runUrl(url, callback);
   }
 }

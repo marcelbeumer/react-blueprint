@@ -11,7 +11,7 @@ import createRenderer from './renderer/server';
 import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
-import { StatelessRouter } from './router';
+import Router from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
 
@@ -48,10 +48,10 @@ export function renderApp(location, callback) {
   const actions = createActions(() => router);
 
   const { store, boundActions } = createRedux(initialState, actions);
-  router = new StatelessRouter(createRoutes(store, actions));
+  router = new Router(createRoutes(store, actions));
   renderServices.getUrl = router.getUrl.bind(router);
 
-  router.setUrl(location, null, err => {
+  router.runUrl(location, err => {
     if (err) {
       callback();
       return;

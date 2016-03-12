@@ -6,7 +6,7 @@ import DataTree from './data/tree';
 import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
-import { StatefulRouter } from './router';
+import Router from './router';
 
 let router;
 
@@ -26,8 +26,8 @@ const actions = createActions(() => router);
 const { store, boundActions } = createRedux(initialState, actions, state =>
   renderer(state, boundActions, renderServices));
 
-router = new StatefulRouter(createRoutes(store, actions), location.pathname,
-  (url, title) => location.pathname !== url && history.pushState('', title, url));
+router = new Router(createRoutes(store, actions), location.pathname,
+  url => location.pathname !== url && history.pushState('', document.title, url));
 
 expose('renderer', renderer);
 expose('store', store);

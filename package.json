@@ -74,6 +74,7 @@
     "react-immutable-proptypes": "^1.7.0",
     "redux": "^3.2.1",
     "redux-devtools": "^3.1.0",
+    "redux-multi": "^0.1.12",
     "redux-promise": "^0.5.1",
     "redux-thunk": "^2.0.1",
     "rimraf": "^2.5.2",

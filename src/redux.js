@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
+import multi from 'redux-multi';
 import createDebug from 'debug';
 import reducer from './reducer';
 
@@ -9,7 +10,7 @@ const debug = createDebug('redux');
 export default function createRedux(initialState, actions, onChange, /* settings */) {
   let lastState = initialState;
 
-  const middleware = applyMiddleware(promise, thunk);
+  const middleware = applyMiddleware(multi, promise, thunk);
   const store = createStore(reducer, initialState, middleware);
   const boundActions = {};
 

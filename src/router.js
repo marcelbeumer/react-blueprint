@@ -41,9 +41,15 @@ export class StatelessRouter {
     return route.toPath(params);
   }
 
-  setUrl(url) {
+  setUrl(url, title, callback) {
     const match = matchRoute(this.routes, url);
-    if (match) match.route.handler(match, this, url);
+    if (match) {
+      const handler = match.route.handler;
+      const props = { match, url, router: this };
+      handler(props, callback);
+      if (callback && handler.length < 2) callback();
+    }
+
     return match;
   }
 }
@@ -55,13 +61,12 @@ export class StatefulRouter extends StatelessRouter {
     this.onChange = onChange;
   }
 
-  setUrl(url, title) {
+  setUrl(url, title, callback) {
     if (url === this.url) return false;
-    const match = super.setUrl(url);
-    if (match) {
+    return super.setUrl(url, title, () => {
       this.url = url;
       this.onChange(url, title);
-    }
-    return match;
+      if (callback) callback();
+    });
   }
 }

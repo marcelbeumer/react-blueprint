@@ -25,7 +25,6 @@ function getUrl() {
 
 // workaround for hosting on sub paths
 function toPathname(url) {
-  console.log(initialState);
   const base = location.pathname.split('/');
   base.pop();
   return base.join('/') + url;

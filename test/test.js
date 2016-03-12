@@ -6,7 +6,7 @@ describe('server module', () => {
   let html;
 
   beforeEach(done => {
-    renderApp('/', (err, out) => {
+    renderApp('/react-blueprint/', (err, out) => {
       html = out;
       done();
     });

@@ -9,9 +9,11 @@ const argv = require('yargs')
 const path = require('path');
 const fs = require('fs');
 const renderApp = require('../src/server').renderApp;
+const basePath = require('../settings/route').basePath;
+const join = path.join;
 
 ['/', '/2.html', '/3.html'].forEach(url => {
-  renderApp(url, (err, html) => {
+  renderApp(join(basePath, url), (err, html) => {
     const filename = url.slice(1) || 'index.html';
     const target = path.join(argv.o, filename);
     fs.writeFileSync(target, html);

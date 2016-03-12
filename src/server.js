@@ -73,7 +73,7 @@ export function renderApp(location, callback) {
 app.use(join(basePath, '/asset'), express.static('dist/asset'));
 
 app.use(join(basePath, '/'), (req, res, next) => {
-  renderApp(basePath + req.path, (err, html) => {
+  renderApp(join(basePath, req.path), (err, html) => {
     if (html) {
       res.send(html);
     } else {

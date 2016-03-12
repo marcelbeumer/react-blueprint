@@ -6,9 +6,8 @@ export const { basePath } = settings;
 export default function createRoutes(store, actions) {
   const route = createRoute.base(basePath);
 
-  const setScreen = ({ match, url }) => {
+  const setScreen = ({ match }) => {
     store.dispatch([
-      actions.setRenderedUrl(url),
       actions.setScreen(match.name),
     ]);
   };

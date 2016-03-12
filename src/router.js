@@ -1,5 +1,4 @@
 import pathToRegexp from 'path-to-regexp';
-import { join } from 'path';
 
 export function createRoute(path, handler = () => null) {
   const keys = [];

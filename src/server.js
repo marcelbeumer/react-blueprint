@@ -1,3 +1,4 @@
+/* eslint no-console:0 */
 import express from 'express';
 import createDebug from 'debug';
 import { memoize } from 'lodash/function';
@@ -14,6 +15,9 @@ import createRoutes from './route';
 import Router from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
+
+process.on('unhandledRejection', value =>
+  console.error(value.stack || value)); // eslint-disable-line no-console
 
 const prod = env === 'production';
 const debug = createDebug('server');
@@ -70,13 +74,9 @@ app.use((req, res, next) => {
   renderApp(req.path).then(html => {
     res.send(html);
   }).catch(e => {
-    if (e) console.error(e.stack || e); // eslint-disable-line no-console
+    if (e) console.error(e.stack || e);
     next();
   });
-});
-
-process.on('unhandledRejection', value => {
-  console.error(value.stack || value); // eslint-disable-line no-console
 });
 
 export default app;

@@ -1,3 +1,4 @@
+/* eslint no-console:0 */
 import './style/index.css';
 import createDebug from 'debug';
 import { expose } from './global';
@@ -8,15 +9,12 @@ import createRedux from './redux';
 import createRoutes from './route';
 import Router from './router';
 
-// for core-js/modules/es6.promise.js
-global.onunhandledrejection = ({ reason }) => {
-  console.error(reason.stack || reason); // eslint-disable-line no-console
-};
-
 let router;
-
 const debug = createDebug('browser');
 debug('starting bootstrap');
+
+global.onunhandledrejection = ({ reason }) =>
+  console.error(reason.stack || reason);
 
 function getData(id) {
   const json = (document.getElementById(id) || {}).textContent;
@@ -43,5 +41,4 @@ debug('bootstrap done');
 
 renderServices.getUrl = router.getUrl.bind(router);
 renderer(initialState, boundActions, renderServices);
-
 global.addEventListener('popstate', () => router.setUrl(location.pathname));

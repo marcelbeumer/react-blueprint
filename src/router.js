@@ -37,40 +37,49 @@ export default class Router {
     this.onChange = onChange;
   }
 
-  _getDoneHandler(url, callback) {
-    return (err) => {
-      if (callback) callback(err);
-      if (!err) {
-        this.url = url;
-        this.onChange(url);
-      }
-    };
-  }
-
   getUrl(name, params) {
     const route = this.routes[name];
     if (!route) throw new Error(`could not find route: ${name}`);
     return route.toPath(params);
   }
 
-  runUrl(url, callback) {
-    const match = matchRoute(this.routes, url);
-
-    if (match) {
-      const handler = match.route.handler;
-      const props = { match, url, router: this };
-      const done = this._getDoneHandler(url, callback);
-      handler(props, done);
-      if (handler.length < 2) done();
-    } else {
-      callback(new Error('No match'));
+  _setCurrentUrl(url) {
+    if (url !== this.url) {
+      this.url = url;
+      this.onChange(url);
     }
-
-    return match;
   }
 
-  setUrl(url, callback) {
-    if (url === this.url) return false;
-    return this.runUrl(url, callback);
+  runUrl(url) {
+    const match = matchRoute(this.routes, url);
+
+    return new Promise((resolve, reject) => {
+      if (match) {
+        const handler = match.route.handler;
+        const props = { match, url, router: this };
+        const done = err => {
+          if (err) {
+            reject(err);
+          } else {
+            this._setCurrentUrl(url);
+            resolve(url);
+          }
+        };
+
+        if (handler.length >= 2) {
+          handler(props, done);
+        } else {
+          handler(global.document ? null : props);
+          done();
+        }
+      } else {
+        reject(new Error(`Url '${url}' did not match any route`));
+      }
+    });
+  }
+
+  setUrl(url) {
+    if (url === this.url) return Promise.resolve(url);
+    return this.runUrl(url);
   }
 }

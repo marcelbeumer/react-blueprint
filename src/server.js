@@ -40,7 +40,7 @@ export function getComponentCss() {
   return prod ? new CleanCSS().minify(css).styles : css;
 }
 
-export function renderApp(location, callback) {
+export function renderApp(location) {
   let router;
 
   const renderServices = {};
@@ -51,12 +51,7 @@ export function renderApp(location, callback) {
   router = new Router(createRoutes(store, actions));
   renderServices.getUrl = router.getUrl.bind(router);
 
-  router.runUrl(location, err => {
-    if (err) {
-      callback();
-      return;
-    }
-
+  return router.runUrl(location).then(() => {
     const state = store.getState();
     const rendered = renderer(state, boundActions, renderServices);
     const css = getComponentCss();
@@ -65,20 +60,23 @@ export function renderApp(location, callback) {
     html = injectCss(html, css);
     html = injectData(html, state.toServerData());
     html = injectRender(html, rendered);
-    callback(null, html);
+    return html;
   });
 }
 
 app.use('/asset', express.static('dist/asset'));
 
 app.use((req, res, next) => {
-  renderApp(req.path, (err, html) => {
-    if (html) {
-      res.send(html);
-    } else {
-      next();
-    }
+  renderApp(req.path).then(html => {
+    res.send(html);
+  }).catch(e => {
+    if (e) console.error(e.stack || e); // eslint-disable-line no-console
+    next();
   });
+});
+
+process.on('unhandledRejection', value => {
+  console.error(value.stack || value); // eslint-disable-line no-console
 });
 
 export default app;

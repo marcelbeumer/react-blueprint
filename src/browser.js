@@ -8,6 +8,11 @@ import createRedux from './redux';
 import createRoutes from './route';
 import Router from './router';
 
+// for core-js/modules/es6.promise.js
+global.onunhandledrejection = ({ reason }) => {
+  console.error(reason.stack || reason); // eslint-disable-line no-console
+};
+
 let router;
 
 const debug = createDebug('browser');

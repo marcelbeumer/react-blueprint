@@ -69,7 +69,7 @@ export default class Router {
         if (handler.length >= 2) {
           handler(props, done);
         } else {
-          handler(global.document ? null : props);
+          handler(props);
           done();
         }
       } else {

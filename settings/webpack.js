@@ -73,7 +73,6 @@ const config = {
   output: {
     path: `${__dirname}/../dist`,
     filename: 'asset/bundle.js',
-    publicPath: 'http://localhost:8081/',
   },
   module: {
     loaders: [
@@ -118,6 +117,7 @@ const config = {
 if (useHmr) {
   config.entry.unshift('webpack-hot-middleware/client?' +
     'path=http://localhost:8081/__webpack_hmr&timeout=20000');
+  config.output.publicPath = 'http://localhost:8081/';
   babelLoader.query = {
     plugins: [
       ['react-transform', {

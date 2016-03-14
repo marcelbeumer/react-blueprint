@@ -13,14 +13,12 @@ import theme from '../theme';
 const { object, string, bool } = React.PropTypes;
 
 export const styles = StyleSheet.create({
-  root: {
-  },
   navigation: {
     minWidth: '320px',
     width: '100%',
     zIndex: 1,
     position: 'absolute',
-    transition: 'transform 0.3s ease-in',
+    transition: 'all 0.3s ease-in',
     top: '20px',
     [theme.media.fromTablet]: {
       top: '60px',
@@ -30,11 +28,13 @@ export const styles = StyleSheet.create({
     },
   },
   navigationUp: {
-    display: 'none',
-  },
-  container: {
-  },
-  screen: {
+    top: '38px',
+    [theme.media.fromTablet]: {
+      top: '38px',
+    },
+    [theme.media.fromDesktop]: {
+      top: '38px',
+    },
   },
 });
 
@@ -52,10 +52,15 @@ export default class Scene extends React.Component {
     const { actions, screen, showBackground, services } = this.props;
 
     return (
-      <SegueContainer {...this.props}>
+      <SegueContainer {...this.props} animate={!showBackground}>
         <SegueFixed>
           <div className={cx(styles.navigation, showBackground && styles.navigationUp)}>
-            <SceneNavigation screen={screen} setUrl={actions.setUrl} getUrl={services.getUrl}>
+            <SceneNavigation
+              screen={screen}
+              setUrl={actions.setUrl}
+              getUrl={services.getUrl}
+              inverse={showBackground}
+            >
               <SceneNavigationItem name="home" />
               <SceneNavigationItem name="second" />
               <SceneNavigationItem name="third" />

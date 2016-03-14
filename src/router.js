@@ -1,33 +1,30 @@
 import pathToRegexp from 'path-to-regexp';
+import createPathMatch from 'path-match';
+const createMatcher = createPathMatch();
 
 export function createRoute(path, handler = () => null) {
-  const keys = [];
-  const re = pathToRegexp(path, keys);
-  const toPath = pathToRegexp.compile(path);
   return {
-    handler,
     path,
-    keys,
-    re,
-    toPath,
+    handler,
+    match: createMatcher(path),
+    toPath: pathToRegexp.compile(path),
   };
 }
 
 export function matchRoute(routes, path) {
-  let result;
+  let params;
+  let name;
 
-  const name = Object.keys(routes).find(key => {
-    result = routes[key].re.exec(path);
-    return !!result;
+  Object.keys(routes).find(key => {
+    params = routes[key].match(path);
+    if (params) name = key;
+    return params;
   });
 
-  if (!name) return false;
-
-  return {
+  return name ? {
     name,
-    result,
-    route: routes[name],
-  };
+    params,
+  } : false;
 }
 
 export default class Router {
@@ -55,8 +52,16 @@ export default class Router {
 
     return new Promise((resolve, reject) => {
       if (match) {
-        const handler = match.route.handler;
-        const props = { match, url, router: this };
+        const route = this.routes[match.name];
+        const handler = route.handler;
+
+        const props = {
+          url,
+          router: this,
+          name: match.name,
+          params: match.params,
+        };
+
         const done = err => {
           if (err) {
             reject(err);

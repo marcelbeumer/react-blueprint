@@ -7,11 +7,7 @@
     <meta name="description" content="Ready for takeoff React setup">
   </head>
   <body>
-    <style id="css"></style>
     <div id="root"></div>
-    <% (htmlWebpackPlugin.options.scripts || []).forEach(function(script) { %>
-      <script src="<%= script %>"></script>
-    <% }) %>
     <script type="application/json" id="data"></script>
   </body>
 </html>

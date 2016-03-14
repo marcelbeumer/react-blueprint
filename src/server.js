@@ -35,9 +35,6 @@ const injectData = (output, data) =>
 const injectRender = (output, render) =>
   output.replace(/(id=(['"]?)root\2>)/, `$1${render}`);
 
-const injectCss = (output, css) =>
-  output.replace(/(id=(['"]?)css\2>)/, `$1${css}`);
-
 export function getComponentCss() {
   const source = getCss({ pretty: !prod });
   const css = String(postcss([autoprefixer]).process(source));
@@ -58,15 +55,18 @@ export function renderApp(location) {
   return router.runUrl(location).then(() => {
     const state = store.getState();
     const rendered = renderer(state, boundActions, renderServices);
-    const css = getComponentCss();
     let html = getTemplate();
 
-    html = injectCss(html, css);
     html = injectData(html, state.toServerData());
     html = injectRender(html, rendered);
     return html;
   });
 }
+
+app.use('/asset/component.css', (req, res) => {
+  res.set('Content-Type', 'text/css');
+  res.send(getComponentCss());
+});
 
 app.use('/asset', express.static('dist/asset'));
 

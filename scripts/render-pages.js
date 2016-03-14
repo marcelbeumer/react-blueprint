@@ -3,18 +3,21 @@
 require('babel-register');
 
 const argv = require('yargs')
-  .usage('Usage: $0 -o [dir]')
-  .demand(['o'])
+  .usage('Usage: $0 --dist [dist dir] --asset [asset dir]')
+  .demand(['dist'])
+  .demand(['asset'])
   .argv;
 
 const path = require('path');
 const fs = require('fs');
-const renderApp = require('../src/server').renderApp;
+const server = require('../src/server');
+
+fs.writeFileSync(path.join(argv.asset, 'component.css'), server.getComponentCss());
 
 ['/', '/2.html', '/3.html'].forEach(url => {
-  renderApp(url).then(html => {
+  server.renderApp(url).then(html => {
     const filename = url.slice(1) || 'index.html';
-    const target = path.join(argv.o, filename);
+    const target = path.join(argv.dist, filename);
     fs.writeFileSync(target, html);
   }).catch(e => console.error(e.stack || e));
 });

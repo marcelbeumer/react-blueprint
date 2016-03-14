@@ -12,6 +12,7 @@ import webpack from 'webpack';
 const prod = env === 'production';
 const compressJs = prod;
 const extractCss = true;
+const useHmr = !prod;
 const useCdn = prod;
 const useMin = prod;
 
@@ -57,21 +58,26 @@ const externals = scripts.reduce((p, c) => {
   return p;
 }, {});
 
+const babelLoader = {
+  test: /\.js$/,
+  exclude: /node_modules/,
+  loader: 'babel-loader',
+};
+
 const config = {
   externals,
   context: `${__dirname}/../src`,
-  entry: ['./browser.js'],
+  entry: [
+    './browser.js',
+  ],
   output: {
     path: `${__dirname}/../dist`,
     filename: 'asset/bundle.js',
+    publicPath: 'http://localhost:8081/',
   },
   module: {
     loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
+      babelLoader,
       {
         test: /\.json$/,
         loader: 'json-loader',
@@ -108,6 +114,27 @@ const config = {
     }),
   ],
 };
+
+if (useHmr) {
+  config.entry.unshift('webpack-hot-middleware/client?' +
+    'path=http://localhost:8081/__webpack_hmr&timeout=20000');
+  babelLoader.query = {
+    plugins: [
+      ['react-transform', {
+        transforms: [{
+          transform: 'react-transform-hmr',
+          imports: ['react'],
+          locals: ['module'],
+        }],
+      }],
+    ],
+  };
+  config.plugins.push(
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+  );
+}
 
 if (extractCss) {
   config.plugins.push(

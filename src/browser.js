@@ -42,3 +42,5 @@ debug('bootstrap done');
 renderServices.getUrl = router.getUrl.bind(router);
 renderer(initialState, boundActions, renderServices);
 global.addEventListener('popstate', () => router.setUrl(location.pathname));
+
+if (module.hot) module.hot.accept();

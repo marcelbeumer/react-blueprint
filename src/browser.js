@@ -1,3 +1,4 @@
+/* eslint no-console:0 */
 import './style/index.css';
 import createDebug from 'debug';
 import { expose } from './global';
@@ -9,9 +10,11 @@ import createRoutes from './route';
 import Router from './router';
 
 let router;
-
 const debug = createDebug('browser');
 debug('starting bootstrap');
+
+global.onunhandledrejection = ({ reason }) =>
+  console.error(reason.stack || reason);
 
 function getData(id) {
   const json = (document.getElementById(id) || {}).textContent;
@@ -38,5 +41,4 @@ debug('bootstrap done');
 
 renderServices.getUrl = router.getUrl.bind(router);
 renderer(initialState, boundActions, renderServices);
-
 global.addEventListener('popstate', () => router.setUrl(location.pathname));

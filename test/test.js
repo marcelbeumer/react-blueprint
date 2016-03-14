@@ -5,12 +5,11 @@ import { renderApp } from '../src/server';
 describe('server module', () => {
   let html;
 
-  beforeEach(done => {
-    renderApp('/', (err, out) => {
-      html = out;
-      done();
-    });
-  });
+  beforeEach(() =>
+    renderApp('/')
+      .then(out => {
+        html = out;
+      }));
 
   it('renders the homepage as string', () => {
     assert(typeof(html) === 'string');

@@ -1,8 +1,8 @@
 import { createRoute } from './router';
 
 export default function createRoutes(store, actions) {
-  const setScreen = ({ match }) => {
-    store.dispatch(actions.setScreen(match.name));
+  const setScreen = ({ name }) => {
+    store.dispatch(actions.setScreen(name));
   };
 
   return {

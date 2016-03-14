@@ -17,7 +17,7 @@ import { getCss } from './component/styles';
 import env from 'node-env';
 
 process.on('unhandledRejection', value =>
-  console.error(value.stack || value)); // eslint-disable-line no-console
+  console.error(value.stack || value));
 
 const prod = env === 'production';
 const debug = createDebug('server');

@@ -1,4 +1,4 @@
-import { once } from 'lodash';
+import once from 'lodash/once';
 
 export default once(() => ({
   requestAnimationFrame: global.requestAnimationFrame ||

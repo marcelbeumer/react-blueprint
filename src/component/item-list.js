@@ -11,6 +11,7 @@ const itemMargin = 2;
 
 export const styles = StyleSheet.create({
   root: {
+    transform: 'translateZ(0)',
   },
   item: {
     height: '1em',

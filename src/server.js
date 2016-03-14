@@ -1,16 +1,23 @@
+/* eslint no-console:0 */
 import express from 'express';
 import createDebug from 'debug';
-import { memoize } from 'lodash/function';
+import memoize from 'lodash/memoize';
 import fs from 'fs';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import CleanCSS from 'clean-css';
 import settings from '../settings/server';
-import createRenderer from './renderer/server';
 import DataTree from './data/tree';
+import createRenderer from './renderer/server';
+import createActions from './action';
 import createRedux from './redux';
+import createRoutes from './route';
+import Router from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
+
+process.on('unhandledRejection', value =>
+  console.error(value.stack || value));
 
 const prod = env === 'production';
 const debug = createDebug('server');
@@ -28,29 +35,48 @@ const injectData = (output, data) =>
 const injectRender = (output, render) =>
   output.replace(/(id=(['"]?)root\2>)/, `$1${render}`);
 
-const injectCss = (output, css) =>
-  output.replace(/(id=(['"]?)css\2>)/, `$1${css}`);
-
 export function getComponentCss() {
   const source = getCss({ pretty: !prod });
   const css = String(postcss([autoprefixer]).process(source));
   return prod ? new CleanCSS().minify(css).styles : css;
 }
 
-export function renderHomepage() {
+export function renderApp(location) {
+  let router;
+
+  const renderServices = {};
   const initialState = new DataTree();
-  const { actions } = createRedux(initialState);
-  const rendered = renderer(initialState, actions);
-  const css = getComponentCss();
-  const html = injectRender(injectData(injectCss(getTemplate(),
-    css), initialState.toServerData()), rendered);
-  return html;
+  const actions = createActions(() => router);
+
+  const { store, boundActions } = createRedux(initialState, actions);
+  router = new Router(createRoutes(store, actions));
+  renderServices.getUrl = router.getUrl.bind(router);
+
+  return router.runUrl(location).then(() => {
+    const state = store.getState();
+    const rendered = renderer(state, boundActions, renderServices);
+    let html = getTemplate();
+
+    html = injectData(html, state.toServerData());
+    html = injectRender(html, rendered);
+    return html;
+  });
 }
 
-app.get('/', (req, res) => {
-  res.send(renderHomepage());
+app.use('/asset/component.css', (req, res) => {
+  res.set('Content-Type', 'text/css');
+  res.send(getComponentCss());
 });
 
-app.use(express.static('dist'));
+app.use('/asset', express.static('dist/asset'));
+
+app.use((req, res, next) => {
+  renderApp(req.path).then(html => {
+    res.send(html);
+  }).catch(e => {
+    if (e) console.error(e.stack || e);
+    next();
+  });
+});
 
 export default app;

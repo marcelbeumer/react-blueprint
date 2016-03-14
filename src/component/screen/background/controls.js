@@ -6,10 +6,8 @@ const { any } = React.PropTypes;
 
 const styles = StyleSheet.create({
   backgroundControls: {
-    position: 'fixed',
-    top: '50px',
-    left: 0,
-    width: '100%',
+    flex: '0 0 100px',
+    padding: '68px 0 0 0',
     textAlign: 'center',
   },
 });

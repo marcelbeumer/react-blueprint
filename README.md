@@ -21,12 +21,13 @@ $ open http://localhost:8080
 - Server pre-rendering React elements and component stylesheets
 - Browser/server rendering divided by target specific bootstrap
 - Decoupled rendering: redux state changes triggers plain JS function that does React.render
+- Decoupled routing based on path-to-regexp
 - Pure rendering (redux-agnostic) React components: top-down prop passing, action functions
-- Use Stilr for component CSS (`StyleSheet.create`)
+- Component CSS stylesheet generation (`StyleSheet.create({..})`)
 - Draggable widgets demonstrating letting redux control rules and constraints
 - Scrollable widget demonstrating a two-way binding case for react in the browser
 - Widgets use relative (em/vw/vh) units while rendering to maintain full server pre-render capabilities
-- Animated page to page navigation using app/redux state and nothing-fancy react rendering
+- Animated page to page navigation using app/redux state and nothing-fancy (rAF) react rendering
 
 ## Browser debugging
 

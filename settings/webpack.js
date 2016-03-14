@@ -1,6 +1,8 @@
+/* eslint no-param-reassign:0 */
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { HtmlWebpackAssetPlugin } from './webpack-plugins';
 import cssnext from 'postcss-cssnext';
 import cssImport from 'postcss-import';
 import cssUrl from 'postcss-import';
@@ -24,29 +26,30 @@ const scripts = [
     module: 'react',
     external: 'window.React',
     from: `../node_modules/react/dist/react${useMin ? '.min' : ''}.js`,
-    to: `react-__VERSION__${useMin ? '.min' : ''}.js`,
+    to: `asset/react-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react.min.js',
   },
   {
     module: 'react-dom',
     external: 'window.ReactDOM',
     from: `../node_modules/react-dom/dist/react-dom${useMin ? '.min' : ''}.js`,
-    to: `react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
+    to: `asset/react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react-dom.min.js',
   },
   {
     module: 'immutable',
     external: 'window.Immutable',
     from: `../node_modules/immutable/dist/immutable${useMin ? '.min' : ''}.js`,
-    to: `immutable-__VERSION__${useMin ? '.min' : ''}.js`,
+    to: `asset/immutable-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/immutable.js/__VERSION__/immutable.min.js',
   },
 ];
 
 scripts.forEach(script => {
   const version = require(`${script.module}/package.json`).version;
-  ['to', 'cdn'].forEach(prop => script[prop] = // eslint-disable-line no-param-reassign
-    script[prop].replace('__VERSION__', version));
+  ['to', 'cdn'].forEach(prop => {
+    script[prop] = script[prop].replace('__VERSION__', version);
+  });
 });
 
 const externals = scripts.reduce((p, c) => {
@@ -60,7 +63,7 @@ const config = {
   entry: ['./browser.js'],
   output: {
     path: `${__dirname}/../dist`,
-    filename: 'bundle.js',
+    filename: 'asset/bundle.js',
   },
   module: {
     loaders: [
@@ -71,7 +74,6 @@ const config = {
       },
       {
         test: /\.json$/,
-        exclude: /node_modules/,
         loader: 'json-loader',
       },
       {
@@ -90,8 +92,14 @@ const config = {
   ],
   plugins: [
     new CopyWebpackPlugin(scripts.map(({ from, to }) => ({ from, to }))),
+    new HtmlWebpackAssetPlugin((assets, hash) => {
+      assets.css.push(`asset/component.css?${hash}`);
+      assets.js = [
+        ...scripts.map(script => useCdn ? script.cdn : script.to),
+        ...assets.js,
+      ];
+    }),
     new HtmlWebpackPlugin({
-      scripts: scripts.map(script => useCdn ? script.cdn : script.to),
       template: './index.html',
       hash: true,
     }),
@@ -103,7 +111,7 @@ const config = {
 
 if (extractCss) {
   config.plugins.push(
-    new ExtractTextPlugin('bundle.css')
+    new ExtractTextPlugin('asset/bundle.css'),
   );
 }
 

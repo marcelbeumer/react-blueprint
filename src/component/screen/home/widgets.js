@@ -1,5 +1,5 @@
 import React from 'react';
-import { range } from 'lodash';
+import range from 'lodash/range';
 import { List } from 'immutable';
 import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
@@ -104,7 +104,7 @@ export default class HomeScreenWidgets extends React.Component {
             toUnit={em}
             fromPx={this.fromPx}
             toPx={this.toPx}
-            >
+          >
             <ItemList items={listItems} />
           </ResizableContent>
         </div>

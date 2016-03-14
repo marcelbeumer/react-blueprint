@@ -6,9 +6,12 @@ const { any } = React.PropTypes;
 
 const styles = StyleSheet.create({
   backgroundContent: {
+    flex: '1 1 100%',
     textAlign: 'left',
     margin: '0 auto',
     maxWidth: '580px',
+    padding: '0 30px',
+    overflow: 'auto',
   },
 });
 

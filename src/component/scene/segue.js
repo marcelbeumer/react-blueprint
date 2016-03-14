@@ -9,10 +9,16 @@ import { easeInQuad as easing } from 'penner';
 
 const screensPerSecond = 0.3;
 const { min, max } = Math;
-const { string, any } = React.PropTypes;
+const { string, bool, any } = React.PropTypes;
 const { requestAnimationFrame, cancelAnimationFrame } = raf();
 
 export const styles = StyleSheet.create({
+  root: {
+  },
+  container: {
+  },
+  screen: {
+  },
   segueRoot: {
     width: '100%',
     overflowX: 'hidden',
@@ -43,6 +49,7 @@ export class SegueContainer extends React.Component {
 
   static propTypes = {
     screen: string,
+    animate: bool,
     children: any,
   }
 
@@ -51,31 +58,36 @@ export class SegueContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!nextProps.screen) return;
 
-    const targetScreen = nextProps.screen;
-    const screens = this.getScreens();
-    const screenOrder = screens.map(screen => screen.name);
-    const { currentScreen, visibleScreens } = this.state;
+    if (!this.props.animate) {
+      this.stopAnimations();
+      this.state = this.getCleanState(nextProps);
+    } else {
+      const targetScreen = nextProps.screen;
+      const screens = this.getScreens();
+      const screenOrder = screens.map(screen => screen.name);
+      const { currentScreen, visibleScreens } = this.state;
 
-    this.state.targetScreen = targetScreen;
+      this.state.targetScreen = targetScreen;
 
-    if (visibleScreens.indexOf(targetScreen) === -1) {
-      visibleScreens[
-        screenOrder.indexOf(targetScreen) > screenOrder.indexOf(currentScreen) ?
-        'push' : 'unshift'
-      ](targetScreen);
+      if (visibleScreens.indexOf(targetScreen) === -1) {
+        visibleScreens[
+          screenOrder.indexOf(targetScreen) > screenOrder.indexOf(currentScreen) ?
+          'push' : 'unshift'
+        ](targetScreen);
+      }
+
+      this.stopAnimations();
+      this.animateToTargetScreen();
     }
-
-    this.stopAnimations();
-    this.animateToTargetScreen();
   }
 
-  getCleanState() {
+  getCleanState(props = this.props) {
     return {
       offset: 0,
       easeOffset: 0,
-      visibleScreens: [this.props.screen],
-      currentScreen: this.props.screen,
-      targetScreen: this.props.screen,
+      visibleScreens: [props.screen],
+      currentScreen: props.screen,
+      targetScreen: props.screen,
     };
   }
 

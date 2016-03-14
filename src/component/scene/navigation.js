@@ -5,18 +5,9 @@ import cx from 'classnames';
 import StyleSheet, { em } from '../styles';
 import theme from '../theme';
 
-const { assign } = Object;
 const { bool, func, string, any } = React.PropTypes;
 const itemSize = 1;
 const itemMargin = Math.round((itemSize / 6) * 10) / 10;
-
-const arrowStyle = {
-  display: 'inline-block',
-  margin: `0 ${itemMargin * 5}em`,
-  border: `${itemSize / 2}em solid transparent`,
-  cursor: 'pointer',
-  transform: 'scaleX(2)',
-};
 
 export const styles = StyleSheet.create({
   root: {
@@ -32,22 +23,17 @@ export const styles = StyleSheet.create({
     textIndent: '-300px',
     overflow: 'hidden',
     border: `2px solid ${theme.highlightColor}`,
+    backgroundColor: theme.highlightColor,
     margin: `0 ${itemMargin}em`,
     cursor: 'pointer',
-    transition: 'background-color 0.3s linear',
+    transition: 'all 0.3s linear',
   },
-  prevArrow: assign({}, arrowStyle, {
-    borderRightColor: theme.highlightColor,
-  }),
-  nextArrow: assign({}, arrowStyle, {
-    borderLeftColor: theme.highlightColor,
-  }),
-  inactiveArrow: {
-    cursor: 'default',
-    opacity: 0.5,
+  itemInverse: {
+    borderColor: theme.backgroundColor,
+    backgroundColor: theme.backgroundColor,
   },
-  itemActive: {
-    backgroundColor: theme.highlightColor,
+  itemInactive: {
+    backgroundColor: 'transparent',
   },
 });
 
@@ -67,15 +53,14 @@ export default class SceneNavigation extends React.Component {
 
   static propTypes = {
     screen: string,
-    arrows: bool,
     setUrl: func,
     getUrl: func,
+    inverse: bool,
     children: any,
   }
 
   static defaultProps = {
     screen: '',
-    arrows: false,
   }
 
   getItemHandler = memoize(name => () => {
@@ -97,11 +82,12 @@ export default class SceneNavigation extends React.Component {
   }
 
   renderItems(screens) {
-    const { screen: currentScreen } = this.props;
+    const { screen: currentScreen, inverse } = this.props;
     const index = getScreenIndex(screens, currentScreen);
     return screens.map((screen, i) => {
       const itemClasses = cx(styles.item, {
-        [styles.itemActive]: i === index,
+        [styles.itemInverse]: inverse,
+        [styles.itemInactive]: i !== index,
       });
       return (
         <div key={`item-${i}`} className={itemClasses}
@@ -111,27 +97,11 @@ export default class SceneNavigation extends React.Component {
     });
   }
 
-  renderArrow(label, indexOffset, screens) {
-    const { screen } = this.props;
-    const index = getScreenIndex(screens, screen);
-    const arrowIndex = index + indexOffset;
-    const item = screens[arrowIndex];
-    return (
-      <div key={`${label}-arrow`}
-        className={cx(styles[`${label}Arrow`], !item && styles.inactiveArrow)}
-        onClick={item && this.getItemHandler(item.name)}
-      />
-    );
-  }
-
   render() {
-    const { arrows } = this.props;
     const screens = this.getScreens();
     return (
       <div className={styles.root}>
-        {arrows && this.renderArrow('prev', -1, screens)}
         {this.renderItems(screens)}
-        {arrows && this.renderArrow('next', 1, screens)}
       </div>
     );
   }

@@ -7,7 +7,7 @@ const { any } = React.PropTypes;
 const styles = StyleSheet.create({
   backgroundControls: {
     position: 'fixed',
-    top: '50px',
+    top: '70px',
     left: 0,
     width: '100%',
     textAlign: 'center',

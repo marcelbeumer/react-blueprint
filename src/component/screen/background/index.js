@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     overflow: 'auto',
-    padding: '90px 30px',
+    padding: '110px 30px',
     textAlign: 'center',
     color: theme.inverseTextColor,
   },

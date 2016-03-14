@@ -2,12 +2,11 @@ import React from 'react';
 import { memoize } from 'lodash';
 import pureRender from 'pure-render-decorator';
 import cx from 'classnames';
-import screens from './screens';
 import StyleSheet, { em } from '../styles';
 import theme from '../theme';
 
 const { assign } = Object;
-const { bool, func, string } = React.PropTypes;
+const { bool, func, string, any } = React.PropTypes;
 const itemSize = 1;
 const itemMargin = Math.round((itemSize / 6) * 10) / 10;
 
@@ -52,6 +51,17 @@ export const styles = StyleSheet.create({
   },
 });
 
+export const SceneNavigationItem = () => null;
+
+SceneNavigationItem.propTypes = {
+  name: string,
+  component: any,
+};
+
+function getScreenIndex(screens, screen) {
+  return screens.map(item => item.name).indexOf(screen);
+}
+
 @pureRender
 export default class SceneNavigation extends React.Component {
 
@@ -60,6 +70,7 @@ export default class SceneNavigation extends React.Component {
     arrows: bool,
     setUrl: func,
     getUrl: func,
+    children: any,
   }
 
   static defaultProps = {
@@ -67,18 +78,27 @@ export default class SceneNavigation extends React.Component {
     arrows: false,
   }
 
-  getScreenIndex(screen) {
-    return screens.map(item => item.name).indexOf(screen);
-  }
-
   getItemHandler = memoize(name => () => {
     const { setUrl, getUrl } = this.props;
     setUrl(getUrl(name), name);
   })
 
-  renderItems() {
+  getScreens() {
+    const screens = [];
+    React.Children.map(this.props.children, child => {
+      if (child.type === SceneNavigationItem) {
+        screens.push({
+          name: child.props.name,
+          component: child.props.component,
+        });
+      }
+    });
+    return screens;
+  }
+
+  renderItems(screens) {
     const { screen: currentScreen } = this.props;
-    const index = this.getScreenIndex(currentScreen);
+    const index = getScreenIndex(screens, currentScreen);
     return screens.map((screen, i) => {
       const itemClasses = cx(styles.item, {
         [styles.itemActive]: i === index,
@@ -86,16 +106,14 @@ export default class SceneNavigation extends React.Component {
       return (
         <div key={`item-${i}`} className={itemClasses}
           onClick={this.getItemHandler(screen.name)}
-        >
-          {screen.label}
-        </div>
+        />
       );
     });
   }
 
-  renderArrow(label, indexOffset) {
+  renderArrow(label, indexOffset, screens) {
     const { screen } = this.props;
-    const index = this.getScreenIndex(screen);
+    const index = getScreenIndex(screens, screen);
     const arrowIndex = index + indexOffset;
     const item = screens[arrowIndex];
     return (
@@ -108,11 +126,12 @@ export default class SceneNavigation extends React.Component {
 
   render() {
     const { arrows } = this.props;
+    const screens = this.getScreens();
     return (
       <div className={styles.root}>
-        {arrows && this.renderArrow('prev', -1)}
-        {this.renderItems()}
-        {arrows && this.renderArrow('next', 1)}
+        {arrows && this.renderArrow('prev', -1, screens)}
+        {this.renderItems(screens)}
+        {arrows && this.renderArrow('next', 1, screens)}
       </div>
     );
   }

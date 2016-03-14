@@ -2,6 +2,7 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { HtmlWebpackAssetPlugin } from './webpack-plugins';
 import cssnext from 'postcss-cssnext';
 import cssImport from 'postcss-import';
 import cssUrl from 'postcss-import';
@@ -91,8 +92,14 @@ const config = {
   ],
   plugins: [
     new CopyWebpackPlugin(scripts.map(({ from, to }) => ({ from, to }))),
+    new HtmlWebpackAssetPlugin((assets, hash) => {
+      assets.css.push(`/asset/component.css?${hash}`);
+      assets.js = [
+        ...scripts.map(script => useCdn ? script.cdn : script.to),
+        ...assets.js,
+      ];
+    }),
     new HtmlWebpackPlugin({
-      scripts: scripts.map(script => useCdn ? script.cdn : script.to),
       template: './index.html',
       hash: true,
     }),
@@ -104,7 +111,7 @@ const config = {
 
 if (extractCss) {
   config.plugins.push(
-    new ExtractTextPlugin('asset/bundle.css')
+    new ExtractTextPlugin('asset/bundle.css'),
   );
 }
 

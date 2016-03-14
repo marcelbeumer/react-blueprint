@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 import express from 'express';
 import createDebug from 'debug';
-import { memoize } from 'lodash/function';
+import memoize from 'lodash/memoize';
 import fs from 'fs';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';

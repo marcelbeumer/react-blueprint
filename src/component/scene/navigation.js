@@ -1,5 +1,5 @@
 import React from 'react';
-import { memoize } from 'lodash';
+import memoize from 'lodash/memoize';
 import pureRender from 'pure-render-decorator';
 import cx from 'classnames';
 import StyleSheet, { em } from '../styles';

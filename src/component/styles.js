@@ -1,9 +1,25 @@
 import StyleSheet from 'stilr';
+import React from 'react';
+import autoprefixer from 'autoprefixer';
+import postcss from 'postcss';
 
 const map = new StyleSheet.Map();
 const { matchMedia } = global;
 
 export const getCss = ({ pretty = false } = {}) => StyleSheet.render({ pretty }, map);
+
+if (module.hot) {
+  let lastStyle;
+  React.Component.prototype.stilrHotReload = () => {
+    const style = document.createElement('style');
+    const css = postcss(autoprefixer()).process(getCss()).css;
+    style.textContent = css;
+    document.getElementsByTagName('head')[0].appendChild(style);
+
+    if (lastStyle) lastStyle.parentNode.removeChild(lastStyle);
+    lastStyle = style;
+  };
+}
 
 export default class StyleSheetWrapper {
   static create(styles) {

@@ -11,7 +11,6 @@ const barColor = theme.highlightColor;
 export const styles = StyleSheet.create({
   bar: {
     height: '1em',
-    backgroundColor: barColor,
     borderRadius: px(theme.baseBorderRadius),
     margin: '0 0 5px 0',
     cursor: 'pointer',

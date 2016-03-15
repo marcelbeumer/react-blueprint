@@ -9,6 +9,7 @@ import GithubIcon from '../../github-icon';
 import HomeScreenWidgets from './widgets';
 import Button from '../../button';
 import styles from './styles';
+import { reload } from '../../styles';
 import { listType } from '../../types';
 
 const { object, bool } = React.PropTypes;
@@ -20,6 +21,10 @@ export default class HomeScreen extends React.Component {
     actions: object,
     showBackground: bool,
     list: listType,
+  }
+
+  reloadStilr() {
+    reload();
   }
 
   render() {

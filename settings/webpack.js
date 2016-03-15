@@ -65,6 +65,7 @@ const babelLoader = {
 };
 
 const config = {
+  node: { fs: 'empty' },
   externals,
   context: `${__dirname}/../src`,
   entry: [
@@ -121,11 +122,13 @@ if (useHmr) {
   babelLoader.query = {
     plugins: [
       ['react-transform', {
-        transforms: [{
-          transform: 'react-transform-hmr',
-          imports: ['react'],
-          locals: ['module'],
-        }],
+        transforms: [
+          {
+            transform: 'react-transform-hmr',
+            imports: ['react'],
+            locals: ['module'],
+          },
+        ],
       }],
     ],
   };

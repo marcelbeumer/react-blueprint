@@ -13,18 +13,18 @@ const compiler = webpack(webpackConfig);
 app.use(morgan('short'));
 
 app.use('/asset/component.css', (req, res) => {
-  // const base = path.dirname(require.resolve('./component'));
-  // Object.keys(require.cache).forEach(entry => {
-  //   if (entry.indexOf(base) === 0) {
-  //     delete require.cache[entry];
-  //   }
-  // });
-
-  // require('./component');
+  require('./component');
   const { getCss } = require('./component/styles');
 
   res.set('Content-Type', 'text/css');
   res.send(getCss());
+
+  const base = path.dirname(require.resolve('./component'));
+  Object.keys(require.cache).forEach(entry => {
+    if (entry.indexOf(base) === 0) {
+      delete require.cache[entry];
+    }
+  });
 });
 
 app.use(webpackDevMiddleware(compiler, {

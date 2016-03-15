@@ -1,4 +1,5 @@
 /* eslint no-console:0 */
+import path from 'path';
 import express from 'express';
 import morgan from 'morgan';
 import webpack from 'webpack';
@@ -10,6 +11,21 @@ const app = express();
 const compiler = webpack(webpackConfig);
 
 app.use(morgan('short'));
+
+app.use('/asset/component.css', (req, res) => {
+  // const base = path.dirname(require.resolve('./component'));
+  // Object.keys(require.cache).forEach(entry => {
+  //   if (entry.indexOf(base) === 0) {
+  //     delete require.cache[entry];
+  //   }
+  // });
+
+  // require('./component');
+  const { getCss } = require('./component/styles');
+
+  res.set('Content-Type', 'text/css');
+  res.send(getCss());
+});
 
 app.use(webpackDevMiddleware(compiler, {
   noInfo: true,

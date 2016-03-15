@@ -99,7 +99,8 @@ const config = {
   plugins: [
     new CopyWebpackPlugin(scripts.map(({ from, to }) => ({ from, to }))),
     new HtmlWebpackAssetPlugin((assets, hash) => {
-      assets.css.push(`asset/component.css?${hash}`);
+      assets.css.push(
+        (useHmr ? 'http://localhost:8081/' : '') + `asset/component.css?${hash}`);
       assets.js = [
         ...scripts.map(script => useCdn ? script.cdn : script.to),
         ...assets.js,

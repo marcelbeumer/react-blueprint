@@ -1,7 +1,6 @@
 /* eslint no-console:0 */
-import express from 'express';
 import createDebug from 'debug';
-import memoize from 'lodash/memoize';
+import express from 'express';
 import fs from 'fs';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
@@ -12,22 +11,19 @@ import createRenderer from './renderer/server';
 import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
-import Router from './router';
+import Router, { InvalidRouteError } from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
-
-process.on('unhandledRejection', value =>
-  console.error(value.stack || value));
 
 const prod = env === 'production';
 const debug = createDebug('server');
 debug('starting server');
 
-const renderer = createRenderer(settings);
 const app = express();
+const renderer = createRenderer(settings);
 
-const getTemplate = memoize(() =>
-  String(fs.readFileSync(`${__dirname}/../dist/index.html`)));
+const getTemplate = () =>
+  String(fs.readFileSync(`${__dirname}/../dist/asset/index.html`));
 
 const injectData = (output, data) =>
   output.replace(/(id=(['"]?)data\2>)/, `$1${JSON.stringify(data, null, prod ? 0 : 2)}`);
@@ -74,7 +70,7 @@ app.use((req, res, next) => {
   renderApp(req.path).then(html => {
     res.send(html);
   }).catch(e => {
-    if (e) console.error(e.stack || e);
+    if (!(e instanceof InvalidRouteError)) console.error(e.stack || e);
     next();
   });
 });

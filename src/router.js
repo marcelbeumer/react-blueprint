@@ -27,6 +27,12 @@ export function matchRoute(routes, path) {
   } : false;
 }
 
+export const InvalidRouteError = function InvalidRouteError(...args) {
+  Error.apply(this, args);
+};
+
+InvalidRouteError.prototype = Error.prototype;
+
 export default class Router {
   constructor(routes, initialUrl, onChange = () => null) {
     this.routes = routes;
@@ -78,7 +84,7 @@ export default class Router {
           done();
         }
       } else {
-        reject(new Error(`Url '${url}' did not match any route`));
+        reject(new InvalidRouteError(`Url '${url}' did not match any route`));
       }
     });
   }

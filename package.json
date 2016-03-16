@@ -10,11 +10,11 @@
     "test": "mocha --compilers js:babel-register",
     "server": "node scripts/start-server.js",
     "render": "node scripts/render-pages.js",
-    "watch": "parallelshell 'webpack -w' 'nodemon scripts/start-server.js'",
+    "dev-server": "node scripts/start-dev-server.js",
     "lint": "eslint src",
     "deploy": "git checkout master && npm run build && git checkout gh-pages && rimraf asset/* *.html && cp -r dist/* .",
     "build": "npm run clean && NODE_ENV=production webpack && NODE_ENV=production npm run render -- --dist dist --asset dist/asset",
-    "start": "npm run clean && npm run watch"
+    "start": "webpack && npm run dev-server"
   },
   "homepage": "https://github.com/marcelbeumer/react-blueprint",
   "author": {
@@ -83,6 +83,7 @@
     "stilr": "^1.2.2",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.14",
+    "webpack-dev-middleware": "^1.5.1",
     "yargs": "^4.3.1"
   }
 }

@@ -10,7 +10,7 @@ const argv = require('yargs')
 
 const path = require('path');
 const fs = require('fs');
-const server = require('../src/server');
+const server = require('../src/server')();
 
 fs.writeFileSync(path.join(argv.asset, 'component.css'), server.getComponentCss());
 

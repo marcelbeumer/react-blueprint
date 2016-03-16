@@ -8,9 +8,13 @@ import path from 'path';
 process.on('unhandledRejection', (value = {}) =>
   console.error(value.stack || value));
 
-const LOAD_TIME_MESSAGE = 'Loading server code';
 const app = express();
 const compiler = webpack(webpackConfig);
+
+let bundleReady = false;
+compiler.plugin('done', () => {
+  bundleReady = true;
+});
 
 const clearRequire = modulePath => {
   const base = path.resolve(modulePath);
@@ -21,17 +25,23 @@ const clearRequire = modulePath => {
   });
 };
 
+compiler.plugin('watch-run', (c, callback) => {
+  clearRequire(__dirname);
+  callback();
+});
+
 app.use(webpackDevMiddleware(compiler, {
-  noInfo: true,
+  stats: true,
   publicPath: webpackConfig.output.publicPath,
 }));
 
 app.use((req, res, next) => {
-  console.time(LOAD_TIME_MESSAGE);
-  clearRequire(__dirname);
-  const server = require('./server').default;
-  console.timeEnd(LOAD_TIME_MESSAGE);
-  server(req, res, next);
+  if (bundleReady) {
+    const server = require('./server').default(compiler.outputFileSystem);
+    server(req, res, next);
+  } else {
+    res.send('Webpack bundle not ready yet');
+  }
 });
 
 export default app;

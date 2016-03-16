@@ -14,7 +14,7 @@
     "lint": "eslint src",
     "deploy": "git checkout master && npm run build && git checkout gh-pages && rimraf asset/* *.html && cp -r dist/* .",
     "build": "npm run clean && NODE_ENV=production webpack && NODE_ENV=production npm run render -- --dist dist --asset dist/asset",
-    "start": "webpack && npm run dev-server"
+    "start": "npm run dev-server"
   },
   "homepage": "https://github.com/marcelbeumer/react-blueprint",
   "author": {

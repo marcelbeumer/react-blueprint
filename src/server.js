@@ -18,7 +18,7 @@ const prod = env === 'production';
 const app = express();
 const renderer = createRenderer(settings);
 
-const getTemplate = assetFs =>
+const getTemplate = (assetFs = fs) =>
   String(assetFs.readFileSync(`${__dirname}/../dist/asset/index.html`));
 
 const injectData = (output, data) =>
@@ -55,7 +55,7 @@ export function renderApp(location, assetFs) {
   });
 }
 
-export default function createApp(assetFs = fs) {
+export default function createApp(assetFs) {
   app.use('/asset/component.css', (req, res) => {
     res.set('Content-Type', 'text/css');
     res.send(getComponentCss());

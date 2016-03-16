@@ -1,5 +1,4 @@
 /* eslint no-console:0 */
-import createDebug from 'debug';
 import express from 'express';
 import fs from 'fs';
 import postcss from 'postcss';
@@ -16,9 +15,6 @@ import { getCss } from './component/styles';
 import env from 'node-env';
 
 const prod = env === 'production';
-const debug = createDebug('server');
-debug('starting server');
-
 const app = express();
 const renderer = createRenderer(settings);
 

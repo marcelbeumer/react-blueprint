@@ -1,6 +1,5 @@
 /* eslint no-console:0 */
 import express from 'express';
-import createDebug from 'debug';
 import webpack from 'webpack';
 import webpackConfig from '../settings/webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -8,9 +7,6 @@ import path from 'path';
 
 process.on('unhandledRejection', (value = {}) =>
   console.error(value.stack || value));
-
-const debug = createDebug('server');
-debug('starting server');
 
 const LOAD_TIME_MESSAGE = 'Loading server code';
 const app = express();

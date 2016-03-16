@@ -3,6 +3,8 @@ import pureRender from 'pure-render-decorator';
 import ScreenContainer from '../container';
 import ScreenForeground from '../foreground';
 import ScreenBackground from '../background';
+import ScreenBackgroundContent from '../background/content';
+import ScreenBackgroundControls from '../background/controls';
 import StyleSheet from '../../styles';
 
 const styles = StyleSheet.create({
@@ -31,7 +33,12 @@ export default class ThirdScreen extends React.Component {
             more coming soon...
           </div>
         </ScreenForeground>
-        <ScreenBackground />
+        <ScreenBackground {...this.props}>
+          <ScreenBackgroundControls />
+          <ScreenBackgroundContent>
+            <p>More coming soon...</p>
+          </ScreenBackgroundContent>
+        </ScreenBackground>
       </ScreenContainer>
     );
   }

@@ -8,23 +8,23 @@ export const getCss = ({ pretty = false } = {}) => StyleSheet.render({ pretty },
 
 if (module.hot) {
   // let lastStyle;
-  React.Component.prototype.stilrHotReload = () => {
-    const links = document.getElementsByTagName('link');
-    Array.from(links).forEach(link => {
-      const clone = link.cloneNode();
-      link.parentNode.appendChild(clone);
-      clone.onload = function () {
-        console.log('cleanup');
-        link.parentNode.removeChild(link);
-      };
-    });
+  // React.Component.prototype.stilrHotReload = () => {
+  //   const links = document.getElementsByTagName('link');
+  //   Array.from(links).forEach(link => {
+  //     const clone = link.cloneNode();
+  //     link.parentNode.appendChild(clone);
+  //     clone.onload = function () {
+  //       console.log('cleanup');
+  //       link.parentNode.removeChild(link);
+  //     };
+  //   });
     // const style = document.createElement('style');
     // style.textContent = getCss();
     // document.getElementsByTagName('head')[0].appendChild(style);
 
     // if (lastStyle) lastStyle.parentNode.removeChild(lastStyle);
     // lastStyle = style;
-  };
+  // };
 }
 
 export default class StyleSheetWrapper {

@@ -27,21 +27,21 @@ const scripts = [
     module: 'react',
     external: 'window.React',
     from: `../node_modules/react/dist/react${useMin ? '.min' : ''}.js`,
-    to: `asset/react-__VERSION__${useMin ? '.min' : ''}.js`,
+    to: `react-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react.min.js',
   },
   {
     module: 'react-dom',
     external: 'window.ReactDOM',
     from: `../node_modules/react-dom/dist/react-dom${useMin ? '.min' : ''}.js`,
-    to: `asset/react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
+    to: `react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react-dom.min.js',
   },
   {
     module: 'immutable',
     external: 'window.Immutable',
     from: `../node_modules/immutable/dist/immutable${useMin ? '.min' : ''}.js`,
-    to: `asset/immutable-__VERSION__${useMin ? '.min' : ''}.js`,
+    to: `immutable-__VERSION__${useMin ? '.min' : ''}.js`,
     cdn: 'https://cdn.jsdelivr.net/immutable.js/__VERSION__/immutable.min.js',
   },
 ];
@@ -72,8 +72,9 @@ const config = {
     './browser.js',
   ],
   output: {
-    path: `${__dirname}/../dist`,
-    filename: 'asset/bundle.js',
+    path: `${__dirname}/../dist/asset`,
+    filename: 'bundle.js',
+    publicPath: '/asset',
   },
   module: {
     loaders: [
@@ -99,10 +100,10 @@ const config = {
   plugins: [
     new CopyWebpackPlugin(scripts.map(({ from, to }) => ({ from, to }))),
     new HtmlWebpackAssetPlugin((assets, hash) => {
-      assets.css.push(
-        (useHmr ? 'http://localhost:8081/' : '') + `asset/component.css?${hash}`);
+      const scriptBase = useHmr ? '/hmr' : '/asset';
+      assets.css.push(`/asset/component.css?__stilr&${hash}`);
       assets.js = [
-        ...scripts.map(script => useCdn ? script.cdn : script.to),
+        ...scripts.map(script => useCdn ? script.cdn : `${scriptBase}/${script.to}`),
         ...assets.js,
       ];
     }),
@@ -118,8 +119,8 @@ const config = {
 
 if (useHmr) {
   config.entry.unshift('webpack-hot-middleware/client?' +
-    'path=http://localhost:8081/__webpack_hmr&timeout=20000');
-  config.output.publicPath = 'http://localhost:8081/';
+    'path=/hmr/__webpack_hmr&timeout=20000');
+  config.output.publicPath = '/hmr/';
   babelLoader.query = {
     plugins: [
       ['react-transform', {
@@ -142,7 +143,7 @@ if (useHmr) {
 
 if (extractCss) {
   config.plugins.push(
-    new ExtractTextPlugin('asset/bundle.css'),
+    new ExtractTextPlugin('bundle.css'),
   );
 }
 

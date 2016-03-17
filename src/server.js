@@ -1,7 +1,5 @@
 /* eslint no-console:0 */
 import express from 'express';
-import createDebug from 'debug';
-import memoize from 'lodash/memoize';
 import fs from 'fs';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
@@ -12,22 +10,16 @@ import createRenderer from './renderer/server';
 import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
-import Router from './router';
+import Router, { InvalidRouteError } from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
 
-process.on('unhandledRejection', value =>
-  console.error(value.stack || value));
-
 const prod = env === 'production';
-const debug = createDebug('server');
-debug('starting server');
-
-const renderer = createRenderer(settings);
 const app = express();
+const renderer = createRenderer(settings);
 
-const getTemplate = memoize(() =>
-  String(fs.readFileSync(`${__dirname}/../dist/index.html`)));
+const getTemplate = (assetFs = fs) =>
+  String(assetFs.readFileSync(`${__dirname}/../dist/asset/index.html`));
 
 const injectData = (output, data) =>
   output.replace(/(id=(['"]?)data\2>)/, `$1${JSON.stringify(data, null, prod ? 0 : 2)}`);
@@ -41,7 +33,7 @@ export function getComponentCss() {
   return prod ? new CleanCSS().minify(css).styles : css;
 }
 
-export function renderApp(location) {
+export function renderApp(location, assetFs) {
   let router;
 
   const renderServices = {};
@@ -55,7 +47,7 @@ export function renderApp(location) {
   return router.runUrl(location).then(() => {
     const state = store.getState();
     const rendered = renderer(state, boundActions, renderServices);
-    let html = getTemplate();
+    let html = getTemplate(assetFs);
 
     html = injectData(html, state.toServerData());
     html = injectRender(html, rendered);
@@ -63,20 +55,22 @@ export function renderApp(location) {
   });
 }
 
-app.use('/asset/component.css', (req, res) => {
-  res.set('Content-Type', 'text/css');
-  res.send(getComponentCss());
-});
-
-app.use('/asset', express.static('dist/asset'));
-
-app.use((req, res, next) => {
-  renderApp(req.path).then(html => {
-    res.send(html);
-  }).catch(e => {
-    if (e) console.error(e.stack || e);
-    next();
+export default function createApp(assetFs) {
+  app.use('/asset/component.css', (req, res) => {
+    res.set('Content-Type', 'text/css');
+    res.send(getComponentCss());
   });
-});
 
-export default app;
+  app.use('/asset', express.static('dist/asset'));
+
+  app.use((req, res, next) => {
+    renderApp(req.path, assetFs).then(html => {
+      res.send(html);
+    }).catch(e => {
+      if (!(e instanceof InvalidRouteError)) console.error(e.stack || e);
+      next();
+    });
+  });
+
+  return app;
+}

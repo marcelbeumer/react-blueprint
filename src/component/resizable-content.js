@@ -75,8 +75,8 @@ export default class ResizableContent extends React.Component {
   state = {};
 
   componentDidMount() {
-    this.x = this.x ? this.x++ : 1;
     const { toPx } = this.props;
+    this._content.onscroll = this.onScroll;
     this._content.style.marginRight = px(-this.getScrollbarWidth());
     this._content.style.overflow = 'auto';
     this._usesScrollTop = true;
@@ -158,7 +158,6 @@ export default class ResizableContent extends React.Component {
         <div ref={this.refContent}
           className={styles.content}
           style={contentStyle}
-          onScroll={this.onScroll}
         >
           <div ref={this.refInnerContent} style={innerContentStyle}>
             {this.props.children}

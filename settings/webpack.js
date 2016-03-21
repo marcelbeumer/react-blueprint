@@ -65,7 +65,6 @@ const babelLoader = {
 };
 
 const config = {
-  node: { fs: 'empty' },
   externals,
   context: `${__dirname}/../src`,
   entry: [

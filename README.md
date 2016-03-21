@@ -28,7 +28,7 @@ $ open http://localhost:8080
 - Scrollable widget demonstrating a two-way binding case for react in the browser
 - Widgets use relative (em/vw/vh) units while rendering to maintain full server pre-render capabilities
 - Animated page to page navigation using app/redux state and nothing-fancy (rAF) react rendering
-- Fast dev-server hot reloading server code on each request
+- Fast dev-server that hot reloads server code on webpack changes
 
 ## Browser debugging
 

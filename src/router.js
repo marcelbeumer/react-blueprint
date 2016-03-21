@@ -27,11 +27,13 @@ export function matchRoute(routes, path) {
   } : false;
 }
 
-export const InvalidRouteError = function InvalidRouteError(...args) {
-  Error.apply(this, args);
-};
+export function InvalidRouteError(message) {
+  this.message = message;
+}
 
-InvalidRouteError.prototype = Error.prototype;
+InvalidRouteError.prototype = Object.assign(new Error(), {
+  name: 'InvalidRouteError',
+});
 
 export default class Router {
   constructor(routes, initialUrl, onChange = () => null) {

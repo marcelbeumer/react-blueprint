@@ -26,6 +26,7 @@ export default class Gestures extends React.Component {
   }
 
   wrappedHandlers = {};
+  hammerDelta = {};
 
   wrapHandlers(props) {
     const wrapped = this.wrappedHandlers;
@@ -60,9 +61,8 @@ export default class Gestures extends React.Component {
     });
 
     const event = e;
-    if (!this._hammerDelta) this._hammerDelta = {};
-    if (!this._hammerDelta[name]) this._hammerDelta[name] = { x: 0, y: 0 };
-    const delta = this._hammerDelta[name];
+    if (!this.hammerDelta[name]) this.hammerDelta[name] = { x: 0, y: 0 };
+    const delta = this.hammerDelta[name];
     const deltaX = e.deltaX - delta.x;
     const deltaY = e.deltaY - delta.y;
     delta.x = e.deltaX;
@@ -78,7 +78,7 @@ export default class Gestures extends React.Component {
       WebkitUserSelect: null,
     });
 
-    delete (this._hammerDelta || {})[name];
+    delete (this.hammerDelta || {})[name];
     if (this.props[name]) this.props[name](e);
   }
 

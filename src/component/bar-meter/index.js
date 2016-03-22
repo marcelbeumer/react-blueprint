@@ -27,7 +27,8 @@ export default class BarMeter extends React.Component {
   }
 
   @autobind
-  onDrag(e, deltaX, item) {
+  onDrag(e, item) {
+    const deltaX = e.eventDeltaX;
     if (isNaN(deltaX)) return;
 
     const { width } = this._root.getBoundingClientRect();

@@ -3,7 +3,7 @@ import pureRender from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 import refHandler from './ref-handler';
 import StyleSheet, { px } from './styles';
-import Hammer from 'react-hammerjs';
+import Gestures from './gestures';
 import theme from './theme';
 
 const { any, number, func } = React.PropTypes;
@@ -72,8 +72,6 @@ export default class ResizableContent extends React.Component {
     toPx: val => val,
   }
 
-  state = {};
-
   componentDidMount() {
     const { toPx } = this.props;
     this._content.onscroll = this.onScroll;
@@ -106,13 +104,7 @@ export default class ResizableContent extends React.Component {
     const { height: handleHeight } = this._handle.getBoundingClientRect();
     const { clientY } = e.pointers[0];
     const value = clientY - rootTop;
-    this.setState({ panning: true });
     this.props.onResize(fromPx(max(handleHeight, value)));
-  }
-
-  @autobind
-  onPanEnd() {
-    this.setState({ panning: false });
   }
 
   @autobind
@@ -136,24 +128,16 @@ export default class ResizableContent extends React.Component {
 
   render() {
     const { height, scrollTop, toUnit } = this.props;
-    const userSelect = this.state.panning ? 'none' : 'text';
-
-    const rootStyle = {
-      userSelect,
-      WebkitUserSelect: userSelect,
-    };
-
     const contentStyle = {
       height: toUnit(height),
     };
-
     const innerContentStyle = {
       position: 'relative',
       top: this._usesScrollTop ? 0 : `-${toUnit(scrollTop)}`,
     };
 
     return (
-      <div className={styles.root} style={rootStyle}>
+      <div className={styles.root}>
         <div className={styles.scrollbarSizer} ref={this.refScrollBarSizer} />
         <div ref={this.refContent}
           className={styles.content}
@@ -163,14 +147,13 @@ export default class ResizableContent extends React.Component {
             {this.props.children}
           </div>
         </div>
-        <Hammer
+        <Gestures
           vertical
           options={hammerOptions}
           onPan={this.onPan}
-          onPanEnd={this.onPanEnd}
         >
           <div className={styles.handle} ref={this.refHandle} />
-        </Hammer>
+        </Gestures>
       </div>
     );
   }

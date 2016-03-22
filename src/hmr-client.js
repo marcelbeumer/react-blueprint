@@ -1,21 +1,29 @@
 /* global __resourceQuery */
+const client = require('webpack-hot-middleware/client' + __resourceQuery); // eslint-disable-line max-len, prefer-template
 
-let style;
-function reloadStilr(css) {
-  if (!style) {
-    style = document.createElement('style');
-    document.head.appendChild(style);
-  }
+const styles = [];
+function updateStilr(css) {
+  const style = document.createElement('style');
   style.textContent = css;
+  document.head.appendChild(style);
+  styles.unshift(style);
 }
 
-global.reloadStilr = reloadStilr;
+function cleanStilr() {
+  styles.splice(1).forEach(style => document.head.removeChild(style));
+}
 
-const client = require('webpack-hot-middleware/client' + __resourceQuery); // eslint-disable-line max-len, prefer-template
 client.subscribe(obj => {
   const { action, payload } = obj;
   if (action === 'reload-stilr') {
-    console.log('[HMR] reloading stilr');
-    reloadStilr(payload);
+    console.log('[HMR] updating stilr');
+    updateStilr(payload);
   }
 });
+
+client.onUpToDate(() => {
+  console.log('[HMR] cleaning up stilr');
+  cleanStilr();
+});
+
+global.foo = module.hot;

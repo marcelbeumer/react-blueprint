@@ -39,6 +39,11 @@ function serverMiddleware(req, res, next) {
   server(req, res, next);
 }
 
+let bundleReady = false;
+compiler.plugin('done', () => {
+  bundleReady = true;
+});
+
 compiler.plugin('watch-run', (c, callback) => {
   clearRequire(__dirname);
   hotMiddleware.publish({
@@ -51,17 +56,12 @@ compiler.plugin('watch-run', (c, callback) => {
 app.use(devMiddleware);
 app.use(hotMiddleware);
 
-let ready = false;
 app.use((req, res, next) => {
-  const done = () => serverMiddleware(req, res, next);
-
-  if (!ready) {
-    compiler.plugin('done', once(() => {
-      ready = true;
-      done();
-    }));
+  const ready = () => serverMiddleware(req, res, next);
+  if (!bundleReady) {
+    compiler.plugin('done', once(() => ready()));
   } else {
-    done();
+    ready();
   }
 });
 

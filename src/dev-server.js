@@ -39,6 +39,13 @@ function serverMiddleware(req, res, next) {
   server(req, res, next);
 }
 
+function updateStilr() {
+  hotMiddleware.publish({
+    action: 'update-stilr',
+    payload: require('./server').getComponentCss(),
+  });
+}
+
 let bundleReady = false;
 compiler.plugin('done', () => {
   bundleReady = true;
@@ -46,10 +53,7 @@ compiler.plugin('done', () => {
 
 compiler.plugin('watch-run', (c, callback) => {
   clearRequire(__dirname);
-  hotMiddleware.publish({
-    action: 'reload-stilr',
-    payload: require('./server').getComponentCss(),
-  });
+  updateStilr();
   callback();
 });
 

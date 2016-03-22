@@ -2,6 +2,7 @@ import React from 'react';
 import Hammer from 'react-hammerjs';
 import pureRender from 'pure-render-decorator';
 
+const { assign } = Object;
 const { object } = React.PropTypes;
 const hammerOptions = {
   recognizers: {
@@ -55,7 +56,7 @@ export default class Gestures extends React.Component {
   }
 
   handleDeltaEvent(e, name) {
-    Object.assign(document.body.style, {
+    assign(document.body.style, {
       userSelect: 'none',
       WebkitUserSelect: 'none',
     });
@@ -73,7 +74,7 @@ export default class Gestures extends React.Component {
   }
 
   handleEndEvent(e, name) {
-    Object.assign(document.body.style, {
+    assign(document.body.style, {
       userSelect: null,
       WebkitUserSelect: null,
     });
@@ -83,7 +84,7 @@ export default class Gestures extends React.Component {
   }
 
   render() {
-    const options = Object.assign({}, hammerOptions, this.props.options);
+    const options = assign({}, hammerOptions, this.props.options);
     return <Hammer {...this.props} {...this.wrappedHandlers} options={options} />;
   }
 }

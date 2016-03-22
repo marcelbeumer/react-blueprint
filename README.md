@@ -17,18 +17,25 @@ $ open http://localhost:8080
 ## Features and patterns
 
 - ES6+ with Babel (es)linted airbnb style
-- Clean Redux setup running on Immutable.js data (no react or routing bindings)
+- Clean Redux setup running on Immutable.js data (no React or routing bindings)
 - Server pre-rendering React elements and component stylesheets
 - Browser/server rendering divided by target specific bootstrap
-- Decoupled rendering: redux state changes triggers plain JS function that does React.render
+- Decoupled rendering: Redux state changes triggers plain JS function that does React.render
 - Decoupled routing based on path-to-regexp
-- Pure rendering (redux-agnostic) React components: top-down prop passing, action functions
+- Pure rendering (Redux-agnostic) React components: top-down prop passing, action functions
 - Component CSS stylesheet generation (`StyleSheet.create({..})`)
-- Draggable widgets demonstrating letting redux control rules and constraints
-- Scrollable widget demonstrating a two-way binding case for react in the browser
+- Draggable widgets demonstrating letting Redux control rules and constraints
+- Scrollable widget demonstrating a two-way binding case for React in the browser
 - Widgets use relative (em/vw/vh) units while rendering to maintain full server pre-render capabilities
-- Animated page to page navigation using app/redux state and nothing-fancy (rAF) react rendering
+- Animated page to page navigation using app/Redux state and nothing-fancy (rAF) React rendering
 - Fast dev-server that hot reloads server code on webpack changes
+
+## Server rendering
+
+Server rendering is enabled by default. To disable use `SSR=0 npm start` or reload the page using `?ssr=0`.
+
+When disabled the server will only return the base template and not do any router, Redux or React work.
+However, the server will still load and parse the entire application in order to generate the component CSS.
 
 ## Browser debugging
 

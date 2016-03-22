@@ -30,6 +30,13 @@ $ open http://localhost:8080
 - Animated page to page navigation using app/redux state and nothing-fancy (rAF) react rendering
 - Fast dev-server that hot reloads server code on webpack changes
 
+## Server rendering
+
+Server rendering is enabled by default. To disable use `SSR=0 npm start` or reload the page using `?ssr=0`.
+
+When disabled the server will only return the base template and not do any router, Redux or React work.
+However, the server will still load and parse the entire application in order to generate the component CSS.
+
 ## Browser debugging
 
 Enable [debug](https://www.npmjs.com/package/debug) output by executing `localStorage.debug = '*'` and reloading the page. See the [debug documentation](https://www.npmjs.com/package/debug#browser-support) for more information.

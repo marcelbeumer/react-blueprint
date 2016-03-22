@@ -1,5 +1,6 @@
 import React from 'react';
 import Hammer from 'react-hammerjs';
+import pureRender from 'pure-render-decorator';
 
 const { object } = React.PropTypes;
 const hammerOptions = {
@@ -10,37 +11,49 @@ const hammerOptions = {
   },
 };
 
+@pureRender
 export default class Gestures extends React.Component {
   static propTypes = {
     options: object,
   }
 
   componentWillMount() {
-    this.wrapProps(this.props);
+    this.wrapHandlers(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.wrapProps(nextProps);
+    this.wrapHandlers(nextProps);
   }
 
-  wrapProps(props) {
-    const wrapped = {};
+  wrappedHandlers = {};
+
+  wrapHandlers(props) {
+    const wrapped = this.wrappedHandlers;
     const propNames = Object.keys(props);
     const deltaEvents = propNames.filter(name => /^on(Pan)$/.test(name));
     const endEvents = propNames.map(name => `${name}End`);
+    const allEvents = [...deltaEvents, ...endEvents];
+
+    for (const name in wrapped) {
+      if (allEvents.indexOf(name) === -1) {
+        delete wrapped[name];
+      }
+    }
 
     deltaEvents.forEach(name => {
-      wrapped[name] = e => this.handleDeltaEvent(e, name, props[name]);
+      if (!wrapped[name]) {
+        wrapped[name] = e => this.handleDeltaEvent(e, name);
+      }
     });
 
     endEvents.forEach(name => {
-      wrapped[name] = e => this.handleEndEvent(e, name, props[name]);
+      if (!wrapped[name]) {
+        wrapped[name] = e => this.handleEndEvent(e, name);
+      }
     });
-
-    this.wrappedProps = wrapped;
   }
 
-  handleDeltaEvent(e, name, handler) {
+  handleDeltaEvent(e, name) {
     Object.assign(document.body.style, {
       userSelect: 'none',
       WebkitUserSelect: 'none',
@@ -56,21 +69,21 @@ export default class Gestures extends React.Component {
     delta.y = e.deltaY;
     event.eventDeltaX = deltaX;
     event.eventDeltaY = deltaY;
-    if (handler) handler(event);
+    if (this.props[name]) this.props[name](event);
   }
 
-  handleEndEvent(e, name, handler) {
+  handleEndEvent(e, name) {
     Object.assign(document.body.style, {
       userSelect: null,
       WebkitUserSelect: null,
     });
 
     delete (this._hammerDelta || {})[name];
-    if (handler) handler(e);
+    if (this.props[name]) this.props[name](e);
   }
 
   render() {
     const options = Object.assign({}, hammerOptions, this.props.options);
-    return <Hammer {...this.props} {...this.wrappedProps} options={options} />;
+    return <Hammer {...this.props} {...this.wrappedHandlers} options={options} />;
   }
 }

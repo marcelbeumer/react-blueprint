@@ -16,14 +16,6 @@ const scrollbarStyle = {
   },
 };
 
-const hammerOptions = {
-  recognizers: {
-    pan: {
-      threshold: 0,
-    },
-  },
-};
-
 export const styles = StyleSheet.create({
   root: {
     overflow: 'hidden',
@@ -147,11 +139,7 @@ export default class ResizableContent extends React.Component {
             {this.props.children}
           </div>
         </div>
-        <Gestures
-          vertical
-          options={hammerOptions}
-          onPan={this.onPan}
-        >
+        <Gestures vertical onPan={this.onPan}>
           <div className={styles.handle} ref={this.refHandle} />
         </Gestures>
       </div>

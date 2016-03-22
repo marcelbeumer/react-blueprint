@@ -117,8 +117,7 @@ const config = {
 };
 
 if (useHmr) {
-  config.entry.unshift('webpack-hot-middleware/client?' +
-    'path=/hmr/__webpack_hmr&timeout=20000');
+  config.entry.unshift('./hmr-client?path=/hmr/__webpack_hmr&timeout=20000');
   config.output.publicPath = '/hmr/';
   babelLoader.query = {
     plugins: [

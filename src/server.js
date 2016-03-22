@@ -79,7 +79,12 @@ export default function createApp(assetFs) {
     handler(req.path, assetFs).then(html => {
       res.send(html);
     }).catch(e => {
-      if (!(e instanceof InvalidRouteError)) console.error(e.stack || e);
+      if (!(e instanceof InvalidRouteError)) {
+        console.error(e.stack || e);
+        res.send(e.stack || e);
+      } else {
+        next();
+      }
       next();
     });
   });

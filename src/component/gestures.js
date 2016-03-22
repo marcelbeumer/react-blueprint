@@ -21,7 +21,7 @@ export default class Gestures extends React.Component {
     this.wrapHandlers(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     this.wrapHandlers(nextProps);
   }
 

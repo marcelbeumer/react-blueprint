@@ -56,7 +56,8 @@ export class SegueContainer extends React.Component {
   state = this.getCleanState();
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.screen) return;
+    if (!nextProps.screen ||
+      nextProps.screen === this.props.screen) return;
 
     if (!this.props.animate) {
       this.stopAnimations();

@@ -1,8 +1,5 @@
 /* eslint no-param-reassign:0 */
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import { HtmlWebpackAssetPlugin } from './webpack-plugins';
 import cssnext from 'postcss-cssnext';
 import cssImport from 'postcss-import';
 import cssUrl from 'postcss-import';
@@ -13,50 +10,12 @@ const prod = env === 'production';
 const compressJs = prod;
 const extractCss = true;
 const useHmr = !prod;
-const useCdn = prod;
-// const useMin = prod;
 
 const cssPipeline = [
   'style-loader',
   prod ? 'css-loader?minimize' : 'css-loader',
   'postcss-loader',
 ];
-
-const scripts = [
-  // {
-  //   module: 'react',
-  //   external: 'window.React',
-  //   from: `../node_modules/react/dist/react${useMin ? '.min' : ''}.js`,
-  //   to: `react-__VERSION__${useMin ? '.min' : ''}.js`,
-  //   cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react.min.js',
-  // },
-  // {
-  //   module: 'react-dom',
-  //   external: 'window.ReactDOM',
-  //   from: `../node_modules/react-dom/dist/react-dom${useMin ? '.min' : ''}.js`,
-  //   to: `react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
-  //   cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react-dom.min.js',
-  // },
-  // {
-  //   module: 'immutable',
-  //   external: 'window.Immutable',
-  //   from: `../node_modules/immutable/dist/immutable${useMin ? '.min' : ''}.js`,
-  //   to: `immutable-__VERSION__${useMin ? '.min' : ''}.js`,
-  //   cdn: 'https://cdn.jsdelivr.net/immutable.js/__VERSION__/immutable.min.js',
-  // },
-];
-
-scripts.forEach(script => {
-  const version = require(`${script.module}/package.json`).version;
-  ['to', 'cdn'].forEach(prop => {
-    script[prop] = script[prop].replace('__VERSION__', version);
-  });
-});
-
-const externals = scripts.reduce((p, c) => {
-  p[c.module] = c.external; // eslint-disable-line no-param-reassign
-  return p;
-}, {});
 
 const jsLoader = {
   test: /\.js$/,
@@ -65,11 +24,11 @@ const jsLoader = {
 };
 
 const config = {
-  externals,
   context: `${__dirname}/../src`,
-  entry: [
-    './browser.js',
-  ],
+  entry: {
+    app: ['./browser.js'],
+    vendor: ['react', 'react-dom', 'immutable', 'react-hammerjs', 'stilr', 'redux'],
+  },
   output: {
     path: `${__dirname}/../dist/asset`,
     filename: 'bundle.js',
@@ -97,22 +56,7 @@ const config = {
     cssnext(),
   ],
   plugins: [
-    new CopyWebpackPlugin(scripts.map(({ from, to }) => ({ from, to }))),
-    new HtmlWebpackAssetPlugin((assets, hash) => {
-      const scriptBase = useHmr ? '/hmr' : '/asset';
-      assets.css.push(`/asset/component.css?__stilr&${hash}`);
-      assets.js = [
-        ...scripts.map(script => useCdn ? script.cdn : `${scriptBase}/${script.to}`),
-        ...assets.js,
-      ];
-    }),
-    new HtmlWebpackPlugin({
-      template: './index.html',
-      hash: true,
-    }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': `"${env}"`,
-    }),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
   ],
 };
 

@@ -67,11 +67,11 @@ export default class Slider extends React.Component {
   }
 
   cloneChildren() {
-    return React.Children.map(this.props.children, child =>
+    return React.Children.map(this.props.children, child => (
       child.type === SliderGrippy ? React.cloneElement(child, {
         onDrag: this.onDrag,
       }) :
-      child);
+      child));
   }
 
   renderValues() {

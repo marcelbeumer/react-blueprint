@@ -49,11 +49,11 @@ export default class BarMeter extends React.Component {
   }
 
   cloneChildren() {
-    return React.Children.map(this.props.children, child =>
+    return React.Children.map(this.props.children, child => (
       child.type === BarMeterItem ? React.cloneElement(child, {
         onDrag: this.onDrag,
       }) :
-      child);
+      child));
   }
 
   renderValues() {

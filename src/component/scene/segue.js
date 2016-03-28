@@ -168,8 +168,8 @@ export class SegueContainer extends React.Component {
   }
 
   renderFixed() {
-    return React.Children.map(this.props.children, child =>
-      child.type === SegueFixed ? React.cloneElement(child) : null);
+    return React.Children.map(this.props.children, child => (
+      child.type === SegueFixed ? React.cloneElement(child) : null));
   }
 
   render() {

@@ -43,7 +43,7 @@ export function getComponentCss() {
 }
 
 export function renderApp(location, assetFs) {
-  let router;
+  let router = null;
 
   const renderServices = {};
   const initialState = new DataTree();

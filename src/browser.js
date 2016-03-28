@@ -9,7 +9,7 @@ import createRedux from './redux';
 import createRoutes from './route';
 import Router from './router';
 
-let router;
+let router = null;
 const debug = createDebug('browser');
 debug('starting bootstrap');
 

@@ -15,7 +15,7 @@ import { getCss } from './component/styles';
 import env from 'node-env';
 
 const SSR = process.env.SSR;
-const REVISION = Number(new Date());
+const REVISION = process.env.REVISION || Number(new Date());
 const prod = env === 'production';
 const app = express();
 const renderer = createRenderer(settings);

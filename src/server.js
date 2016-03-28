@@ -5,6 +5,7 @@ import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import CleanCSS from 'clean-css';
 import settings from '../settings/server';
+import webpackConfig from '../settings/webpack';
 import DataTree from './data/tree';
 import createRenderer from './renderer/server';
 import createActions from './action';
@@ -28,6 +29,9 @@ const injectData = (output, data) =>
 
 const injectRender = (output, render) =>
   output.replace(/(id=(['"]?)root\2>)/, `$1${render}`);
+
+const injectAssetPath = (output, assetPath) =>
+  output.replace(/__ASSETS__/g, assetPath);
 
 const injectRevision = (output, revision) =>
   output.replace(/__REVISION__/g, revision);
@@ -54,6 +58,7 @@ export function renderApp(location, assetFs) {
     const rendered = renderer(state, boundActions, renderServices);
     let html = getTemplate(assetFs);
 
+    html = injectAssetPath(html, webpackConfig.output.publicPath);
     html = injectRevision(html, REVISION);
     html = injectData(html, state.toServerData());
     html = injectRender(html, rendered);

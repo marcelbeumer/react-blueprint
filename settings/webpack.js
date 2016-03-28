@@ -14,7 +14,7 @@ const compressJs = prod;
 const extractCss = true;
 const useHmr = !prod;
 const useCdn = prod;
-const useMin = prod;
+// const useMin = prod;
 
 const cssPipeline = [
   'style-loader',
@@ -23,27 +23,27 @@ const cssPipeline = [
 ];
 
 const scripts = [
-  {
-    module: 'react',
-    external: 'window.React',
-    from: `../node_modules/react/dist/react${useMin ? '.min' : ''}.js`,
-    to: `react-__VERSION__${useMin ? '.min' : ''}.js`,
-    cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react.min.js',
-  },
-  {
-    module: 'react-dom',
-    external: 'window.ReactDOM',
-    from: `../node_modules/react-dom/dist/react-dom${useMin ? '.min' : ''}.js`,
-    to: `react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
-    cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react-dom.min.js',
-  },
-  {
-    module: 'immutable',
-    external: 'window.Immutable',
-    from: `../node_modules/immutable/dist/immutable${useMin ? '.min' : ''}.js`,
-    to: `immutable-__VERSION__${useMin ? '.min' : ''}.js`,
-    cdn: 'https://cdn.jsdelivr.net/immutable.js/__VERSION__/immutable.min.js',
-  },
+  // {
+  //   module: 'react',
+  //   external: 'window.React',
+  //   from: `../node_modules/react/dist/react${useMin ? '.min' : ''}.js`,
+  //   to: `react-__VERSION__${useMin ? '.min' : ''}.js`,
+  //   cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react.min.js',
+  // },
+  // {
+  //   module: 'react-dom',
+  //   external: 'window.ReactDOM',
+  //   from: `../node_modules/react-dom/dist/react-dom${useMin ? '.min' : ''}.js`,
+  //   to: `react-dom-__VERSION__${useMin ? '.min' : ''}.js`,
+  //   cdn: 'https://cdn.jsdelivr.net/react/__VERSION__/react-dom.min.js',
+  // },
+  // {
+  //   module: 'immutable',
+  //   external: 'window.Immutable',
+  //   from: `../node_modules/immutable/dist/immutable${useMin ? '.min' : ''}.js`,
+  //   to: `immutable-__VERSION__${useMin ? '.min' : ''}.js`,
+  //   cdn: 'https://cdn.jsdelivr.net/immutable.js/__VERSION__/immutable.min.js',
+  // },
 ];
 
 scripts.forEach(script => {
@@ -58,10 +58,10 @@ const externals = scripts.reduce((p, c) => {
   return p;
 }, {});
 
-const babelLoader = {
+const jsLoader = {
   test: /\.js$/,
   exclude: /node_modules/,
-  loader: 'babel-loader',
+  loaders: ['babel-loader'],
 };
 
 const config = {
@@ -77,7 +77,7 @@ const config = {
   },
   module: {
     loaders: [
-      babelLoader,
+      jsLoader,
       {
         test: /\.json$/,
         loader: 'json-loader',
@@ -119,19 +119,7 @@ const config = {
 if (useHmr) {
   config.entry.unshift('./hmr-client?path=/hmr/__webpack_hmr&timeout=20000');
   config.output.publicPath = '/hmr/';
-  babelLoader.query = {
-    plugins: [
-      ['react-transform', {
-        transforms: [
-          {
-            transform: 'react-transform-hmr',
-            imports: ['react'],
-            locals: ['module'],
-          },
-        ],
-      }],
-    ],
-  };
+  jsLoader.loaders.unshift('react-hot');
   config.plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),

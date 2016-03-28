@@ -15,18 +15,22 @@ import { getCss } from './component/styles';
 import env from 'node-env';
 
 const SSR = process.env.SSR;
+const REVISION = Number(new Date());
 const prod = env === 'production';
 const app = express();
 const renderer = createRenderer(settings);
 
 const getTemplate = (assetFs = fs) =>
-  String(assetFs.readFileSync(`${__dirname}/../dist/asset/index.html`));
+  String(assetFs.readFileSync(`${__dirname}/index.html`));
 
 const injectData = (output, data) =>
   output.replace(/(id=(['"]?)data\2>)/, `$1${JSON.stringify(data, null, prod ? 0 : 2)}`);
 
 const injectRender = (output, render) =>
   output.replace(/(id=(['"]?)root\2>)/, `$1${render}`);
+
+const injectRevision = (output, revision) =>
+  output.replace(/__REVISION__/g, revision);
 
 export function getComponentCss() {
   const source = getCss({ pretty: !prod });
@@ -50,6 +54,7 @@ export function renderApp(location, assetFs) {
     const rendered = renderer(state, boundActions, renderServices);
     let html = getTemplate(assetFs);
 
+    html = injectRevision(html, REVISION);
     html = injectData(html, state.toServerData());
     html = injectRender(html, rendered);
     return html;
@@ -85,7 +90,6 @@ export default function createApp(assetFs) {
       } else {
         next();
       }
-      next();
     });
   });
 

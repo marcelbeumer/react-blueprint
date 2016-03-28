@@ -2,6 +2,7 @@
 import express from 'express';
 import webpack from 'webpack';
 import path from 'path';
+import fs from 'fs';
 import once from 'lodash/once';
 import webpackConfig from '../settings/webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -27,7 +28,7 @@ function clearRequire(modulePath) {
 }
 
 function serverMiddleware(req, res, next) {
-  const server = require('./server').default(compiler.outputFileSystem);
+  const server = require('./server').default(fs);
   server(req, res, next);
 }
 

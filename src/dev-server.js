@@ -6,8 +6,6 @@ import once from 'lodash/once';
 import webpackConfig from '../settings/webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import once from 'lodash/once';
-import path from 'path';
 
 process.on('unhandledRejection', (value = {}) =>
   console.error(value.stack || value));

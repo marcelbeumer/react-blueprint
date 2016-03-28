@@ -58,7 +58,6 @@
     "json-loader": "^0.5.4",
     "lodash": "^4.5.1",
     "mocha": "^2.4.5",
-    "morgan": "^1.7.0",
     "node-env": "^0.1.6",
     "nodemon": "^1.9.1",
     "normalize.css": "^4.0.0",

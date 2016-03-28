@@ -1,6 +1,8 @@
 /* eslint no-console:0 */
 import express from 'express';
 import webpack from 'webpack';
+import path from 'path';
+import once from 'lodash/once';
 import webpackConfig from '../settings/webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -23,7 +25,6 @@ const hotMiddleware = webpackHotMiddleware(compiler, {
   path: '/hmr/__webpack_hmr',
   heartbeat: 10 * 1000,
 });
-
 
 function clearRequire(modulePath) {
   const base = path.resolve(modulePath);

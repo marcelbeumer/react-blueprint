@@ -14,6 +14,7 @@ import Router, { InvalidRouteError } from './router';
 import { getCss } from './component/styles';
 import env from 'node-env';
 
+const SSR = process.env.SSR;
 const prod = env === 'production';
 const app = express();
 const renderer = createRenderer(settings);
@@ -55,6 +56,13 @@ export function renderApp(location, assetFs) {
   });
 }
 
+export function staticApp(location, assetFs) {
+  return new Promise(resolve => {
+    const html = getTemplate(assetFs);
+    resolve(html);
+  });
+}
+
 export default function createApp(assetFs) {
   app.use('/asset/component.css', (req, res) => {
     res.set('Content-Type', 'text/css');
@@ -64,10 +72,19 @@ export default function createApp(assetFs) {
   app.use('/asset', express.static('dist/asset'));
 
   app.use((req, res, next) => {
-    renderApp(req.path, assetFs).then(html => {
+    const ssr = req.query.ssr || SSR;
+    const useRender = parseInt(ssr, 10) !== 0;
+    const handler = useRender ? renderApp : staticApp;
+
+    handler(req.path, assetFs).then(html => {
       res.send(html);
     }).catch(e => {
-      if (!(e instanceof InvalidRouteError)) console.error(e.stack || e);
+      if (!(e instanceof InvalidRouteError)) {
+        console.error(e.stack || e);
+        res.send(e.stack || e);
+      } else {
+        next();
+      }
       next();
     });
   });

@@ -39,8 +39,11 @@ expose('boundActions', boundActions);
 expose('router', router);
 debug('bootstrap done');
 
-renderServices.getUrl = router.getUrl.bind(router);
-renderer(initialState, boundActions, renderServices);
 global.addEventListener('popstate', () => router.setUrl(location.pathname));
+renderServices.getUrl = router.getUrl.bind(router);
 
-if (module.hot) module.hot.accept();
+if (element.querySelector('[data-react-checksum]')) {
+  renderer(initialState, boundActions, renderServices);
+} else {
+  router.runUrl(location.pathname);
+}

@@ -64,8 +64,8 @@ const config = {
 };
 
 if (useHmr) {
-  config.entry.unshift('./hmr-client?path=/hmr/__webpack_hmr&timeout=20000');
-  config.output.publicPath = '/hmr/';
+  config.entry.app.unshift('./hmr-client?path=/hmr/__webpack_hmr&timeout=20000');
+  config.output.publicPath = '/hmr';
   jsLoader.loaders.unshift('react-hot');
   config.plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),

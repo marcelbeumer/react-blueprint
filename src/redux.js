@@ -1,17 +1,25 @@
+// @flow
 import { createStore, applyMiddleware } from 'redux';
+import Collection from 'immutable';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import multi from 'redux-multi';
 import createDebug from 'debug';
 import reducer from './reducer';
 
+export type Store = {dispatch: Function, subscribe: Function, getState: Function};
+export type ReduxResult = {store: Store, boundActions: Object};
+
 const debug = createDebug('redux');
 
-export default function createRedux(initialState, actions, onChange, /* settings */) {
+export default function createRedux(
+  initialState: Collection,
+  actions: Object,
+  onChange: ?Function,
+): ReduxResult {
   let lastState = initialState;
-
   const middleware = applyMiddleware(multi, promise, thunk);
-  const store = createStore(reducer, initialState, middleware);
+  const store: Store = createStore(reducer, initialState, middleware);
   const boundActions = {};
 
   Object.keys(actions).forEach(name => {

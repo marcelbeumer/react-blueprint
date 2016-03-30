@@ -1,4 +1,6 @@
 /* eslint no-console:0 */
+import 'babel-polyfill';
+
 import express from 'express';
 import fs from 'fs';
 import postcss from 'postcss';

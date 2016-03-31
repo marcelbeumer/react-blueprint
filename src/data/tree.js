@@ -1,3 +1,4 @@
+// @flow
 /* eslint new-cap:0 */
 import { Record } from 'immutable';
 import ListData from './list';
@@ -12,14 +13,14 @@ const TreeData = Record({
   }),
 });
 
-TreeData.fromServerData = data => {
+TreeData.fromServerData = (data: Object) => {
   const values = Object.assign({}, data);
   if (values.list) values.list = new ListData(values.list);
   return TreeData(values);
 };
 
 Object.assign(TreeData.prototype, {
-  toServerData() {
+  toServerData(): Object {
     return this.toJSON();
   },
 });

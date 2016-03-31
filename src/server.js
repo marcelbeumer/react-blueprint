@@ -1,3 +1,4 @@
+// @flow
 /* eslint no-console:0 */
 import 'babel-polyfill';
 import express from 'express';
@@ -17,7 +18,7 @@ import { getCss } from './component/styles';
 import env from 'node-env';
 
 const SSR = process.env.SSR;
-const REVISION = process.env.REVISION || Number(new Date());
+const REVISION = process.env.REVISION || String(Number(new Date()));
 const prod = env === 'production';
 const app = express();
 const renderer = createRenderer(settings);
@@ -34,24 +35,26 @@ const injectRender = (output, render) =>
 const injectAssetPath = (output, assetPath) =>
   output.replace(/__ASSETS__/g, assetPath);
 
-const injectRevision = (output, revision) =>
+const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
 
-export function getComponentCss() {
+export function getComponentCss(): string {
   const source = getCss({ pretty: !prod });
   const css = String(postcss([autoprefixer]).process(source));
   return prod ? new CleanCSS().minify(css).styles : css;
 }
 
-export function renderApp(location, assetFs) {
-  let router = null;
+export function renderApp(location: string, assetFs: any): Promise {
+  let router: Router;
 
   const renderServices = {};
   const initialState = new DataTree();
   const actions = createActions(() => router);
 
+  const x: number = 123;
+  createRedux(x, actions);
   const { store, boundActions } = createRedux(initialState, actions);
-  router = new Router(createRoutes(store, actions));
+  router = new Router(createRoutes(store, actions), location); // eslint-disable-line prefer-const
   renderServices.getUrl = router.getUrl.bind(router);
 
   return router.runUrl(location).then(() => {
@@ -67,14 +70,14 @@ export function renderApp(location, assetFs) {
   });
 }
 
-export function staticApp(location, assetFs) {
+export function staticApp(location: string, assetFs: any): Promise {
   return new Promise(resolve => {
     const html = getTemplate(assetFs);
     resolve(html);
   });
 }
 
-export default function createApp(assetFs) {
+export default function createApp(assetFs: any): any {
   app.use('/asset/component.css', (req, res) => {
     res.set('Content-Type', 'text/css');
     res.send(getComponentCss());

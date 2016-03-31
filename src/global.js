@@ -1,3 +1,4 @@
+// @flow
 let enabled = false;
 let property = null;
 
@@ -6,7 +7,7 @@ if (global.localStorage) {
   enabled = typeof property === 'string';
 }
 
-export function expose(name, thing) {
+export function expose(name: string, thing: any) {
   if (!enabled) return;
 
   global[property] = global[property] || {};

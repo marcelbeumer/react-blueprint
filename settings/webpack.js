@@ -20,7 +20,15 @@ const config = {
   context: `${__dirname}/../src`,
   entry: {
     app: ['./browser.js'],
-    vendor: ['react', 'react-dom', 'immutable', 'react-hammerjs', 'stilr', 'redux'],
+    vendor: [
+      'babel-polyfill',
+      'react',
+      'react-dom',
+      'immutable',
+      'react-hammerjs',
+      'stilr',
+      'redux',
+    ],
   },
   output: {
     path: `${__dirname}/../dist/asset`,

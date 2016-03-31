@@ -1,4 +1,5 @@
 /* eslint no-console:0 */
+import 'babel-polyfill';
 import express from 'express';
 import webpack from 'webpack';
 import path from 'path';

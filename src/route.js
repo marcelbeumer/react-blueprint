@@ -1,6 +1,8 @@
+// @flow
 import { createRoute } from './router';
+type Store = {dispatch: Function};
 
-export default function createRoutes(store, actions) {
+export default function createRoutes(store: Store, actions: Object): Object {
   const setScreen = ({ name }) => {
     store.dispatch(actions.setScreen(name));
   };

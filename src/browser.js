@@ -1,4 +1,5 @@
 /* eslint no-console:0 */
+import 'babel-polyfill';
 import './style/index.css';
 import createDebug from 'debug';
 import { expose } from './global';

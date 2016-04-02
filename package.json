@@ -6,7 +6,6 @@
   "main": "src/index.js",
   "scripts": {
     "clean": "rimraf dist/*",
-    "pretest": "npm run build -s",
     "test": "mocha --compilers js:babel-register",
     "server": "node scripts/start-server.js",
     "render": "node scripts/render-pages.js",

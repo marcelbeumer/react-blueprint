@@ -1,6 +1,6 @@
 import React from 'react';
 import Hammer from 'react-hammerjs';
-import pureRender from 'pure-render-decorator';
+import pureRender from './pure-render';
 
 const { assign } = Object;
 const { object } = React.PropTypes;
@@ -12,7 +12,6 @@ const hammerOptions = {
   },
 };
 
-@pureRender
 export default class Gestures extends React.Component {
   static propTypes = {
     options: object,
@@ -88,3 +87,5 @@ export default class Gestures extends React.Component {
     return <Hammer {...this.props} {...this.wrappedHandlers} options={options} />;
   }
 }
+
+pureRender(Gestures);

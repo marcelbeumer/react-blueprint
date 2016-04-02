@@ -1,9 +1,8 @@
 /* eslint max-len:0 */
 import React from 'react';
-import pureRender from 'pure-render-decorator';
+import pureRender from './pure-render';
 import theme from './theme';
 
-@pureRender
 export default class GithubIcon extends React.Component {
   render() {
     return (
@@ -14,3 +13,4 @@ export default class GithubIcon extends React.Component {
   }
 }
 
+pureRender(GithubIcon);

@@ -1,8 +1,7 @@
 import React from 'react';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from '../pure-render';
 import refHandler from '../ref-handler';
 import BarMeterItem from './item';
 
@@ -12,7 +11,6 @@ const { min, max } = Math;
 const { number, func, array } = React.PropTypes;
 const { listOf } = ImmutablePropTypes;
 
-@pureRender
 export default class BarMeter extends React.Component {
 
   static propTypes = {
@@ -26,8 +24,7 @@ export default class BarMeter extends React.Component {
     onChange: () => null,
   }
 
-  @autobind
-  onDrag(e, item) {
+  onDrag = (e, item) => {
     const deltaX = e.eventDeltaX;
     if (isNaN(deltaX)) return;
 
@@ -71,3 +68,5 @@ export default class BarMeter extends React.Component {
     );
   }
 }
+
+pureRender(BarMeter);

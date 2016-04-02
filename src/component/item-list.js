@@ -1,7 +1,7 @@
 import React from 'react';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import pureRender from 'pure-render-decorator';
+import pureRender from './pure-render';
 import StyleSheet, { px } from './styles';
 import theme from './theme';
 
@@ -31,7 +31,6 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class ItemList extends React.Component {
 
   static propTypes = {
@@ -61,3 +60,5 @@ export default class ItemList extends React.Component {
     );
   }
 }
+
+pureRender(ItemList);

@@ -1,5 +1,5 @@
 import React from 'react';
-import pureRender from 'pure-render-decorator';
+import pureRender from './pure-render';
 import StyleSheet from './styles';
 import theme from './theme';
 import cx from 'classnames';
@@ -21,7 +21,6 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class Button extends React.Component {
   static propTypes = {
     className: string,
@@ -39,3 +38,5 @@ export default class Button extends React.Component {
     );
   }
 }
+
+pureRender(Button);

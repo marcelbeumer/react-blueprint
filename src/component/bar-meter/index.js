@@ -11,7 +11,7 @@ const { min, max } = Math;
 
 export default class BarMeter extends React.Component {
   props: {
-    children: number,
+    children?: any,
     values: List<number>,
     onChange: Function,
   };
@@ -56,7 +56,7 @@ export default class BarMeter extends React.Component {
       <BarMeterItem key={`bar-${i}`} value={value} onDrag={this.onDrag} />);
   }
 
-  render(): Element {
+  render() {
     return (
       <div ref={this.refRoot}>
         {this.cloneChildren()}

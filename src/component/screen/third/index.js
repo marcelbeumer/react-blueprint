@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import pureRender from '../../pure-render';
 import ScreenContainer from '../container';

@@ -34,7 +34,7 @@ export default class BarMeterItem extends React.Component {
     this.props.onDrag(e, this);
   };
 
-  render(): Element {
+  render() {
     const { value } = this.props;
     return (
       <Gestures onPan={this.onPan}>

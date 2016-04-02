@@ -91,7 +91,7 @@ export default class SceneNavigation extends React.Component {
     });
   }
 
-  render(): Element {
+  render() {
     const screens = this.getItems();
     return (
       <div className={styles.root}>

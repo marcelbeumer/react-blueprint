@@ -1,9 +1,8 @@
+// @flow
 import React from 'react';
 import pureRender from '../pure-render';
 import StyleSheet from '../styles';
 import theme from '../theme';
-
-const { array } = React.PropTypes;
 
 const styles = StyleSheet.create({
   root: {
@@ -23,10 +22,9 @@ const styles = StyleSheet.create({
 });
 
 export default class ScreenContainer extends React.Component {
-  static propTypes = {
-    children: array,
-  }
-
+  props: {
+    children?: any,
+  };
   render() {
     return (
       <div className={styles.root}>

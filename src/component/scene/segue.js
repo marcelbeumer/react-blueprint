@@ -1,3 +1,4 @@
+// @flow
 /* eslint no-nested-ternary:0 */
 import React from 'react';
 import cx from 'classnames';
@@ -6,10 +7,10 @@ import refHandler from '../ref-handler';
 import StyleSheet from '../styles';
 import raf from '../../raf';
 import { easeInQuad as easing } from 'penner';
+import type { Component, Element } from 'react';
 
 const screensPerSecond = 0.3;
 const { min, max } = Math;
-const { string, bool, any } = React.PropTypes;
 const { requestAnimationFrame, cancelAnimationFrame } = raf();
 
 export const styles = StyleSheet.create({
@@ -36,25 +37,24 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const SegueFixed = props => props.children;
-export const SegueScreen = () => null;
-
-SegueScreen.propTypes = {
-  name: string,
-  component: any,
-};
+type ScreenDef = {name: string, component: Component};
+type SegueFixedProps = { children: Array<Element> };
+export const SegueFixed: any = (props: SegueFixedProps) => props.children;
+export const SegueScreen: any = () => null;
 
 export class SegueContainer extends React.Component {
-
-  static propTypes = {
+  props: {
     screen: string,
-    animate: bool,
-    children: any,
-  }
+    animate: boolean,
+    children?: Array<Element>,
+  };
 
-  state = this.getCleanState();
+  state: Object = this.getCleanState();
+  refRoot: Function = refHandler(this, '_root');
+  refContainer: Function = refHandler(this, '_container');
+  _rafHandle: ?any;
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Object) {
     if (!nextProps.screen ||
       nextProps.screen === this.props.screen) return;
 
@@ -81,17 +81,18 @@ export class SegueContainer extends React.Component {
     }
   }
 
-  getCleanState(props = this.props) {
+  getCleanState(props: ?Object): Object {
+    const propsRef = props || this.props;
     return {
       offset: 0,
       easeOffset: 0,
-      visibleScreens: [props.screen],
-      currentScreen: props.screen,
-      targetScreen: props.screen,
+      visibleScreens: [propsRef.screen],
+      currentScreen: propsRef.screen,
+      targetScreen: propsRef.screen,
     };
   }
 
-  getScreens() {
+  getScreens(): Array<ScreenDef> {
     const screens = [];
     React.Children.map(this.props.children, child => {
       if (child.type === SegueScreen) {
@@ -103,9 +104,6 @@ export class SegueContainer extends React.Component {
     });
     return screens;
   }
-
-  refRoot = refHandler(this, '_root');
-  refContainer = refHandler(this, '_container');
 
   animateToTargetScreen() {
     const duration = screensPerSecond * 1000;
@@ -151,12 +149,13 @@ export class SegueContainer extends React.Component {
     cancelAnimationFrame(this._rafHandle);
   }
 
-  renderScreens() {
+  renderScreens(): Array<Element> {
     const { visibleScreens } = this.state;
     const screens = this.getScreens();
     const segue = visibleScreens.length > 1;
 
     return visibleScreens.map((screenName, i) => {
+      // $FlowFixMe
       const [{ component: Screen }] = screens.filter(screen => screen.name === screenName);
       return (
         <div className={cx(styles.screen, segue && styles.segueScreen)} key={`screen-${i}`}>
@@ -166,7 +165,7 @@ export class SegueContainer extends React.Component {
     });
   }
 
-  renderFixed() {
+  renderFixed(): Array<Element> {
     return React.Children.map(this.props.children, child => (
       child.type === SegueFixed ? React.cloneElement(child) : null));
   }

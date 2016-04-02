@@ -5,7 +5,7 @@ import pureRender from '../pure-render';
 import cx from 'classnames';
 import StyleSheet, { em } from '../styles';
 import theme from '../theme';
-import type { Component, Element } from 'react';
+import type { Element } from 'react';
 
 const itemSize = 1;
 const itemMargin = Math.round((itemSize / 6) * 10) / 10;
@@ -38,10 +38,10 @@ export const styles = StyleSheet.create({
   },
 });
 
-type Screen = {name: string, component: Component};
+type ItemDef = {name: string};
 export const SceneNavigationItem: Function = () => null;
 
-function getScreenIndex(screens: Array<Screen>, screen) {
+function getItemIndex(screens: Array<ItemDef>, screen) {
   return screens.map(item => item.name).indexOf(screen);
 }
 
@@ -63,22 +63,21 @@ export default class SceneNavigation extends React.Component {
     setUrl(getUrl(name), name);
   });
 
-  getScreens(): Array<Screen> {
+  getItems(): Array<ItemDef> {
     const screens = [];
     React.Children.map(this.props.children, child => {
       if (child.type === SceneNavigationItem) {
         screens.push({
           name: child.props.name,
-          component: child.props.component,
         });
       }
     });
     return screens;
   }
 
-  renderItems(screens: Array<Screen>): Array<Element> {
+  renderItems(screens: Array<ItemDef>): Array<Element> {
     const { screen: currentScreen, inverse } = this.props;
-    const index = getScreenIndex(screens, currentScreen);
+    const index = getItemIndex(screens, currentScreen);
     return screens.map((screen, i) => {
       const itemClasses = cx(styles.item, {
         [styles.itemInverse]: inverse,
@@ -93,7 +92,7 @@ export default class SceneNavigation extends React.Component {
   }
 
   render(): Element {
-    const screens = this.getScreens();
+    const screens = this.getItems();
     return (
       <div className={styles.root}>
         {this.renderItems(screens)}

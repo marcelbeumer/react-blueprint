@@ -1,7 +1,6 @@
 import React from 'react';
 import Gestures from '../gestures';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from '../pure-render';
 import StyleSheet, { px } from '../styles';
 import theme from '../theme';
 
@@ -18,7 +17,6 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class BarMeterItem extends React.Component {
   static propTypes = {
     value: number,
@@ -32,8 +30,7 @@ export default class BarMeterItem extends React.Component {
     onChange: () => null,
   }
 
-  @autobind
-  onPan(e) {
+  onPan = (e) => {
     this.props.onDrag(e, this);
   }
 
@@ -50,3 +47,5 @@ export default class BarMeterItem extends React.Component {
     );
   }
 }
+
+pureRender(BarMeterItem);

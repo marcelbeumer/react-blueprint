@@ -1,5 +1,5 @@
 import React from 'react';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../../pure-render';
 import ScreenContainer from '../container';
 import ScreenForeground from '../foreground';
 import ScreenBackground from '../background';
@@ -19,9 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class ThirdScreen extends React.Component {
-
   render() {
     return (
       <ScreenContainer>
@@ -43,3 +41,5 @@ export default class ThirdScreen extends React.Component {
     );
   }
 }
+
+pureRender(ThirdScreen);

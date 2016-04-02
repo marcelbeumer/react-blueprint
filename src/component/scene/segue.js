@@ -1,7 +1,7 @@
 /* eslint no-nested-ternary:0 */
 import React from 'react';
 import cx from 'classnames';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../pure-render';
 import refHandler from '../ref-handler';
 import StyleSheet from '../styles';
 import raf from '../../raf';
@@ -44,7 +44,6 @@ SegueScreen.propTypes = {
   component: any,
 };
 
-@pureRender
 export class SegueContainer extends React.Component {
 
   static propTypes = {
@@ -196,3 +195,5 @@ export class SegueContainer extends React.Component {
     );
   }
 }
+
+pureRender(SegueContainer);

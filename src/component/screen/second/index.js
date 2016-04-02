@@ -1,5 +1,5 @@
 import React from 'react';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../../pure-render';
 import ScreenContainer from '../container';
 import ScreenForeground from '../foreground';
 import ScreenBackground from '../background';
@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class SecondScreen extends React.Component {
 
   render() {
@@ -43,3 +42,5 @@ export default class SecondScreen extends React.Component {
     );
   }
 }
+
+pureRender(SecondScreen);

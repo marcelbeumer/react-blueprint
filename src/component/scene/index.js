@@ -1,7 +1,7 @@
 /* eslint no-nested-ternary:0 */
 import React from 'react';
 import cx from 'classnames';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../pure-render';
 import StyleSheet from '../styles';
 import SceneNavigation, { SceneNavigationItem } from './navigation';
 import { SegueContainer, SegueFixed, SegueScreen } from './segue';
@@ -38,9 +38,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class Scene extends React.Component {
-
   static propTypes = {
     actions: object,
     screen: string,
@@ -74,3 +72,5 @@ export default class Scene extends React.Component {
     );
   }
 }
+
+pureRender(Scene);

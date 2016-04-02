@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../../pure-render';
 import StyleSheet from '../../styles';
 import theme from '../../theme';
 export ScreenBackgroundContent from './content';
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class ScreenBackground extends React.Component {
   static propTypes = {
     children: any,
@@ -43,3 +42,5 @@ export default class ScreenBackground extends React.Component {
     );
   }
 }
+
+pureRender(ScreenBackground);

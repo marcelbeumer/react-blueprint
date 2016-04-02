@@ -16,7 +16,7 @@ $ open http://localhost:8080
 
 ## Features and patterns
 
-- ES6+ with Babel (es)linted airbnb style
+- ES6+ with Babel, Flowtype, and Airbnb-style ESLint
 - Clean Redux setup running on Immutable.js data (no React or routing bindings)
 - Server pre-rendering React elements and component stylesheets
 - Browser/server rendering divided by target specific bootstrap

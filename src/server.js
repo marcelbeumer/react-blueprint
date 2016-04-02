@@ -51,8 +51,6 @@ export function renderApp(location: string, assetFs: any): Promise {
   const initialState = new DataTree();
   const actions = createActions(() => router);
 
-  const x: number = 123;
-  createRedux(x, actions);
   const { store, boundActions } = createRedux(initialState, actions);
   router = new Router(createRoutes(store, actions), location); // eslint-disable-line prefer-const
   renderServices.getUrl = router.getUrl.bind(router);

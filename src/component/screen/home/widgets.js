@@ -1,8 +1,7 @@
 import React from 'react';
 import range from 'lodash/range';
 import { List } from 'immutable';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from '../../pure-render';
 import Slider, { SliderGrippy } from '../../slider';
 import BarMeter, { BarMeterItem } from '../../bar-meter';
 import ItemList from '../../item-list';
@@ -25,7 +24,6 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class HomeScreenWidgets extends React.Component {
 
   static propTypes = {
@@ -33,26 +31,22 @@ export default class HomeScreenWidgets extends React.Component {
     list: listType,
   }
 
-  @autobind
-  onStartChange(value) {
+  onStartChange = (value) => {
     const { actions, list } = this.props;
     actions.setListStart(value * list.length);
   }
 
-  @autobind
-  onEndChange(value) {
+  onEndChange = (value) => {
     const { actions, list } = this.props;
     actions.setListEnd(value * list.length);
   }
 
-  @autobind
-  onListResize(height) {
+  onListResize = (height) => {
     const { actions, list } = this.props;
     actions.setListEnd(list.start + height);
   }
 
-  @autobind
-  onListScroll(scrollTop) {
+  onListScroll = (scrollTop) => {
     const { actions, list } = this.props;
     const items = list.end - list.start;
     const start = scrollTop;
@@ -65,15 +59,8 @@ export default class HomeScreenWidgets extends React.Component {
     return parseInt(resolved.fontSize, 10);
   }
 
-  @autobind
-  fromPx(px) {
-    return px / this.getFontSizeContainerPx();
-  }
-
-  @autobind
-  toPx(val) {
-    return val * this.getFontSizeContainerPx();
-  }
+  fromPx = px => px / this.getFontSizeContainerPx();
+  toPx = val => val * this.getFontSizeContainerPx();
 
   render() {
     const { list } = this.props;
@@ -112,3 +99,5 @@ export default class HomeScreenWidgets extends React.Component {
     );
   }
 }
+
+pureRender(HomeScreenWidgets);

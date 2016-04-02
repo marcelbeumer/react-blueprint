@@ -1,8 +1,7 @@
 import React from 'react';
 import { List } from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from '../pure-render';
 import refHandler from '../ref-handler';
 import SliderGrippy from './grippy';
 import StyleSheet from '../styles';
@@ -31,7 +30,6 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class Slider extends React.Component {
 
   static propTypes = {
@@ -45,8 +43,7 @@ export default class Slider extends React.Component {
     onChange: () => null,
   }
 
-  @autobind
-  onDrag(e, grippy) {
+  onDrag = (e, grippy) => {
     const deltaX = e.eventDeltaX;
     if (isNaN(deltaX)) return;
 
@@ -90,3 +87,5 @@ export default class Slider extends React.Component {
     );
   }
 }
+
+pureRender(Slider);

@@ -1,6 +1,5 @@
 import React from 'react';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from './pure-render';
 import refHandler from './ref-handler';
 import StyleSheet, { px } from './styles';
 import Gestures from './gestures';
@@ -41,7 +40,6 @@ export const styles = StyleSheet.create({
   }, scrollbarStyle),
 });
 
-@pureRender
 export default class ResizableContent extends React.Component {
 
   static propTypes = {
@@ -79,8 +77,7 @@ export default class ResizableContent extends React.Component {
     this._content.scrollTop = toPx(this.props.scrollTop);
   }
 
-  @autobind
-  onDrag(e, ui) {
+  onDrag = (e, ui) => {
     const { fromPx } = this.props;
     const { top: rootTop } = this._content.getBoundingClientRect();
     const { height: handleHeight } = this._handle.getBoundingClientRect();
@@ -89,8 +86,7 @@ export default class ResizableContent extends React.Component {
     this.props.onResize(fromPx(max(handleHeight, value)));
   }
 
-  @autobind
-  onPan(e) {
+  onPan = e => {
     const { fromPx } = this.props;
     const { top: rootTop } = this._content.getBoundingClientRect();
     const { height: handleHeight } = this._handle.getBoundingClientRect();
@@ -99,8 +95,7 @@ export default class ResizableContent extends React.Component {
     this.props.onResize(fromPx(max(handleHeight, value)));
   }
 
-  @autobind
-  onScroll() {
+  onScroll = () => {
     const { fromPx } = this.props;
     const scrollTop = fromPx(this._content.scrollTop);
     if (scrollTop !== Math.floor(this.props.scrollTop)) {
@@ -146,3 +141,5 @@ export default class ResizableContent extends React.Component {
     );
   }
 }
+
+pureRender(ResizableContent);

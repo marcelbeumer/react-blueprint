@@ -1,5 +1,5 @@
 import React from 'react';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../pure-render';
 import StyleSheet from '../styles';
 import theme from '../theme';
 
@@ -22,9 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
-export default class HomeScreen extends React.Component {
-
+export default class ScreenContainer extends React.Component {
   static propTypes = {
     children: array,
   }
@@ -37,3 +35,5 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+pureRender(ScreenContainer);

@@ -1,6 +1,6 @@
 import React from 'react';
 import memoize from 'lodash/memoize';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../pure-render';
 import cx from 'classnames';
 import StyleSheet, { em } from '../styles';
 import theme from '../theme';
@@ -48,7 +48,6 @@ function getScreenIndex(screens, screen) {
   return screens.map(item => item.name).indexOf(screen);
 }
 
-@pureRender
 export default class SceneNavigation extends React.Component {
 
   static propTypes = {
@@ -106,3 +105,5 @@ export default class SceneNavigation extends React.Component {
     );
   }
 }
+
+pureRender(SceneNavigation);

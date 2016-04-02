@@ -2,6 +2,7 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "rules": {
-    "react/prefer-stateless-function": 0
+    "react/prefer-stateless-function": 0,
+    "react/sort-comp": 0,
   }
 }

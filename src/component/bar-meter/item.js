@@ -1,10 +1,10 @@
+// @flow
 import React from 'react';
 import Gestures from '../gestures';
 import pureRender from '../pure-render';
 import StyleSheet, { px } from '../styles';
 import theme from '../theme';
-
-const { number, func } = React.PropTypes;
+import type { Element } from 'react';
 const barColor = theme.highlightColor;
 
 export const styles = StyleSheet.create({
@@ -18,23 +18,23 @@ export const styles = StyleSheet.create({
 });
 
 export default class BarMeterItem extends React.Component {
-  static propTypes = {
+  props: {
     value: number,
-    onDrag: func,
-    onChange: func,
-  }
+    onDrag: Function,
+    onChange: Function,
+  };
 
   static defaultProps = {
     value: 0,
     onDrag: () => null,
     onChange: () => null,
-  }
+  };
 
-  onPan = (e) => {
+  onPan:Function = (e: Object) => {
     this.props.onDrag(e, this);
-  }
+  };
 
-  render() {
+  render(): Element {
     const { value } = this.props;
     return (
       <Gestures onPan={this.onPan}>

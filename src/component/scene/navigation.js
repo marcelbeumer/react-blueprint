@@ -1,11 +1,12 @@
+// @flow
 import React from 'react';
 import memoize from 'lodash/memoize';
 import pureRender from '../pure-render';
 import cx from 'classnames';
 import StyleSheet, { em } from '../styles';
 import theme from '../theme';
+import type { Component, Element } from 'react';
 
-const { bool, func, string, any } = React.PropTypes;
 const itemSize = 1;
 const itemMargin = Math.round((itemSize / 6) * 10) / 10;
 
@@ -37,37 +38,32 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const SceneNavigationItem = () => null;
+type Screen = {name: string, component: Component};
+export const SceneNavigationItem: Function = () => null;
 
-SceneNavigationItem.propTypes = {
-  name: string,
-  component: any,
-};
-
-function getScreenIndex(screens, screen) {
+function getScreenIndex(screens: Array<Screen>, screen) {
   return screens.map(item => item.name).indexOf(screen);
 }
 
 export default class SceneNavigation extends React.Component {
-
-  static propTypes = {
+  props: {
     screen: string,
-    setUrl: func,
-    getUrl: func,
-    inverse: bool,
-    children: any,
-  }
+    setUrl: Function,
+    getUrl: Function,
+    inverse: boolean,
+    children?: Array<Element>,
+  };
 
   static defaultProps = {
     screen: '',
-  }
+  };
 
-  getItemHandler = memoize(name => () => {
+  getItemHandler: Function = memoize(name => () => {
     const { setUrl, getUrl } = this.props;
     setUrl(getUrl(name), name);
-  })
+  });
 
-  getScreens() {
+  getScreens(): Array<Screen> {
     const screens = [];
     React.Children.map(this.props.children, child => {
       if (child.type === SceneNavigationItem) {
@@ -80,7 +76,7 @@ export default class SceneNavigation extends React.Component {
     return screens;
   }
 
-  renderItems(screens) {
+  renderItems(screens: Array<Screen>): Array<Element> {
     const { screen: currentScreen, inverse } = this.props;
     const index = getScreenIndex(screens, currentScreen);
     return screens.map((screen, i) => {
@@ -96,7 +92,7 @@ export default class SceneNavigation extends React.Component {
     });
   }
 
-  render() {
+  render(): Element {
     const screens = this.getScreens();
     return (
       <div className={styles.root}>

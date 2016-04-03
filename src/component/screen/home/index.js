@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import ScreenContainer from '../container';
 import ScreenForeground from '../foreground';
@@ -9,17 +10,14 @@ import HomeScreenWidgets from './widgets';
 import Button from '../../button';
 import pureRender from '../../pure-render';
 import styles from './styles';
-import { listType } from '../../types';
-
-const { object, bool } = React.PropTypes;
+import type { listType } from '../../types';
 
 export default class HomeScreen extends React.Component {
-
-  static propTypes = {
-    actions: object,
-    showBackground: bool,
+  props: {
+    actions: Object,
+    showBackground: boolean,
     list: listType,
-  }
+  };
 
   render() {
     const { list, actions } = this.props;

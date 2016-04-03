@@ -1,3 +1,4 @@
+// @flow
 /* eslint new-cap:0 */
 import { Record } from 'immutable';
 

@@ -1,11 +1,12 @@
+// @flow
 import React from 'react';
 import memoize from 'lodash/memoize';
 import pureRender from '../pure-render';
 import cx from 'classnames';
 import StyleSheet, { em } from '../styles';
 import theme from '../theme';
+import type { Element } from 'react';
 
-const { bool, func, string, any } = React.PropTypes;
 const itemSize = 1;
 const itemMargin = Math.round((itemSize / 6) * 10) / 10;
 
@@ -37,52 +38,46 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const SceneNavigationItem = () => null;
+type ItemDef = {name: string};
+export const SceneNavigationItem: Function = () => null;
 
-SceneNavigationItem.propTypes = {
-  name: string,
-  component: any,
-};
-
-function getScreenIndex(screens, screen) {
+function getItemIndex(screens: Array<ItemDef>, screen) {
   return screens.map(item => item.name).indexOf(screen);
 }
 
 export default class SceneNavigation extends React.Component {
-
-  static propTypes = {
+  props: {
     screen: string,
-    setUrl: func,
-    getUrl: func,
-    inverse: bool,
-    children: any,
-  }
+    setUrl: Function,
+    getUrl: Function,
+    inverse: boolean,
+    children?: Array<Element>,
+  };
 
   static defaultProps = {
     screen: '',
-  }
+  };
 
-  getItemHandler = memoize(name => () => {
+  getItemHandler: Function = memoize(name => () => {
     const { setUrl, getUrl } = this.props;
     setUrl(getUrl(name), name);
-  })
+  });
 
-  getScreens() {
+  getItems(): Array<ItemDef> {
     const screens = [];
     React.Children.map(this.props.children, child => {
       if (child.type === SceneNavigationItem) {
         screens.push({
           name: child.props.name,
-          component: child.props.component,
         });
       }
     });
     return screens;
   }
 
-  renderItems(screens) {
+  renderItems(screens: Array<ItemDef>): Array<Element> {
     const { screen: currentScreen, inverse } = this.props;
-    const index = getScreenIndex(screens, currentScreen);
+    const index = getItemIndex(screens, currentScreen);
     return screens.map((screen, i) => {
       const itemClasses = cx(styles.item, {
         [styles.itemInverse]: inverse,
@@ -97,7 +92,7 @@ export default class SceneNavigation extends React.Component {
   }
 
   render() {
-    const screens = this.getScreens();
+    const screens = this.getItems();
     return (
       <div className={styles.root}>
         {this.renderItems(screens)}

@@ -1,3 +1,4 @@
+// @flow
 /* eslint max-len:0 */
 import React from 'react';
 import pureRender from './pure-render';

@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import range from 'lodash/range';
 import { List } from 'immutable';
@@ -8,9 +9,7 @@ import ItemList from '../../item-list';
 import ResizableContent from '../../resizable-content';
 import StyleSheet, { em, resolveMedia } from '../../styles';
 import theme from '../../theme';
-import { listType } from '../../types';
-
-const { object } = React.PropTypes;
+import type { listType } from '../../types';
 
 const styles = StyleSheet.create({
   fontSizeContainer: {
@@ -25,42 +24,41 @@ const styles = StyleSheet.create({
 });
 
 export default class HomeScreenWidgets extends React.Component {
-
-  static propTypes = {
-    actions: object,
+  props: {
+    actions: Object,
     list: listType,
-  }
+  };
 
-  onStartChange = (value) => {
+  onStartChange: Function = (value: number) => {
     const { actions, list } = this.props;
     actions.setListStart(value * list.length);
-  }
+  };
 
-  onEndChange = (value) => {
+  onEndChange: Function = (value: number) => {
     const { actions, list } = this.props;
     actions.setListEnd(value * list.length);
-  }
+  };
 
-  onListResize = (height) => {
+  onListResize: Function = (height: number) => {
     const { actions, list } = this.props;
     actions.setListEnd(list.start + height);
-  }
+  };
 
-  onListScroll = (scrollTop) => {
+  onListScroll: Function = (scrollTop: number) => {
     const { actions, list } = this.props;
     const items = list.end - list.start;
     const start = scrollTop;
     const end = start + items;
     actions.setListRange(start, end);
-  }
+  };
 
-  getFontSizeContainerPx() {
+  getFontSizeContainerPx(): number {
     const resolved = resolveMedia(styles.getStyles().fontSizeContainer);
     return parseInt(resolved.fontSize, 10);
   }
 
-  fromPx = px => px / this.getFontSizeContainerPx();
-  toPx = val => val * this.getFontSizeContainerPx();
+  fromPx: Function = (px: number) => px / this.getFontSizeContainerPx();
+  toPx: Function = (val: number) => val * this.getFontSizeContainerPx();
 
   render() {
     const { list } = this.props;

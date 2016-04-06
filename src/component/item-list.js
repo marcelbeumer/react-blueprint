@@ -1,12 +1,11 @@
+// @flow
 import React from 'react';
 import { List } from 'immutable';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import pureRender from 'pure-render-decorator';
+import pureRender from './pure-render';
 import StyleSheet, { px } from './styles';
 import theme from './theme';
+import type { Element } from 'react';
 
-const { string } = React.PropTypes;
-const { listOf } = ImmutablePropTypes;
 const itemMargin = 2;
 
 export const styles = StyleSheet.create({
@@ -31,18 +30,16 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class ItemList extends React.Component {
-
-  static propTypes = {
-    items: listOf(string),
-  }
+  props: {
+    items: List<String>,
+  };
 
   static defaultProps = {
     items: new List(),
-  }
+  };
 
-  renderItems() {
+  renderItems(): Array<Element> {
     const { items } = this.props;
     return items.map((value, i) =>
       <div className={styles.item} key={`item-${i}`}>
@@ -61,3 +58,5 @@ export default class ItemList extends React.Component {
     );
   }
 }
+
+pureRender(ItemList);

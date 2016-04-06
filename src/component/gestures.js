@@ -1,9 +1,9 @@
+// @flow
 import React from 'react';
 import Hammer from 'react-hammerjs';
-import pureRender from 'pure-render-decorator';
+import pureRender from './pure-render';
 
 const { assign } = Object;
-const { object } = React.PropTypes;
 const hammerOptions = {
   recognizers: {
     pan: {
@@ -12,24 +12,23 @@ const hammerOptions = {
   },
 };
 
-@pureRender
 export default class Gestures extends React.Component {
-  static propTypes = {
-    options: object,
-  }
+  props: {
+    options?: Object,
+  };
 
   componentWillMount() {
     this.wrapHandlers(this.props);
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillUpdate(nextProps: Object) {
     this.wrapHandlers(nextProps);
   }
 
-  wrappedHandlers = {};
-  hammerDelta = {};
+  wrappedHandlers: Object = {};
+  hammerDelta: Object = {};
 
-  wrapHandlers(props) {
+  wrapHandlers(props: Object) {
     const wrapped = this.wrappedHandlers;
     const propNames = Object.keys(props);
     const deltaEvents = propNames.filter(name => /^on(Pan)$/.test(name));
@@ -55,7 +54,8 @@ export default class Gestures extends React.Component {
     });
   }
 
-  handleDeltaEvent(e, name) {
+  handleDeltaEvent(e: Object, name: string) {
+    // $FlowFixMe
     assign(document.body.style, {
       userSelect: 'none',
       WebkitUserSelect: 'none',
@@ -73,7 +73,8 @@ export default class Gestures extends React.Component {
     if (this.props[name]) this.props[name](event);
   }
 
-  handleEndEvent(e, name) {
+  handleEndEvent(e: Object, name: string) {
+    // $FlowFixMe
     assign(document.body.style, {
       userSelect: null,
       WebkitUserSelect: null,
@@ -88,3 +89,5 @@ export default class Gestures extends React.Component {
     return <Hammer {...this.props} {...this.wrappedHandlers} options={options} />;
   }
 }
+
+pureRender(Gestures);

@@ -1,17 +1,14 @@
+// @flow
 import React from 'react';
 import { List } from 'immutable';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from '../pure-render';
 import refHandler from '../ref-handler';
 import SliderGrippy from './grippy';
 import StyleSheet from '../styles';
 import theme from '../theme';
+import type { Element, Component } from 'react';
 
-export SliderGrippy from './grippy';
-
-const { func, any, number } = React.PropTypes;
-const { listOf } = ImmutablePropTypes;
+export { default as SliderGrippy } from './grippy';
 const { min, max } = Math;
 
 export const styles = StyleSheet.create({
@@ -31,42 +28,40 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class Slider extends React.Component {
-
-  static propTypes = {
-    values: listOf(number),
-    children: any,
-    onChange: func,
-  }
+  root: Object;
+  props: {
+    values: List<number>,
+    onChange: Function,
+    children?: any,
+  };
 
   static defaultProps = {
     values: new List(),
     onChange: () => null,
-  }
+  };
 
-  @autobind
-  onDrag(e, grippy) {
+  refRoot: Function = refHandler(this, 'root');
+
+  onDrag: Function = (e: Object, grippy: Component) => {
     const deltaX = e.eventDeltaX;
     if (isNaN(deltaX)) return;
 
-    const { width } = this._root.getBoundingClientRect();
+    const { width } = this.root.getBoundingClientRect();
     const ratio = 1 / width;
     const { value } = grippy.props;
     const updatedValue = min(max(value + (deltaX * ratio), 0), 1);
     this.changeValue(value, updatedValue, grippy);
-  }
+  };
 
-  refRoot = refHandler(this, '_root');
-
-  changeValue(value, updatedValue, grippy) {
+  changeValue(value: number, updatedValue: number, grippy: ?Component) {
     const { values } = this.props;
     const index = values.lastIndexOf(value);
     if (index !== -1) this.props.onChange(values.set(index, updatedValue), index, updatedValue);
     if (grippy) grippy.props.onChange(updatedValue);
   }
 
-  cloneChildren() {
+  cloneChildren(): Array<Element> {
     return React.Children.map(this.props.children, child => (
       child.type === SliderGrippy ? React.cloneElement(child, {
         onDrag: this.onDrag,
@@ -74,7 +69,7 @@ export default class Slider extends React.Component {
       child));
   }
 
-  renderValues() {
+  renderValues(): Array<Element> {
     const { values } = this.props;
     return values.map((value, i) =>
       <SliderGrippy key={`slider-${i}`} onDrag={this.onDrag} value={value} />);
@@ -90,3 +85,5 @@ export default class Slider extends React.Component {
     );
   }
 }
+
+pureRender(Slider);

@@ -1,9 +1,8 @@
+// @flow
 import React from 'react';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../pure-render';
 import StyleSheet from '../styles';
 import theme from '../theme';
-
-const { array } = React.PropTypes;
 
 const styles = StyleSheet.create({
   root: {
@@ -22,13 +21,10 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
-export default class HomeScreen extends React.Component {
-
-  static propTypes = {
-    children: array,
-  }
-
+export default class ScreenContainer extends React.Component {
+  props: {
+    children?: any,
+  };
   render() {
     return (
       <div className={styles.root}>
@@ -37,3 +33,5 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+pureRender(ScreenContainer);

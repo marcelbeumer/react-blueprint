@@ -1,11 +1,9 @@
+// @flow
 import React from 'react';
 import Gestures from '../gestures';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from '../pure-render';
 import StyleSheet, { px } from '../styles';
 import theme from '../theme';
-
-const { number, func } = React.PropTypes;
 
 export const styles = StyleSheet.create({
   grippy: {
@@ -20,22 +18,20 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class SliderGrippy extends React.Component {
-  static propTypes = {
+  props: {
     value: number,
-    onDrag: func,
-  }
+    onDrag: Function,
+  };
 
   static defaultProps = {
     value: 0,
     onDrag: () => null,
-  }
+  };
 
-  @autobind
-  onPan(e) {
+  onPan:Function = (e: Object) => {
     this.props.onDrag(e, this);
-  }
+  };
 
   render() {
     const { value } = this.props;
@@ -46,3 +42,5 @@ export default class SliderGrippy extends React.Component {
     );
   }
 }
+
+pureRender(SliderGrippy);

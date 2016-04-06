@@ -1,11 +1,9 @@
+// @flow
 import React from 'react';
 import Gestures from '../gestures';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from '../pure-render';
 import StyleSheet, { px } from '../styles';
 import theme from '../theme';
-
-const { number, func } = React.PropTypes;
 const barColor = theme.highlightColor;
 
 export const styles = StyleSheet.create({
@@ -18,24 +16,22 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class BarMeterItem extends React.Component {
-  static propTypes = {
+  props: {
     value: number,
-    onDrag: func,
-    onChange: func,
-  }
+    onDrag: Function,
+    onChange: Function,
+  };
 
   static defaultProps = {
     value: 0,
     onDrag: () => null,
     onChange: () => null,
-  }
+  };
 
-  @autobind
-  onPan(e) {
+  onPan:Function = (e: Object) => {
     this.props.onDrag(e, this);
-  }
+  };
 
   render() {
     const { value } = this.props;
@@ -50,3 +46,5 @@ export default class BarMeterItem extends React.Component {
     );
   }
 }
+
+pureRender(BarMeterItem);

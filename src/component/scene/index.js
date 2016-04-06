@@ -1,7 +1,8 @@
+// @flow
 /* eslint no-nested-ternary:0 */
 import React from 'react';
 import cx from 'classnames';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../pure-render';
 import StyleSheet from '../styles';
 import SceneNavigation, { SceneNavigationItem } from './navigation';
 import { SegueContainer, SegueFixed, SegueScreen } from './segue';
@@ -9,8 +10,6 @@ import HomeScreen from '../screen/home';
 import SecondScreen from '../screen/second';
 import ThirdScreen from '../screen/third';
 import theme from '../theme';
-
-const { object, string, bool } = React.PropTypes;
 
 export const styles = StyleSheet.create({
   navigation: {
@@ -38,15 +37,13 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class Scene extends React.Component {
-
-  static propTypes = {
-    actions: object,
+  props: {
+    actions: Object,
     screen: string,
-    showBackground: bool,
-    services: object,
-  }
+    showBackground: boolean,
+    services: Object,
+  };
 
   render() {
     const { actions, screen, showBackground, services } = this.props;
@@ -74,3 +71,5 @@ export default class Scene extends React.Component {
     );
   }
 }
+
+pureRender(Scene);

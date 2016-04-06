@@ -10,7 +10,7 @@ import createRedux from './redux';
 import createRoutes from './route';
 import Router from './router';
 
-let router = null;
+let router;
 const debug = createDebug('browser');
 debug('starting bootstrap');
 
@@ -30,7 +30,7 @@ const actions = createActions(() => router);
 const { store, boundActions } = createRedux(initialState, actions, state =>
   renderer(state, boundActions, renderServices));
 
-router = new Router(createRoutes(store, actions), location.pathname,
+router = new Router(createRoutes(store, actions), location.pathname, // eslint-disable-line prefer-const, max-len
   url => location.pathname !== url && history.pushState('', document.title, url));
 
 expose('renderer', renderer);

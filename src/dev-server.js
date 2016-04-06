@@ -1,3 +1,4 @@
+// @flow
 /* eslint no-console:0 */
 import 'babel-polyfill';
 import express from 'express';

@@ -1,11 +1,9 @@
+// @flow
 import React from 'react';
-import Hammer from 'react-hammerjs';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import Gestures from '../gestures';
+import pureRender from '../pure-render';
 import StyleSheet, { px } from '../styles';
 import theme from '../theme';
-
-const { number, func } = React.PropTypes;
 const barColor = theme.highlightColor;
 
 export const styles = StyleSheet.create({
@@ -18,51 +16,35 @@ export const styles = StyleSheet.create({
   },
 });
 
-const hammerOptions = {
-  recognizers: {
-    pan: {
-      threshold: 0,
-    },
-  },
-};
-
-@pureRender
 export default class BarMeterItem extends React.Component {
-  static propTypes = {
+  props: {
     value: number,
-    onDrag: func,
-    onChange: func,
-  }
+    onDrag: Function,
+    onChange: Function,
+  };
 
   static defaultProps = {
     value: 0,
     onDrag: () => null,
     onChange: () => null,
-  }
+  };
 
-  @autobind
-  onPan(e) {
-    this._panX = this._panX || 0;
-    const deltaX = e.deltaX - this._panX;
-    this._panX = e.deltaX;
-    this.props.onDrag(e, deltaX, this);
-  }
-
-  @autobind
-  onPanEnd() {
-    delete this._panX;
-  }
+  onPan:Function = (e: Object) => {
+    this.props.onDrag(e, this);
+  };
 
   render() {
     const { value } = this.props;
     return (
-      <Hammer options={hammerOptions} onPan={this.onPan} onPanEnd={this.onPanEnd}>
+      <Gestures onPan={this.onPan}>
         <div className={styles.bar} style={{
           transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
           backgroundColor: barColor,
         }}
         />
-      </Hammer>
+      </Gestures>
     );
   }
 }
+
+pureRender(BarMeterItem);

@@ -1,4 +1,5 @@
 /* eslint no-console:0 */
+import 'babel-polyfill';
 import './style/index.css';
 import createDebug from 'debug';
 import { expose } from './global';
@@ -29,7 +30,7 @@ const actions = createActions(() => router);
 const { store, boundActions } = createRedux(initialState, actions, state =>
   renderer(state, boundActions, renderServices));
 
-router = new Router(createRoutes(store, actions), location.pathname,
+router = new Router(createRoutes(store, actions), location.pathname, // eslint-disable-line prefer-const, max-len
   url => location.pathname !== url && history.pushState('', document.title, url));
 
 expose('renderer', renderer);
@@ -39,6 +40,11 @@ expose('boundActions', boundActions);
 expose('router', router);
 debug('bootstrap done');
 
-renderServices.getUrl = router.getUrl.bind(router);
-renderer(initialState, boundActions, renderServices);
 global.addEventListener('popstate', () => router.setUrl(location.pathname));
+renderServices.getUrl = router.getUrl.bind(router);
+
+if (element.querySelector('[data-react-checksum]')) {
+  renderer(initialState, boundActions, renderServices);
+} else {
+  router.runUrl(location.pathname);
+}

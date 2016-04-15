@@ -1,10 +1,9 @@
+// @flow
 import React from 'react';
 import cx from 'classnames';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../pure-render';
 import StyleSheet from '../styles';
 import theme from '../theme';
-
-const { array, bool } = React.PropTypes;
 
 const styles = StyleSheet.create({
   foreground: {
@@ -32,13 +31,11 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class ScreenForeground extends React.Component {
-
-  static propTypes = {
-    children: array,
-    showBackground: bool,
-  }
+  props: {
+    children?: any,
+    showBackground: boolean,
+  };
 
   render() {
     const { showBackground } = this.props;
@@ -50,3 +47,4 @@ export default class ScreenForeground extends React.Component {
   }
 }
 
+pureRender(ScreenForeground);

@@ -1,8 +1,11 @@
+// @flow
 import React from 'react';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../../pure-render';
 import ScreenContainer from '../container';
 import ScreenForeground from '../foreground';
 import ScreenBackground from '../background';
+import ScreenBackgroundContent from '../background/content';
+import ScreenBackgroundControls from '../background/controls';
 import StyleSheet from '../../styles';
 
 const styles = StyleSheet.create({
@@ -17,9 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class ThirdScreen extends React.Component {
-
   render() {
     return (
       <ScreenContainer>
@@ -31,8 +32,15 @@ export default class ThirdScreen extends React.Component {
             more coming soon...
           </div>
         </ScreenForeground>
-        <ScreenBackground />
+        <ScreenBackground {...this.props}>
+          <ScreenBackgroundControls />
+          <ScreenBackgroundContent>
+            <p>More coming soon...</p>
+          </ScreenBackgroundContent>
+        </ScreenBackground>
       </ScreenContainer>
     );
   }
 }
+
+pureRender(ThirdScreen);

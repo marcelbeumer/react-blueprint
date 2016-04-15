@@ -1,8 +1,7 @@
+// @flow
 import React from 'react';
-import pureRender from 'pure-render-decorator';
+import pureRender from '../../pure-render';
 import StyleSheet from '../../styles';
-
-const { any } = React.PropTypes;
 
 const styles = StyleSheet.create({
   backgroundContent: {
@@ -15,12 +14,13 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class ScreenBackgroundContent extends React.Component {
-  static propTypes = {
-    children: any,
-  }
+  props: {
+    children?: any,
+  };
   render() {
     return <div className={styles.backgroundContent}>{this.props.children}</div>;
   }
 }
+
+pureRender(ScreenBackgroundContent);

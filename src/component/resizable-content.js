@@ -1,26 +1,17 @@
+// @flow
 import React from 'react';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from './pure-render';
 import refHandler from './ref-handler';
 import StyleSheet, { px } from './styles';
-import Hammer from 'react-hammerjs';
+import Gestures from './gestures';
 import theme from './theme';
 
-const { any, number, func } = React.PropTypes;
 const { max } = Math;
 
-const scrollbarStyle = {
+const scrollbarStyle: Object = {
   msOverflowStyle: 'none',
   '::-webkit-scrollbar': {
     display: 'none',
-  },
-};
-
-const hammerOptions = {
-  recognizers: {
-    pan: {
-      threshold: 0,
-    },
   },
 };
 
@@ -49,19 +40,27 @@ export const styles = StyleSheet.create({
   }, scrollbarStyle),
 });
 
-@pureRender
 export default class ResizableContent extends React.Component {
-
-  static propTypes = {
-    children: any,
-    height: number,
+  props: {
+    children?: any,
+    height?: number,
     scrollTop: number,
-    onResize: func,
-    onScroll: func,
-    toUnit: func,
-    fromPx: func,
-    toPx: func,
-  }
+    onResize: Function,
+    onScroll: Function,
+    toUnit: Function,
+    fromPx: Function,
+    toPx: Function,
+  };
+
+  _usesScrollTop: boolean;
+  _content: Object;
+  _innerContent: Object;
+  _scrollBarSizer: Object;
+  _handle: Object;
+  refContent: Function = refHandler(this, '_content');
+  refInnerContent: Function = refHandler(this, '_innerContent');
+  refScrollBarSizer: Function = refHandler(this, '_scrollBarSizer');
+  refHandle: Function = refHandler(this, '_handle');
 
   static defaultProps = {
     scrollTop: 0,
@@ -70,13 +69,11 @@ export default class ResizableContent extends React.Component {
     toUnit: px,
     fromPx: val => val,
     toPx: val => val,
-  }
-
-  state = {};
+  };
 
   componentDidMount() {
-    this.x = this.x ? this.x++ : 1;
     const { toPx } = this.props;
+    this._content.onscroll = this.onScroll;
     this._content.style.marginRight = px(-this.getScrollbarWidth());
     this._content.style.overflow = 'auto';
     this._usesScrollTop = true;
@@ -89,90 +86,64 @@ export default class ResizableContent extends React.Component {
     this._content.scrollTop = toPx(this.props.scrollTop);
   }
 
-  @autobind
-  onDrag(e, ui) {
+  onDrag: Function = (e: Object, ui: Object) => {
     const { fromPx } = this.props;
     const { top: rootTop } = this._content.getBoundingClientRect();
     const { height: handleHeight } = this._handle.getBoundingClientRect();
     const { clientY } = ui.position;
     const value = clientY - rootTop;
     this.props.onResize(fromPx(max(handleHeight, value)));
-  }
+  };
 
-  @autobind
-  onPan(e) {
+  onPan: Function = (e: Object) => {
     const { fromPx } = this.props;
     const { top: rootTop } = this._content.getBoundingClientRect();
     const { height: handleHeight } = this._handle.getBoundingClientRect();
     const { clientY } = e.pointers[0];
     const value = clientY - rootTop;
-    this.setState({ panning: true });
     this.props.onResize(fromPx(max(handleHeight, value)));
-  }
+  };
 
-  @autobind
-  onPanEnd() {
-    this.setState({ panning: false });
-  }
-
-  @autobind
-  onScroll() {
+  onScroll: Function = () => {
     const { fromPx } = this.props;
     const scrollTop = fromPx(this._content.scrollTop);
     if (scrollTop !== Math.floor(this.props.scrollTop)) {
       this.props.onScroll(scrollTop);
     }
-  }
+  };
 
-  getScrollbarWidth() {
+  getScrollbarWidth(): number {
     const el = this._scrollBarSizer;
     return el.offsetWidth - el.clientWidth;
   }
 
-  refContent = refHandler(this, '_content');
-  refInnerContent = refHandler(this, '_innerContent');
-  refScrollBarSizer = refHandler(this, '_scrollBarSizer');
-  refHandle = refHandler(this, '_handle');
-
   render() {
     const { height, scrollTop, toUnit } = this.props;
-    const userSelect = this.state.panning ? 'none' : 'text';
-
-    const rootStyle = {
-      userSelect,
-      WebkitUserSelect: userSelect,
-    };
-
     const contentStyle = {
       height: toUnit(height),
     };
-
     const innerContentStyle = {
       position: 'relative',
       top: this._usesScrollTop ? 0 : `-${toUnit(scrollTop)}`,
     };
 
     return (
-      <div className={styles.root} style={rootStyle}>
+      <div className={styles.root}>
         <div className={styles.scrollbarSizer} ref={this.refScrollBarSizer} />
         <div ref={this.refContent}
           className={styles.content}
           style={contentStyle}
-          onScroll={this.onScroll}
         >
           <div ref={this.refInnerContent} style={innerContentStyle}>
             {this.props.children}
           </div>
         </div>
-        <Hammer
-          vertical
-          options={hammerOptions}
-          onPan={this.onPan}
-          onPanEnd={this.onPanEnd}
-        >
+        <Gestures vertical onPan={this.onPan}>
           <div className={styles.handle} ref={this.refHandle} />
-        </Hammer>
+        </Gestures>
       </div>
     );
   }
 }
+
+pureRender(ResizableContent);

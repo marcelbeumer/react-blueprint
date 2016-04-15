@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import pureRender from 'pure-render-decorator';
 import ScreenContainer from '../container';
 import ScreenForeground from '../foreground';
 import ScreenBackground from '../background';
@@ -8,19 +8,16 @@ import ScreenBackgroundControls from '../background/controls';
 import GithubIcon from '../../github-icon';
 import HomeScreenWidgets from './widgets';
 import Button from '../../button';
+import pureRender from '../../pure-render';
 import styles from './styles';
-import { listType } from '../../types';
+import type { listType } from '../../types';
 
-const { object, bool } = React.PropTypes;
-
-@pureRender
 export default class HomeScreen extends React.Component {
-
-  static propTypes = {
-    actions: object,
-    showBackground: bool,
+  props: {
+    actions: Object,
+    showBackground: boolean,
     list: listType,
-  }
+  };
 
   render() {
     const { list, actions } = this.props;
@@ -102,3 +99,5 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+pureRender(HomeScreen);

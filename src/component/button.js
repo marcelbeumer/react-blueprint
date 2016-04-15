@@ -1,10 +1,9 @@
+// @flow
 import React from 'react';
-import pureRender from 'pure-render-decorator';
+import pureRender from './pure-render';
 import StyleSheet from './styles';
 import theme from './theme';
 import cx from 'classnames';
-
-const { string } = React.PropTypes;
 
 export const styles = StyleSheet.create({
   button: {
@@ -21,11 +20,10 @@ export const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class Button extends React.Component {
-  static propTypes = {
-    className: string,
-    type: string,
+  props: {
+    className?: string,
+    type?: string,
   };
 
   render() {
@@ -39,3 +37,5 @@ export default class Button extends React.Component {
     );
   }
 }
+
+pureRender(Button);

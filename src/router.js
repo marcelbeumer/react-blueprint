@@ -1,8 +1,9 @@
+// @flow
 import pathToRegexp from 'path-to-regexp';
 import createPathMatch from 'path-match';
 const createMatcher = createPathMatch();
 
-export function createRoute(path, handler = () => null) {
+export function createRoute(path: string, handler: Function = () => null) : Object {
   return {
     path,
     handler,
@@ -11,7 +12,7 @@ export function createRoute(path, handler = () => null) {
   };
 }
 
-export function matchRoute(routes, path) {
+export function matchRoute(routes: Object, path: string): ?Object {
   let params;
   let name;
 
@@ -24,30 +25,42 @@ export function matchRoute(routes, path) {
   return name ? {
     name,
     params,
-  } : false;
+  } : null;
 }
 
+export function InvalidRouteError(message: string) {
+  this.message = message;
+}
+
+InvalidRouteError.prototype = Object.assign(new Error(), {
+  name: 'InvalidRouteError',
+});
+
 export default class Router {
-  constructor(routes, initialUrl, onChange = () => null) {
+  routes: Object;
+  url: string;
+  onChange: Function;
+
+  constructor(routes: Object, initialUrl: string, onChange: Function = () => null) {
     this.routes = routes;
     this.url = initialUrl;
     this.onChange = onChange;
   }
 
-  getUrl(name, params) {
+  getUrl(name: string, params: Object): string {
     const route = this.routes[name];
     if (!route) throw new Error(`could not find route: ${name}`);
     return route.toPath(params);
   }
 
-  _setCurrentUrl(url) {
+  _setCurrentUrl(url: string) {
     if (url !== this.url) {
       this.url = url;
       this.onChange(url);
     }
   }
 
-  runUrl(url) {
+  runUrl(url: string): Promise {
     const match = matchRoute(this.routes, url);
 
     return new Promise((resolve, reject) => {
@@ -78,12 +91,12 @@ export default class Router {
           done();
         }
       } else {
-        reject(new Error(`Url '${url}' did not match any route`));
+        reject(new InvalidRouteError(`Url '${url}' did not match any route`));
       }
     });
   }
 
-  setUrl(url) {
+  setUrl(url: string): Promise {
     if (url === this.url) return Promise.resolve(url);
     return this.runUrl(url);
   }

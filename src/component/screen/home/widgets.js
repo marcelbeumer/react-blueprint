@@ -1,17 +1,15 @@
+// @flow
 import React from 'react';
 import range from 'lodash/range';
 import { List } from 'immutable';
-import pureRender from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
+import pureRender from '../../pure-render';
 import Slider, { SliderGrippy } from '../../slider';
 import BarMeter, { BarMeterItem } from '../../bar-meter';
 import ItemList from '../../item-list';
 import ResizableContent from '../../resizable-content';
 import StyleSheet, { em, resolveMedia } from '../../styles';
 import theme from '../../theme';
-import { listType } from '../../types';
-
-const { object } = React.PropTypes;
+import type { listType } from '../../types';
 
 const styles = StyleSheet.create({
   fontSizeContainer: {
@@ -25,55 +23,42 @@ const styles = StyleSheet.create({
   },
 });
 
-@pureRender
 export default class HomeScreenWidgets extends React.Component {
-
-  static propTypes = {
-    actions: object,
+  props: {
+    actions: Object,
     list: listType,
-  }
+  };
 
-  @autobind
-  onStartChange(value) {
+  onStartChange: Function = (value: number) => {
     const { actions, list } = this.props;
     actions.setListStart(value * list.length);
-  }
+  };
 
-  @autobind
-  onEndChange(value) {
+  onEndChange: Function = (value: number) => {
     const { actions, list } = this.props;
     actions.setListEnd(value * list.length);
-  }
+  };
 
-  @autobind
-  onListResize(height) {
+  onListResize: Function = (height: number) => {
     const { actions, list } = this.props;
     actions.setListEnd(list.start + height);
-  }
+  };
 
-  @autobind
-  onListScroll(scrollTop) {
+  onListScroll: Function = (scrollTop: number) => {
     const { actions, list } = this.props;
     const items = list.end - list.start;
     const start = scrollTop;
     const end = start + items;
     actions.setListRange(start, end);
-  }
+  };
 
-  getFontSizeContainerPx() {
+  getFontSizeContainerPx(): number {
     const resolved = resolveMedia(styles.getStyles().fontSizeContainer);
     return parseInt(resolved.fontSize, 10);
   }
 
-  @autobind
-  fromPx(px) {
-    return px / this.getFontSizeContainerPx();
-  }
-
-  @autobind
-  toPx(val) {
-    return val * this.getFontSizeContainerPx();
-  }
+  fromPx: Function = (px: number) => px / this.getFontSizeContainerPx();
+  toPx: Function = (val: number) => val * this.getFontSizeContainerPx();
 
   render() {
     const { list } = this.props;
@@ -112,3 +97,5 @@ export default class HomeScreenWidgets extends React.Component {
     );
   }
 }
+
+pureRender(HomeScreenWidgets);

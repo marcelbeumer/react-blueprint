@@ -1,4 +1,5 @@
 .DS_Store
+.tern-project
 node_modules
 npm-debug.log
 dist/

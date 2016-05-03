@@ -6,7 +6,8 @@
   "main": "src/index.js",
   "scripts": {
     "clean": "rimraf dist/*",
-    "test": "mocha --compilers js:babel-register",
+    "mocha": "mocha --compilers js:babel-register",
+    "test": "npm run lint && flow && npm run mocha",
     "server": "node scripts/start-server.js",
     "render": "node scripts/render-pages.js",
     "dev-server": "node scripts/start-dev-server.js",

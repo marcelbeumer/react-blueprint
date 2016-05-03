@@ -37,6 +37,28 @@ export const styles = StyleSheet.create({
   },
 });
 
+class RenderTestClassBased extends React.Component {
+  props: {
+    actions: Object,
+  };
+
+  render() {
+    console.log('RenderTestClassBased render');
+    return <div>...</div>;
+  }
+}
+
+pureRender(RenderTestClassBased);
+
+const RenderTestPureFunction = (props: Object) => {
+  console.log('RenderTestPureFunction render');
+  return <div>...</div>;
+};
+
+// RenderTestPureFunction.propTypes = {
+//   actions: React.PropTypes.object,
+// };
+
 export default class Scene extends React.Component {
   props: {
     actions: Object,
@@ -62,6 +84,8 @@ export default class Scene extends React.Component {
               <SceneNavigationItem name="second" />
               <SceneNavigationItem name="third" />
             </SceneNavigation>
+            <RenderTestClassBased actions={actions} />
+            <RenderTestPureFunction actions={actions} />
           </div>
         </SegueFixed>
         <SegueScreen name="home" component={HomeScreen} />

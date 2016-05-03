@@ -2,7 +2,7 @@
 /* eslint no-nested-ternary:0 */
 import React from 'react';
 import cx from 'classnames';
-import pureRender from '../pure-render';
+import pureRender, { pureFnRender } from '../pure-render';
 import StyleSheet from '../styles';
 import SceneNavigation, { SceneNavigationItem } from './navigation';
 import { SegueContainer, SegueFixed, SegueScreen } from './segue';
@@ -55,9 +55,10 @@ const RenderTestPureFunction = (props: Object) => {
   return <div>...</div>;
 };
 
-// RenderTestPureFunction.propTypes = {
-//   actions: React.PropTypes.object,
-// };
+const RenderTestPureFunctionOptimized = pureFnRender((props: Object) => {
+  console.log('RenderTestPureFunctionOptimized render');
+  return <div>...</div>;
+});
 
 export default class Scene extends React.Component {
   props: {
@@ -86,6 +87,7 @@ export default class Scene extends React.Component {
             </SceneNavigation>
             <RenderTestClassBased actions={actions} />
             <RenderTestPureFunction actions={actions} />
+            <RenderTestPureFunctionOptimized actions={actions} />
           </div>
         </SegueFixed>
         <SegueScreen name="home" component={HomeScreen} />

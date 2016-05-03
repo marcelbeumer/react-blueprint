@@ -51,7 +51,7 @@ class RenderTestClassBased extends React.Component {
 pureRender(RenderTestClassBased);
 
 const RenderTestPureFunction = (props: Object) => {
-  console.log('RenderTestPureFunction render');
+  console.log('RenderTestPureFunction render'); // always re-renders :-(
   return <div>...</div>;
 };
 

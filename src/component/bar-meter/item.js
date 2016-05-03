@@ -37,10 +37,12 @@ export default class BarMeterItem extends React.Component {
     const { value } = this.props;
     return (
       <Gestures onPan={this.onPan}>
-        <div className={styles.bar} style={{
-          transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
-          backgroundColor: barColor,
-        }}
+        <div
+          className={styles.bar}
+          style={{
+            transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
+            backgroundColor: barColor,
+          }}
         />
       </Gestures>
     );

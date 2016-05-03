@@ -84,7 +84,9 @@ export default class SceneNavigation extends React.Component {
         [styles.itemInactive]: i !== index,
       });
       return (
-        <div key={`item-${i}`} className={itemClasses}
+        <div
+          key={`item-${i}`}
+          className={itemClasses}
           onClick={this.getItemHandler(screen.name)}
         />
       );

@@ -30,7 +30,7 @@ function clearRequire(modulePath) {
 }
 
 function serverMiddleware(req, res, next) {
-  const server = require('./server').default(fs);
+  const server = require('./server').default(fs); // eslint-disable-line global-require
   server(req, res, next);
 }
 

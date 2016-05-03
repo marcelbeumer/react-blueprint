@@ -35,11 +35,11 @@ export default class Gestures extends React.Component {
     const endEvents = propNames.map(name => `${name}End`);
     const allEvents = [...deltaEvents, ...endEvents];
 
-    for (const name in wrapped) {
+    Object.keys(wrapped).forEach(name => {
       if (allEvents.indexOf(name) === -1) {
         delete wrapped[name];
       }
-    }
+    });
 
     deltaEvents.forEach(name => {
       if (!wrapped[name]) {

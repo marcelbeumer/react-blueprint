@@ -32,7 +32,8 @@ export default class HomeScreen extends React.Component {
           <Button onClick={actions.showBackground}>Explain</Button>
 
           <div className={styles.websites}>
-            <a className={styles.githubIcon}
+            <a
+              className={styles.githubIcon}
               href="https://github.com/marcelbeumer/react-blueprint"
               alt="Github"
             >

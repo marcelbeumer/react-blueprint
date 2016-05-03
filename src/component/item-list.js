@@ -39,7 +39,7 @@ export default class ItemList extends React.Component {
     items: new List(),
   };
 
-  renderItems(): Array<Element> {
+  renderItems(): List<Element> {
     const { items } = this.props;
     return items.map((value, i) =>
       <div className={styles.item} key={`item-${i}`}>

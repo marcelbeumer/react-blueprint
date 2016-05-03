@@ -69,7 +69,7 @@ export default class Slider extends React.Component {
       child));
   }
 
-  renderValues(): Array<Element> {
+  renderValues(): List<Element> {
     const { values } = this.props;
     return values.map((value, i) =>
       <SliderGrippy key={`slider-${i}`} onDrag={this.onDrag} value={value} />);

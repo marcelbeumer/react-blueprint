@@ -1,10 +1,10 @@
 // @flow
-import Collection from 'immutable';
+import DataTree from '../data/tree';
 import screenReducer from './screen';
 import backgroundReducer from './background';
 import listReducer from './list';
 
-export default function reducer(state: Collection, action: Object = {}): Collection {
+export default function reducer(state: DataTree, action: Object = {}): DataTree {
   return [
     screenReducer,
     backgroundReducer,

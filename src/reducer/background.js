@@ -1,8 +1,8 @@
 // @flow
 /* eslint no-nested-ternary:0 */
-import Collection from 'immutable';
+import DataTree from '../data/tree';
 
-export default function backgroundReducer(state: Collection, action: Object = {}): Collection {
+export default function backgroundReducer(state: DataTree, action: Object = {}): DataTree {
   const { type } = action;
   return type === 'SHOW_BACKGROUND' ? state.set('showBackground', true) :
     type === 'HIDE_BACKGROUND' ? state.set('showBackground', false) :

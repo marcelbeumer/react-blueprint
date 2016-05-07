@@ -50,7 +50,7 @@ export default class BarMeter extends React.Component {
       child));
   }
 
-  renderValues(): Array<Element> {
+  renderValues(): List<Element> {
     const { values } = this.props;
     return values.map((value, i) =>
       <BarMeterItem key={`bar-${i}`} value={value} onDrag={this.onDrag} />);

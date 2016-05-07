@@ -1,6 +1,5 @@
 // @flow
 import { createStore, applyMiddleware } from 'redux';
-import Collection from 'immutable';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import multi from 'redux-multi';
@@ -13,7 +12,7 @@ export type ReduxResult = {store: Store, boundActions: Object};
 const debug = createDebug('redux');
 
 export default function createRedux(
-  initialState: Collection,
+  initialState: any,
   actions: Object,
   onChange: ?Function,
 ): ReduxResult {

@@ -1,6 +1,6 @@
 // @flow
 /* eslint no-nested-ternary:0 */
-import Collection from 'immutable';
+import DataTree from '../data/tree';
 const { min, max } = Math;
 const minGap = 2;
 
@@ -43,7 +43,7 @@ function setListRange(start, end, state) {
     .set('end', cleanEnd));
 }
 
-export default function listReducer(state: Collection, action: Object = {}): Collection {
+export default function listReducer(state: DataTree, action: Object = {}): DataTree {
   const { type, payload } = action;
   return type === 'SET_LIST_START' ? setListStart(payload, state, setListEnd) :
     type === 'SET_LIST_END' ? setListEnd(payload, state, setListStart) :

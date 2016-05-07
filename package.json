@@ -47,8 +47,8 @@
     "debug": "^2.2.0",
     "eslint": "^2.9.0",
     "eslint-config-airbnb": "^8.0.0",
-    "eslint-plugin-import": "^1.6.1",
-    "eslint-plugin-jsx-a11y": "^1.0.1",
+    "eslint-plugin-import": "^1.7.0",
+    "eslint-plugin-jsx-a11y": "^1.2.0",
     "eslint-plugin-react": "^5.0.1",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -82,8 +82,8 @@
     "stilr": "^1.2.4",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0",
-    "webpack-hot-middleware": "^2.10.0",
     "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.10.0",
     "yargs": "^4.6.0"
   }
 }

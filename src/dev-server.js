@@ -44,7 +44,7 @@ function serverMiddleware(req, res, next) {
 function updateStilr() {
   hotMiddleware.publish({
     action: 'update-stilr',
-    payload: require('./server').getComponentCss(),
+    payload: require('./server').getComponentCss(), // eslint-disable-line global-require
   });
 }
 

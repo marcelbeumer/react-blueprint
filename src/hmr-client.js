@@ -1,4 +1,5 @@
 /* global __resourceQuery */
+/* eslint no-console:0 */
 const client = require('webpack-hot-middleware/client' + __resourceQuery); // eslint-disable-line max-len, prefer-template
 
 const styles = [];

@@ -6,12 +6,17 @@ import { TransitionMotion, spring } from 'react-motion';
 import pureRender from '../pure-render';
 import StyleSheet from '../styles';
 import SceneNavigation, { SceneNavigationItem } from './navigation';
-import { SegueContainer, SegueFixed, SegueScreen } from './segue';
 import HomeScreen from '../screen/home';
 import SecondScreen from '../screen/second';
 import ThirdScreen from '../screen/third';
 import theme from '../theme';
 import type { listType } from '../types';
+
+const screenConfig: Array<Object> = [
+  { key: 'home', component: HomeScreen },
+  { key: 'second', component: SecondScreen },
+  { key: 'third', component: ThirdScreen },
+];
 
 export const styles = StyleSheet.create({
   navigation: {
@@ -37,16 +42,10 @@ export const styles = StyleSheet.create({
       top: '38px',
     },
   },
-  segueRoot: {
-    width: '100%',
-  },
-  segueContainer: {
+  motionContainer: {
     position: 'relative',
-    width: '100%',
-    whiteSpace: 'nowrap',
-    verticalAlign: 'top',
   },
-  segueScreen: {
+  motionScreen: {
     position: 'absolute',
     width: '100%',
     top: 0,
@@ -63,74 +62,49 @@ export default class Scene extends React.Component {
     list: listType,
   };
 
-  getScreenStyles: Function = () : Array<Object> => [
-    {
-      key: this.props.screen,
-      style: {
-        offset: spring(0),
-      },
-    },
-  ];
-
-  getDefaultScreenStyles: Function = () : Array<Object> => [
-    {
-      key: this.props.screen,
-      style: {
-        offset: 0,
-      },
-    },
-  ];
-
-  componentWillReceiveProps(nextProps: Object) {
-    this.lastScreen = this.props.screen;
-  }
-
-  screenWillLeave: Function = (item: Object) : Object => {
-    const index = this.screenOrder.indexOf(item.key);
-    const propIndex = this.screenOrder.indexOf(this.props.screen);
-    const offset = spring(index > propIndex ? 1 : -1);
-    return { offset };
+  state: Object = {
+    lastScreen: null,
   };
 
-  screenWillEnter: Function = (item: Object) : Object => {
-    const index = this.screenOrder.indexOf(item.key);
-    const propIndex = this.screenOrder.indexOf(this.lastScreen);
-    const offset = index > propIndex ? 1 : -1;
-    return { offset };
-  };
-
-  screenOrder: any = [
-    'home', 'second', 'third',
+  motionStyles: Function = () => [
+    { key: this.props.screen, style: { offset: spring(0) } },
   ];
 
-  screenMap: Object = {
-    home: HomeScreen,
-    second: SecondScreen,
-    third: ThirdScreen,
-  };
+  willLeave: Function = item => ({
+    offset: spring(this.getScreenDirection(this.props.screen, item.key)),
+  });
 
-  handleTransitionMotion: Function = interpolatedStyles =>
-    <div className={styles.segueContainer}>
+  willEnter: Function = item => ({
+    offset: this.getScreenDirection(this.state.lastScreen, item.key),
+  });
+
+  renderMotion: Function = interpolatedStyles =>
+    <div className={styles.motionContainer}>
       {interpolatedStyles.map(({ key, style }) => this.renderScreen(key, style))}
     </div>;
 
-  getScreenComponent(key: String) {
-    return this.screenMap[key];
+  getScreenDirection(from: string, to: string) {
+    const fromIndex = screenConfig.findIndex(item => item.key === from);
+    const toIndex = screenConfig.findIndex(item => item.key === to);
+    return toIndex > fromIndex ? 1 :
+      fromIndex > toIndex ? -1 :
+      0;
   }
 
-  renderScreen(key: String, style: Object) {
-    const Screen = this.getScreenComponent(key);
-    const { offset } = style;
-    const divProps = {};
+  componentWillReceiveProps() {
+    this.state.lastScreen = this.props.screen;
+  }
 
-    if (offset !== 0) {
-      divProps.style = { transform: `translate3d(${offset * 100}%, 0, 0)` };
-      divProps.className = styles.segueScreen;
-      // console.log(key, divProps.transform);
-    }
+  renderScreen(key: string, { offset }: Object) {
+    const Screen = screenConfig.find(item => item.key === key).component;
+    const props = {
+      key,
+      className: cx(offset !== 0 && styles.motionScreen),
+      style: { transform: offset !== 0 && `translate3d(${offset * 100}%, 0, 0)` },
+    };
 
     return (
-      <div key={key} {...divProps}>
+      <div {...props}>
         <Screen {...this.props} />
       </div>
     );
@@ -140,28 +114,25 @@ export default class Scene extends React.Component {
     const { actions, screen, showBackground, services } = this.props;
 
     return (
-      <div className={styles.segueRoot}>
-        <SegueFixed>
-          <div className={cx(styles.navigation, showBackground && styles.navigationUp)}>
-            <SceneNavigation
-              screen={screen}
-              setUrl={actions.setUrl}
-              getUrl={services.getUrl}
-              inverse={showBackground}
-            >
-              <SceneNavigationItem name="home" />
-              <SceneNavigationItem name="second" />
-              <SceneNavigationItem name="third" />
-            </SceneNavigation>
-          </div>
-        </SegueFixed>
+      <div>
+        <div className={cx(styles.navigation, showBackground && styles.navigationUp)}>
+          <SceneNavigation
+            screen={screen}
+            setUrl={actions.setUrl}
+            getUrl={services.getUrl}
+            inverse={showBackground}
+          >
+            <SceneNavigationItem name="home" />
+            <SceneNavigationItem name="second" />
+            <SceneNavigationItem name="third" />
+          </SceneNavigation>
+        </div>
         <TransitionMotion
-          styles={this.getScreenStyles()}
-          defaultStyles={this.getDefaultScreenStyles()}
-          willLeave={this.screenWillLeave}
-          willEnter={this.screenWillEnter}
+          styles={this.motionStyles()}
+          willLeave={this.willLeave}
+          willEnter={this.willEnter}
         >
-          {this.handleTransitionMotion}
+          {this.renderMotion}
         </TransitionMotion>
       </div>
     );

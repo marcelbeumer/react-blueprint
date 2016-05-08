@@ -86,16 +86,16 @@ export default class Scene extends React.Component {
       {interpolatedStyles.map(({ key, style }) => this.renderScreen(key, style))}
     </div>;
 
+  componentWillReceiveProps() {
+    this.state.lastScreen = this.props.screen;
+  }
+
   getScreenDirection(from: string, to: string) {
     const fromIndex = screenConfig.findIndex(item => item.key === from);
     const toIndex = screenConfig.findIndex(item => item.key === to);
     return toIndex > fromIndex ? 1 :
       fromIndex > toIndex ? -1 :
       0;
-  }
-
-  componentWillReceiveProps() {
-    this.state.lastScreen = this.props.screen;
   }
 
   renderScreen(key: string, { offset }: Object) {

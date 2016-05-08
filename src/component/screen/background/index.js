@@ -10,8 +10,9 @@ export { default as ScreenBackgroundControls } from './controls';
 const styles = StyleSheet.create({
   background: {
     display: 'none',
-    width: '100%',
     position: 'absolute',
+    width: '100%',
+    minHeight: '100vh',
     top: 0,
     left: 0,
     overflow: 'auto',

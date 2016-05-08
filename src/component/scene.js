@@ -111,11 +111,11 @@ export default class Scene extends React.Component {
     const inMotion = offset !== 0;
     const containerClass = inMotion ? styles.motionScreenContainer : styles.stillScreenContainer;
     const innerClass = inMotion ? styles.motionScreen : styles.stillScreen;
-    const innerTransform = inMotion ? `translate3d(${offset * 100}%, 0, 0)` : '';
+    const innerStyle = inMotion ? { transform: `translate3d(${offset * 100}%, 0, 0)` } : undefined;
 
     return (
       <div key={key} className={containerClass}>
-        <div className={innerClass} style={{ transform: innerTransform }}>
+        <div className={innerClass} style={innerStyle}>
           <Screen {...this.props} />
         </div>
       </div>

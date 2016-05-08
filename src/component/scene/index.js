@@ -124,7 +124,7 @@ export default class Scene extends React.Component {
     const divProps = {};
 
     if (offset !== 0) {
-      divProps.style = { transform: `translateX(${offset * 100}%)` };
+      divProps.style = { transform: `translate3d(${offset * 100}%, 0, 0)` };
       divProps.className = styles.segueScreen;
       // console.log(key, divProps.transform);
     }

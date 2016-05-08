@@ -9,7 +9,6 @@ export { default as ScreenBackgroundControls } from './controls';
 
 const styles = StyleSheet.create({
   background: {
-    zIndex: -1,
     display: 'none',
     width: '100%',
     position: 'absolute',

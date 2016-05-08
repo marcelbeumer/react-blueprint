@@ -7,6 +7,7 @@ import theme from '../theme';
 
 const styles = StyleSheet.create({
   foreground: {
+    zIndex: 1,
     minWidth: '320px',
     minHeight: '100vh',
     margin: '0 auto',

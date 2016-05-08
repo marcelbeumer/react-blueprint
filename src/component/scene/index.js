@@ -43,7 +43,10 @@ export const styles = StyleSheet.create({
     },
   },
   motionContainer: {
+    width: '100%',
+    minHeight: '100vh',
     position: 'relative',
+    overflowX: 'hidden',
   },
   motionScreen: {
     position: 'absolute',

@@ -3,14 +3,14 @@
 import React from 'react';
 import cx from 'classnames';
 import { TransitionMotion, spring } from 'react-motion';
-import pureRender from '../pure-render';
-import StyleSheet from '../styles';
-import SceneNavigation, { SceneNavigationItem } from './navigation';
-import HomeScreen from '../screen/home';
-import SecondScreen from '../screen/second';
-import ThirdScreen from '../screen/third';
-import theme from '../theme';
-import type { listType } from '../types';
+import pureRender from './pure-render';
+import StyleSheet from './styles';
+import Navigation, { NavigationItem } from './navigation';
+import HomeScreen from './screen/home';
+import SecondScreen from './screen/second';
+import ThirdScreen from './screen/third';
+import theme from './theme';
+import type { listType } from './types';
 
 const screenConfig: Array<Object> = [
   { key: 'home', component: HomeScreen },
@@ -42,11 +42,19 @@ export const styles = StyleSheet.create({
       top: '38px',
     },
   },
-  motionContainer: {
+  screensContainer: {
+  },
+  stillScreenContainer: {
+  },
+  stillScreen: {
+  },
+  motionScreenContainer: {
+    position: 'absolute',
     width: '100%',
     minHeight: '100vh',
-    position: 'relative',
     overflowX: 'hidden',
+    top: 0,
+    left: 0,
   },
   motionScreen: {
     position: 'absolute',
@@ -82,7 +90,7 @@ export default class Scene extends React.Component {
   });
 
   renderMotion: Function = interpolatedStyles =>
-    <div className={styles.motionContainer}>
+    <div className={styles.screensContainer}>
       {interpolatedStyles.map(({ key, style }) => this.renderScreen(key, style))}
     </div>;
 
@@ -100,15 +108,16 @@ export default class Scene extends React.Component {
 
   renderScreen(key: string, { offset }: Object) {
     const Screen = screenConfig.find(item => item.key === key).component;
-    const props = {
-      key,
-      className: cx(offset !== 0 && styles.motionScreen),
-      style: { transform: offset !== 0 && `translate3d(${offset * 100}%, 0, 0)` },
-    };
+    const inMotion = offset !== 0;
+    const containerClass = inMotion ? styles.motionScreenContainer : styles.stillScreenContainer;
+    const innerClass = inMotion ? styles.motionScreen : styles.stillScreen;
+    const innerTransform = inMotion ? `translate3d(${offset * 100}%, 0, 0)` : '';
 
     return (
-      <div {...props}>
-        <Screen {...this.props} />
+      <div key={key} className={containerClass}>
+        <div className={innerClass} style={{ transform: innerTransform }}>
+          <Screen {...this.props} />
+        </div>
       </div>
     );
   }
@@ -119,16 +128,16 @@ export default class Scene extends React.Component {
     return (
       <div>
         <div className={cx(styles.navigation, showBackground && styles.navigationUp)}>
-          <SceneNavigation
+          <Navigation
             screen={screen}
             setUrl={actions.setUrl}
             getUrl={services.getUrl}
             inverse={showBackground}
           >
-            <SceneNavigationItem name="home" />
-            <SceneNavigationItem name="second" />
-            <SceneNavigationItem name="third" />
-          </SceneNavigation>
+            <NavigationItem name="home" />
+            <NavigationItem name="second" />
+            <NavigationItem name="third" />
+          </Navigation>
         </div>
         <TransitionMotion
           styles={this.motionStyles()}

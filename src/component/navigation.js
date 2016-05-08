@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import memoize from 'lodash/memoize';
-import pureRender from './pure-render';
 import cx from 'classnames';
 import StyleSheet, { em } from './styles';
 import theme from './theme';
@@ -58,6 +57,11 @@ export default class Navigation extends React.Component {
     screen: '',
   };
 
+  shouldComponentUpdate(nextProps: Object) {
+    return this.props.screen !== nextProps.screen ||
+      this.props.inverse !== nextProps.inverse;
+  }
+
   getItemHandler: Function = memoize(name => () => {
     const { setUrl, getUrl } = this.props;
     setUrl(getUrl(name), name);
@@ -102,5 +106,3 @@ export default class Navigation extends React.Component {
     );
   }
 }
-
-pureRender(Navigation);

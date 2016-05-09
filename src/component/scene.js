@@ -84,7 +84,7 @@ export default class Scene extends React.Component {
   });
 
   renderMotion: Function = interpolatedStyles =>
-    <div className={styles.screensContainer}>
+    <div>
       {interpolatedStyles.map(({ key, style }) => this.renderScreen(key, style))}
     </div>;
 

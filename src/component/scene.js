@@ -42,12 +42,6 @@ export const styles = StyleSheet.create({
       top: '38px',
     },
   },
-  screensContainer: {
-  },
-  stillScreenContainer: {
-  },
-  stillScreen: {
-  },
   motionScreenContainer: {
     position: 'absolute',
     width: '100%',
@@ -107,15 +101,13 @@ export default class Scene extends React.Component {
   }
 
   renderScreen(key: string, { offset }: Object) {
-    const Screen = screenConfig.find(item => item.key === key).component;
     const inMotion = offset !== 0;
-    const containerClass = inMotion ? styles.motionScreenContainer : styles.stillScreenContainer;
-    const innerClass = inMotion ? styles.motionScreen : styles.stillScreen;
     const innerStyle = inMotion ? { transform: `translate3d(${offset * 100}%, 0, 0)` } : undefined;
+    const Screen = screenConfig.find(item => item.key === key).component;
 
     return (
-      <div key={key} className={containerClass}>
-        <div className={innerClass} style={innerStyle}>
+      <div key={key} className={cx(inMotion && styles.motionScreenContainer)}>
+        <div className={cx(inMotion && styles.motionScreen)} style={innerStyle}>
           <Screen {...this.props} />
         </div>
       </div>

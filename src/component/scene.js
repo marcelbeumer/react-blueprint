@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     minHeight: '100vh',
-    overflowX: 'hidden',
+    overflow: 'hidden',
     top: 0,
     left: 0,
   },

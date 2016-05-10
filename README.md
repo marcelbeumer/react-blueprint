@@ -27,7 +27,7 @@ $ open http://localhost:8080
 - Draggable widgets demonstrating letting Redux control rules and constraints
 - Scrollable widget demonstrating a two-way binding case for React in the browser
 - Widgets use relative (em/vw/vh) units while rendering to maintain full server pre-render capabilities
-- Animated page to page navigation using app/Redux state and nothing-fancy (rAF) React rendering
+- Animated page to page navigation using app/Redux state and react-motion
 - Fast dev-server that hot reloads server code on webpack changes
 
 ## Server rendering

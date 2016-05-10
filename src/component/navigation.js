@@ -1,10 +1,9 @@
 // @flow
 import React from 'react';
 import memoize from 'lodash/memoize';
-import pureRender from '../pure-render';
 import cx from 'classnames';
-import StyleSheet, { em } from '../styles';
-import theme from '../theme';
+import StyleSheet, { em } from './styles';
+import theme from './theme';
 import type { Element } from 'react';
 
 const itemSize = 1;
@@ -39,13 +38,13 @@ export const styles = StyleSheet.create({
 });
 
 type ItemDef = {name: string};
-export const SceneNavigationItem: Function = () => null;
+export const NavigationItem: Function = () => null;
 
 function getItemIndex(screens: Array<ItemDef>, screen) {
   return screens.map(item => item.name).indexOf(screen);
 }
 
-export default class SceneNavigation extends React.Component {
+export default class Navigation extends React.Component {
   props: {
     screen: string,
     setUrl: Function,
@@ -58,6 +57,11 @@ export default class SceneNavigation extends React.Component {
     screen: '',
   };
 
+  shouldComponentUpdate(nextProps: Object) {
+    return this.props.screen !== nextProps.screen ||
+      this.props.inverse !== nextProps.inverse;
+  }
+
   getItemHandler: Function = memoize(name => () => {
     const { setUrl, getUrl } = this.props;
     setUrl(getUrl(name), name);
@@ -66,7 +70,7 @@ export default class SceneNavigation extends React.Component {
   getItems(): Array<ItemDef> {
     const screens = [];
     React.Children.map(this.props.children, child => {
-      if (child.type === SceneNavigationItem) {
+      if (child.type === NavigationItem) {
         screens.push({
           name: child.props.name,
         });
@@ -102,5 +106,3 @@ export default class SceneNavigation extends React.Component {
     );
   }
 }
-
-pureRender(SceneNavigation);

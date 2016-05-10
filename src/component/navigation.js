@@ -1,9 +1,11 @@
 // @flow
 import React from 'react';
+import { List } from 'immutable';
 import memoize from 'lodash/memoize';
 import cx from 'classnames';
 import StyleSheet, { em } from './styles';
 import theme from './theme';
+import pureRender from './pure-render';
 import type { Element } from 'react';
 
 const itemSize = 1;
@@ -37,51 +39,23 @@ export const styles = StyleSheet.create({
   },
 });
 
-type ItemDef = {name: string};
-export const NavigationItem: Function = () => null;
-
-function getItemIndex(screens: Array<ItemDef>, screen) {
-  return screens.map(item => item.name).indexOf(screen);
-}
-
 export default class Navigation extends React.Component {
   props: {
     screen: string,
+    screenOrder: List<string>,
     setUrl: Function,
     getUrl: Function,
     inverse: boolean,
-    children?: Array<Element>,
   };
-
-  static defaultProps = {
-    screen: '',
-  };
-
-  shouldComponentUpdate(nextProps: Object) {
-    return this.props.screen !== nextProps.screen ||
-      this.props.inverse !== nextProps.inverse;
-  }
 
   getItemHandler: Function = memoize(name => () => {
     const { setUrl, getUrl } = this.props;
     setUrl(getUrl(name), name);
   });
 
-  getItems(): Array<ItemDef> {
-    const screens = [];
-    React.Children.map(this.props.children, child => {
-      if (child.type === NavigationItem) {
-        screens.push({
-          name: child.props.name,
-        });
-      }
-    });
-    return screens;
-  }
-
-  renderItems(screens: Array<ItemDef>): Array<Element> {
+  renderItems(screens: List<string>): List<Element> {
     const { screen: currentScreen, inverse } = this.props;
-    const index = getItemIndex(screens, currentScreen);
+    const index = screens.indexOf(currentScreen);
     return screens.map((screen, i) => {
       const itemClasses = cx(styles.item, {
         [styles.itemInverse]: inverse,
@@ -91,18 +65,19 @@ export default class Navigation extends React.Component {
         <div
           key={`item-${i}`}
           className={itemClasses}
-          onClick={this.getItemHandler(screen.name)}
+          onClick={this.getItemHandler(screen)}
         />
       );
     });
   }
 
   render() {
-    const screens = this.getItems();
     return (
       <div className={styles.root}>
-        {this.renderItems(screens)}
+        {this.renderItems(this.props.screenOrder)}
       </div>
     );
   }
 }
+
+pureRender(Navigation);

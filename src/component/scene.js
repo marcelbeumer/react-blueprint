@@ -2,10 +2,11 @@
 /* eslint no-nested-ternary:0 */
 import React from 'react';
 import cx from 'classnames';
+import { List } from 'immutable';
 import { TransitionMotion, spring } from 'react-motion';
 import pureRender from './pure-render';
 import StyleSheet from './styles';
-import Navigation, { NavigationItem } from './navigation';
+import Navigation from './navigation';
 import HomeScreen from './screen/home';
 import SecondScreen from './screen/second';
 import ThirdScreen from './screen/third';
@@ -17,6 +18,10 @@ const screenConfig: Array<Object> = [
   { key: 'second', component: SecondScreen },
   { key: 'third', component: ThirdScreen },
 ];
+
+const screenOrder: List<string> = new List([
+  'home', 'second', 'third',
+]);
 
 export const styles = StyleSheet.create({
   navigation: {
@@ -125,11 +130,8 @@ export default class Scene extends React.Component {
             setUrl={actions.setUrl}
             getUrl={services.getUrl}
             inverse={showBackground}
-          >
-            <NavigationItem name="home" />
-            <NavigationItem name="second" />
-            <NavigationItem name="third" />
-          </Navigation>
+            screenOrder={screenOrder}
+          />
         </div>
         <TransitionMotion
           styles={this.motionStyles()}

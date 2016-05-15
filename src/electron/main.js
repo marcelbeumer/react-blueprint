@@ -9,7 +9,7 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 800, height: 800 });
+  mainWindow = new BrowserWindow({ width: 1024, height: 750 });
   mainWindow.loadURL(useDevServer ?
      `http://localhost:${devServerPort}/` :
     `file://${__dirname}/../../dist/index.html`);

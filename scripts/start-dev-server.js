@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 require('babel-register');
 
-const settings = require('../settings/server').default;
+const settings = require('../settings/server');
 const devServer = require('../src/dev-server').default;
 const port = settings.port;
 

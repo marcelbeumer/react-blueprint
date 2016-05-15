@@ -18,8 +18,9 @@ $ open http://localhost:8080
 
 - ES6+ with Babel, Flow and Airbnb-style ESLint
 - Clean Redux setup running on Immutable.js data (no React or routing bindings)
+- Electron for creating desktop app
 - Server pre-rendering React elements and component stylesheets
-- Browser/server rendering divided by target specific bootstrap
+- Browser/electron/server rendering divided by target specific bootstrap
 - Decoupled rendering: Redux state changes triggers plain JS function that does React.render
 - Decoupled routing based on path-to-regexp
 - Pure rendering (Redux-agnostic) React components: top-down prop passing, action functions
@@ -28,7 +29,16 @@ $ open http://localhost:8080
 - Scrollable widget demonstrating a two-way binding case for React in the browser
 - Widgets use relative (em/vw/vh) units while rendering to maintain full server pre-render capabilities
 - Animated page to page navigation using app/Redux state and react-motion
-- Fast dev-server that hot reloads server code on webpack changes
+- Fast dev-server that hot reloads browser and server code on webpack changes
+
+## Electron development
+
+- Development
+  - `npm electron-dev-server` to serve web content
+  - `npm electron-dev` to start the app
+- Production:
+  - `npm run electron-build` to build web content
+  - `npm electron` to start the app
 
 ## Server rendering
 

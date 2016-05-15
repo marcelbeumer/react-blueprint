@@ -6,5 +6,7 @@ const devServer = require('../src/dev-server').default;
 const port = settings.port;
 
 devServer.listen(port, () => {
-  console.log(`Dev server started on port ${port}`); // eslint-disable-line no-console
+  const message = `Dev server started on port ${port} \
+with pid ${process.pid}`;
+  console.log(message); // eslint-disable-line no-console
 });

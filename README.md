@@ -46,5 +46,5 @@ Expose useful debugging objects by setting a global variable name: `localStarage
 
 ## Electron
 
-- Development: `npm electron-dev-server` then `npm electron-dev`
+- Development: `npm run electron-dev-server` then `npm run electron-dev`
 - Production: `npm run electron-build` then `npm run electron`

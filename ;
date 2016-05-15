@@ -18,7 +18,7 @@ $ open http://localhost:8080
 
 - ES6+ with Babel, Flow and Airbnb-style ESLint
 - Clean Redux setup running on Immutable.js data (no React or routing bindings)
-- Uses Electron for building desktop apps
+- Uses Electron to create a desktop app
 - Server pre-rendering React elements and component stylesheets
 - Browser/electron/server rendering divided by target specific bootstrap
 - Decoupled rendering: Redux state changes triggers plain JS function that does React.render

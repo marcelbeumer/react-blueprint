@@ -11,7 +11,7 @@ import createRoutes from '../route';
 import Router from '../router';
 
 let router; // eslint-disable-line prefer-const
-const debug = createDebug('browser');
+const debug = createDebug('electron');
 debug('starting bootstrap');
 
 global.onunhandledrejection = ({ reason }) =>
@@ -35,4 +35,4 @@ expose('router', router);
 debug('bootstrap done');
 
 renderServices.getUrl = router.getUrl.bind(router);
-router.runUrl(location.pathname);
+router.runUrl('/');

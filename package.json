@@ -6,7 +6,7 @@
   "main": "src/electron/main.js",
   "productName": "React Blueprint",
   "scripts": {
-    "clean": "rimraf dist/*",
+    "clean": "rimraf dist/* && rimraf build/*",
     "mocha": "mocha --compilers js:babel-register",
     "test": "npm run lint && flow && npm run mocha",
     "server": "node scripts/start-server.js",
@@ -15,7 +15,7 @@
     "lint": "eslint src",
     "deploy": "git checkout master && npm run build && git checkout gh-pages && rimraf asset/* *.html && cp -r dist/* .",
     "build": "npm run clean && NODE_ENV=production webpack && NODE_ENV=production REVISION=`git rev-parse --short HEAD` npm run render -- --dist dist --asset dist/asset",
-    "electron-package-darwin-x64": "npm run electron-build && mkdir -p build && electron-packager . --platform=darwin --arch=x64 --icon=./icon.icns --overwrite --out build",
+    "electron-package-darwin-x64": "npm run electron-build && mkdir -p build && electron-packager . --platform=darwin --arch=x64 --icon=./icon.icns --out build",
     "electron-build": "SSR=0 TARGET=electron npm run build",
     "electron-dev-server": "SSR=0 TARGET=electron npm run dev-server",
     "electron-dev": "ELECTRON_DEV_SERVER=1 npm run electron",

@@ -44,12 +44,15 @@ Enable [debug](https://www.npmjs.com/package/debug) output by executing `localSt
 
 Expose useful debugging objects by setting a global variable name: `localStarage.expose = '__'`. This will expose to `window.__`.
 
-## Electron development
+## Electron
 
-- Development
-  - `npm electron-dev-server` to serve web content
-  - `npm electron-dev` to start the app
+- Development:
+  ```bash
+  $ npm electron-dev-server
+  $ npm electron-dev
+  ```
 - Production:
-  - `npm run electron-build` to build web content
-  - `npm electron` to start the app
-
+  ```bash
+  npm run electron-build
+  npm electron
+  ```

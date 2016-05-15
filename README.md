@@ -31,15 +31,6 @@ $ open http://localhost:8080
 - Animated page to page navigation using app/Redux state and react-motion
 - Fast dev-server that hot reloads browser and server code on webpack changes
 
-## Electron development
-
-- Development
-  - `npm electron-dev-server` to serve web content
-  - `npm electron-dev` to start the app
-- Production:
-  - `npm run electron-build` to build web content
-  - `npm electron` to start the app
-
 ## Server rendering
 
 Server rendering is enabled by default. To disable use `SSR=0 npm start` or reload the page using `?ssr=0`.
@@ -52,3 +43,13 @@ However, the server will still load and parse the entire application in order to
 Enable [debug](https://www.npmjs.com/package/debug) output by executing `localStorage.debug = '*'` and reloading the page. See the [debug documentation](https://www.npmjs.com/package/debug#browser-support) for more information.
 
 Expose useful debugging objects by setting a global variable name: `localStarage.expose = '__'`. This will expose to `window.__`.
+
+## Electron development
+
+- Development
+  - `npm electron-dev-server` to serve web content
+  - `npm electron-dev` to start the app
+- Production:
+  - `npm run electron-build` to build web content
+  - `npm electron` to start the app
+

@@ -13,7 +13,7 @@ import createRoutes from './route';
 import Router, { InvalidRouteError } from './router';
 import env from 'node-env';
 
-const SSR = process.env.SSR;
+const SSR = String(process.env.SSR);
 const REVISION = process.env.REVISION || String(Number(new Date()));
 const prod = env === 'production';
 const renderer = createRenderer(settings);
@@ -66,17 +66,19 @@ export function staticApp(location: string, assetFs: any): Promise {
   });
 }
 
+export function handleApp(location: string, assetFs: any, ssr: string = SSR): Promise {
+  const useRender = parseInt(ssr, 10) !== 0;
+  const handler = useRender ? renderApp : staticApp;
+  return handler(location, assetFs);
+}
+
 export default function createApp(assetFs: any): any {
   const app = express();
 
   app.use('/asset', express.static('dist/asset'));
 
   app.use((req, res, next) => {
-    const ssr = req.query.ssr || SSR;
-    const useRender = parseInt(ssr, 10) !== 0;
-    const handler = useRender ? renderApp : staticApp;
-
-    handler(req.path, assetFs).then(html => {
+    handleApp(req.path, assetFs, req.query.ssr).then(html => {
       res.send(html);
     }).catch(e => {
       if (!(e instanceof InvalidRouteError)) {

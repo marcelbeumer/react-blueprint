@@ -18,7 +18,7 @@ const getComponentCss = require('../src/component-css').default;
 fs.writeFileSync(path.join(argv.asset, 'component.css'), getComponentCss(prod));
 
 ['/', '/2.html', '/3.html'].forEach(url => {
-  server.renderApp(url).then(html => {
+  server.handleApp(url).then(html => {
     const filename = url.slice(1) || 'index.html';
     const target = path.join(argv.dist, filename);
     fs.writeFileSync(target, html);

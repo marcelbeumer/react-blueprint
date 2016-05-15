@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Ready for takeoff React setup",
   "license": "ISC",
-  "main": "src/index.js",
   "scripts": {
     "clean": "rimraf dist/*",
     "mocha": "mocha --compilers js:babel-register",
@@ -14,7 +13,7 @@
     "lint": "eslint src",
     "deploy": "git checkout master && npm run build && git checkout gh-pages && rimraf asset/* *.html && cp -r dist/* .",
     "build": "npm run clean && NODE_ENV=production webpack && NODE_ENV=production REVISION=`git rev-parse --short HEAD` npm run render -- --dist dist --asset dist/asset",
-    "electron-build": "TARGET=electron npm run build",
+    "electron-build": "SSR=0 TARGET=electron npm run build",
     "electron-dev-server": "SSR=0 TARGET=electron npm run dev-server",
     "electron-dev": "ELECTRON_DEV_SERVER=1 npm run electron",
     "electron": "electron src/electron/main.js",

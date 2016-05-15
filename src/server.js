@@ -45,7 +45,7 @@ export function getComponentCss(): string {
 }
 
 export function renderApp(location: string, assetFs: any): Promise {
-  let router: Router;
+  let router: Router; // eslint-disable-line prefer-const
 
   const renderServices = {};
   const initialState = new DataTree();

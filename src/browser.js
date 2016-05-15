@@ -10,7 +10,7 @@ import createRedux from './redux';
 import createRoutes from './route';
 import Router from './router';
 
-let router;
+let router; // eslint-disable-line prefer-const
 const debug = createDebug('browser');
 debug('starting bootstrap');
 

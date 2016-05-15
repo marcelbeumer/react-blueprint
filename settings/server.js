@@ -1,9 +1,3 @@
-const {
-  PORT = 8080,
-} = process.env;
-
-const config = {
-  port: PORT,
+module.exports = {
+  port: parseInt(process.env.PORT, 10) || 8080,
 };
-
-export default config;

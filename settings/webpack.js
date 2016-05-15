@@ -1,4 +1,4 @@
-/* eslint no-param-reassign:0 */
+/* eslint no-param-reassign:0 no-nested-ternary:0 */
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import cssnext from 'postcss-cssnext';
 import cssImport from 'postcss-import';
@@ -7,6 +7,7 @@ import env from 'node-env';
 import webpack from 'webpack';
 
 const prod = env === 'production';
+const target = process.env.TARGET || 'browser';
 const compressJs = prod;
 const extractCss = true;
 
@@ -19,7 +20,11 @@ const cssPipeline = [
 const config = {
   context: `${__dirname}/../src`,
   entry: {
-    app: ['./browser.js'],
+    app: [
+      target === 'electron' ? './electron/renderer.js' :
+      target === 'browser' ? './browser.js' :
+      '',
+    ],
     vendor: [
       'babel-polyfill',
       'react',
@@ -32,8 +37,9 @@ const config = {
   },
   output: {
     path: `${__dirname}/../dist/asset`,
-    filename: 'bundle.js',
+    filename: '[name].js',
     publicPath: '/asset',
+    templateAssetPath: 'asset',
   },
   module: {
     loaders: [
@@ -70,7 +76,7 @@ const config = {
 
 if (extractCss) {
   config.plugins.push(
-    new ExtractTextPlugin('bundle.css'),
+    new ExtractTextPlugin('style.css'),
   );
 }
 
@@ -84,4 +90,4 @@ if (compressJs) {
   );
 }
 
-export default config;
+module.exports = config;

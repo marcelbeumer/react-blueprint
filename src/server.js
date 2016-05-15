@@ -49,7 +49,7 @@ export function renderApp(location: string, assetFs: any): Promise {
     const rendered = renderer(state, boundActions, renderServices);
     let html = getTemplate(assetFs);
 
-    html = injectAssetPath(html, webpackConfig.output.publicPath);
+    html = injectAssetPath(html, webpackConfig.output.templateAssetPath);
     html = injectRevision(html, REVISION);
     html = injectData(html, state.toServerData());
     html = injectRender(html, rendered);
@@ -59,7 +59,9 @@ export function renderApp(location: string, assetFs: any): Promise {
 
 export function staticApp(location: string, assetFs: any): Promise {
   return new Promise(resolve => {
-    const html = getTemplate(assetFs);
+    let html = getTemplate(assetFs);
+    html = injectAssetPath(html, webpackConfig.output.templateAssetPath);
+    html = injectRevision(html, REVISION);
     resolve(html);
   });
 }

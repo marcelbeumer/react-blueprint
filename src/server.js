@@ -3,9 +3,6 @@
 import 'babel-polyfill';
 import express from 'express';
 import fs from 'fs';
-import postcss from 'postcss';
-import autoprefixer from 'autoprefixer';
-import CleanCSS from 'clean-css';
 import settings from '../settings/server';
 import webpackConfig from '../settings/webpack';
 import DataTree from './data/tree';
@@ -14,13 +11,11 @@ import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
 import Router, { InvalidRouteError } from './router';
-import { getCss } from './component/styles';
 import env from 'node-env';
 
 const SSR = process.env.SSR;
 const REVISION = process.env.REVISION || String(Number(new Date()));
 const prod = env === 'production';
-const app = express();
 const renderer = createRenderer(settings);
 
 const getTemplate = (assetFs = fs) =>
@@ -37,12 +32,6 @@ const injectAssetPath = (output, assetPath) =>
 
 const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
-
-export function getComponentCss(): string {
-  const source = getCss({ pretty: !prod });
-  const css = String(postcss([autoprefixer]).process(source));
-  return prod ? new CleanCSS().minify(css).styles : css;
-}
 
 export function renderApp(location: string, assetFs: any): Promise {
   let router: Router; // eslint-disable-line prefer-const
@@ -76,10 +65,7 @@ export function staticApp(location: string, assetFs: any): Promise {
 }
 
 export default function createApp(assetFs: any): any {
-  app.use('/asset/component.css', (req, res) => {
-    res.set('Content-Type', 'text/css');
-    res.send(getComponentCss());
-  });
+  const app = express();
 
   app.use('/asset', express.static('dist/asset'));
 

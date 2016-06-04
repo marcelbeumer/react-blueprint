@@ -12,7 +12,7 @@ function getEnd(end, state, gap = minGap) {
   return min(max(end, gap), state.list.length);
 }
 
-export function setListStart(start: number, getState: Function): DataTree {
+export function setListStart(getState: Function, start: number): DataTree {
   const state = getState();
   let list = state.list;
   const value = getStart(start, state);
@@ -23,7 +23,7 @@ export function setListStart(start: number, getState: Function): DataTree {
   return state.set('list', list);
 }
 
-export function setListEnd(end: number, getState: Function): DataTree {
+export function setListEnd(getState: Function, end: number): DataTree {
   const state = getState();
   let list = state.list;
   const value = getEnd(end, state);
@@ -34,7 +34,7 @@ export function setListEnd(end: number, getState: Function): DataTree {
   return state.set('list', list);
 }
 
-export function setListRange(start: number, end: number, getState: Function): DataTree {
+export function setListRange(getState: Function, start: number, end: number): DataTree {
   const state = getState();
   if (start > end) return state;
 

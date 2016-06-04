@@ -15,7 +15,7 @@ function createActions(actionHandlers, store) {
   Object.keys(actionHandlers).forEach(name => {
     actions[name] = (...args) => {
       debug(`action call ${name}`);
-      const result = actionHandlers[name](...args, () => store.value);
+      const result = actionHandlers[name](() => store.value, ...args);
 
       if (result) {
         const observable = result.subscribe ? result :

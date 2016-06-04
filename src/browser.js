@@ -11,7 +11,6 @@ import createRoutes from './route';
 import Router from './router';
 import { skip } from 'rxjs/operator/skip';
 
-let router; // eslint-disable-line prefer-const
 const debug = createDebug('browser');
 debug('starting bootstrap');
 
@@ -23,65 +22,59 @@ function getData(id) {
   return json ? JSON.parse(json) : {};
 }
 
-function bootstrapRedux() {
-  const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
-  const element = document.getElementById('root');
-  const renderer = createRenderer(element);
-  const actionServices = {};
-  const renderServices = {};
+const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
+const element = document.getElementById('root');
+const renderer = createRenderer(element);
+const actionServices = {};
+const renderServices = {};
+const routeServices = {};
+let actions;
+let store;
+let router;
 
-  const { store, actions } = createReduxStore(initialState, actionServices, state =>
+function createRedux() {
+  const redux = createReduxStore(initialState, actionServices, state =>
     renderer(state, actions, renderServices));
 
-  router = new Router(createRoutes(actions), location.pathname, // eslint-disable-line prefer-const, max-len
-    url => location.pathname !== url && history.pushState('', document.title, url));
-
-  expose('renderer', renderer);
-  expose('store', store);
-  expose('actions', actions);
-  expose('router', router);
-  debug('bootstrap done');
-
-  global.addEventListener('popstate', () => router.setUrl(location.pathname));
-  actionServices.setUrl = router.setUrl.bind(router);
-  renderServices.getUrl = router.getUrl.bind(router);
-
-  if (element.querySelector('[data-react-checksum]')) {
-    renderer(initialState, actions, renderServices);
-  } else {
-    router.runUrl(location.pathname);
-  }
+  actions = redux.actions;
+  store = redux.store;
+  routeServices.setScreen = actions.setScreen;
 }
 
-function bootstrapRxJS() {
-  const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
-  const element = document.getElementById('root');
-  const renderer = createRenderer(element);
-  const actionServices = {};
-  const renderServices = {};
-
-  const { store, actions } = createRxJsStore(initialState, actionServices);
+function createRxJs() {
+  const rxjs = createRxJsStore(initialState, actionServices);
+  actions = rxjs.actions;
+  store = rxjs.store;
   store::skip(1).subscribe(state => renderer(state, actions, renderServices));
-
-  router = new Router(createRoutes(actions), location.pathname, // eslint-disable-line prefer-const, max-len
-    url => location.pathname !== url && history.pushState('', document.title, url));
-
-  expose('renderer', renderer);
-  expose('store', store);
-  expose('actions', actions);
-  expose('router', router);
-  debug('bootstrap done');
-
-  global.addEventListener('popstate', () => router.setUrl(location.pathname));
-  actionServices.setUrl = router.setUrl.bind(router);
-  renderServices.getUrl = router.getUrl.bind(router);
-
-  if (element.querySelector('[data-react-checksum]')) {
-    renderer(store.value, actions, renderServices);
-  } else {
-    router.runUrl(location.pathname);
-  }
+  routeServices.setScreen = actions.setScreen;
 }
 
-bootstrapRxJS();
-// bootstrapRedux();
+function createStore(storeType) {
+  if (storeType === 'rxjs') {
+    createRxJs();
+  } else {
+    createRedux();
+  }
+  expose('store', store);
+  expose('actions', actions);
+}
+
+createStore(initialState.get('store'));
+actionServices.setStore = value => createStore(value);
+
+router = new Router(createRoutes(routeServices), location.pathname, // eslint-disable-line prefer-const, max-len
+  url => location.pathname !== url && history.pushState('', document.title, url));
+
+actionServices.setUrl = router.setUrl.bind(router);
+renderServices.getUrl = router.getUrl.bind(router);
+global.addEventListener('popstate', () => router.setUrl(location.pathname));
+
+if (element.querySelector('[data-react-checksum]')) {
+  renderer(initialState, actions, renderServices);
+} else {
+  router.runUrl(location.pathname);
+}
+
+expose('renderer', renderer);
+expose('router', router);
+debug('bootstrap done');

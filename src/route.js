@@ -1,9 +1,9 @@
 // @flow
 import { createRoute } from './router';
 
-export default function createRoutes(actions: Object): Object {
+export default function createRoutes(routeServices: Object): Object {
   const setScreen = ({ name }) => {
-    actions.setScreen(name);
+    routeServices.setScreen(name);
   };
 
   return {

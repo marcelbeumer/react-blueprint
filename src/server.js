@@ -7,7 +7,8 @@ import settings from '../settings/server';
 import webpackConfig from '../settings/webpack';
 import DataTree from './data/tree';
 import createRenderer from './renderer/server';
-import createRedux from './redux';
+import createReduxStore from './redux';
+import createRxJsStore from './rxjs';
 import createRoutes from './route';
 import Router, { InvalidRouteError } from './router';
 import env from 'node-env';
@@ -34,14 +35,26 @@ const injectRevision = (output: string, revision: string): string =>
 
 export function renderApp(location: string, assetFs: any): Promise {
   let router: Router; // eslint-disable-line prefer-const
+  let store;
+  let actions;
 
   const actionServices = {};
   const renderServices = {};
+  const routeServices = {};
   const initialState = new DataTree();
 
-  const { store, actions } = createRedux(initialState, actionServices);
-  router = new Router(createRoutes(actions), location); // eslint-disable-line prefer-const
+  if (initialState.get('store') === 'rxjs') {
+    const redux = createReduxStore(initialState, actionServices);
+    actions = redux.actions;
+    store = redux.store;
+  } else {
+    const rxjs = createRxJsStore(initialState, actionServices);
+    actions = rxjs.actions;
+    store = rxjs.store;
+  }
 
+  router = new Router(createRoutes(routeServices), location); // eslint-disable-line prefer-const
+  routeServices.setScreen = actions.setScreen;
   renderServices.setUrl = router.setUrl.bind(router);
   renderServices.getUrl = router.getUrl.bind(router);
 

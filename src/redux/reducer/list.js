@@ -1,6 +1,6 @@
 // @flow
 /* eslint no-nested-ternary:0 */
-import DataTree from '../data/tree';
+import DataTree from '../../data/tree';
 const { min, max } = Math;
 const minGap = 2;
 

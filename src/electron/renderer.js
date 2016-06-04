@@ -5,7 +5,7 @@ import createDebug from 'debug';
 import { expose } from '../global';
 import createRenderer from '../renderer/browser';
 import DataTree from '../data/tree';
-import createActions from '../action';
+import createActions from '../redux/action';
 import createRedux from '../redux';
 import createRoutes from '../route';
 import Router from '../router';

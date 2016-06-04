@@ -7,7 +7,6 @@ import settings from '../settings/server';
 import webpackConfig from '../settings/webpack';
 import DataTree from './data/tree';
 import createRenderer from './renderer/server';
-import createActions from './action';
 import createRedux from './redux';
 import createRoutes from './route';
 import Router, { InvalidRouteError } from './router';
@@ -36,17 +35,19 @@ const injectRevision = (output: string, revision: string): string =>
 export function renderApp(location: string, assetFs: any): Promise {
   let router: Router; // eslint-disable-line prefer-const
 
+  const actionServices = {};
   const renderServices = {};
   const initialState = new DataTree();
-  const actions = createActions(() => router);
 
-  const { store, boundActions } = createRedux(initialState, actions);
-  router = new Router(createRoutes(store, actions), location); // eslint-disable-line prefer-const
+  const { store, actions } = createRedux(initialState, actionServices);
+  router = new Router(createRoutes(actions), location); // eslint-disable-line prefer-const
+
+  renderServices.setUrl = router.setUrl.bind(router);
   renderServices.getUrl = router.getUrl.bind(router);
 
   return router.runUrl(location).then(() => {
     const state = store.getState();
-    const rendered = renderer(state, boundActions, renderServices);
+    const rendered = renderer(state, actions, renderServices);
     let html = getTemplate(assetFs);
 
     html = injectAssetPath(html, webpackConfig.output.templateAssetPath);

@@ -1,10 +1,10 @@
 // @flow
 const createSimpleAction = type => payload => ({ type, payload });
 
-export default function createActions(getRouter: Function = () => null): Object {
+export default function createActions(actionServices: Object): Object {
   return {
     setUrl: url => {
-      getRouter().setUrl(url);
+      actionServices.setUrl(url);
     },
     setScreen: createSimpleAction('SET_SCREEN'),
     setListStart: createSimpleAction('SET_LIST_START'),

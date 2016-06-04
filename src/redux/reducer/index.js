@@ -1,5 +1,5 @@
 // @flow
-import DataTree from '../data/tree';
+import DataTree from '../../data/tree';
 import screenReducer from './screen';
 import backgroundReducer from './background';
 import listReducer from './list';

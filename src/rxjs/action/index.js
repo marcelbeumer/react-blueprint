@@ -5,6 +5,7 @@ import { showBackground, hideBackground } from './background';
 
 export default function createActionHandlers(actionServices: Object): Object {
   return {
+    demoMiddleware: () => '__MIDDLEWARE_DEMO__',
     setUrl: (getState, url) => {
       actionServices.setUrl(url);
     },

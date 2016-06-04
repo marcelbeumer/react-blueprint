@@ -28,25 +28,20 @@ const renderer = createRenderer(element);
 const actionServices = {};
 const renderServices = {};
 const routeServices = {};
-let actions;
 let store;
 let router;
 
 function createRedux() {
-  const redux = createReduxStore(initialState, actionServices, state =>
-    renderer(state, actions, renderServices));
-
-  actions = redux.actions;
-  store = redux.store;
-  routeServices.setScreen = actions.setScreen;
+  store = createReduxStore(initialState, actionServices, state =>
+    renderer(state, store.actions, renderServices));
+  routeServices.setScreen = store.actions.setScreen;
 }
 
 function createRxJs() {
-  const rxjs = createRxJsStore(initialState, actionServices);
-  actions = rxjs.actions;
-  store = rxjs.store;
-  store::skip(1).subscribe(state => renderer(state, actions, renderServices));
-  routeServices.setScreen = actions.setScreen;
+  store = createRxJsStore(initialState, actionServices);
+  store.state::skip(1).subscribe(updatedState =>
+   renderer(updatedState, store.actions, renderServices));
+  routeServices.setScreen = store.actions.setScreen;
 }
 
 function createStore(storeType) {
@@ -56,7 +51,6 @@ function createStore(storeType) {
     createRedux();
   }
   expose('store', store);
-  expose('actions', actions);
 }
 
 createStore(initialState.get('store'));
@@ -70,7 +64,7 @@ renderServices.getUrl = router.getUrl.bind(router);
 global.addEventListener('popstate', () => router.setUrl(location.pathname));
 
 if (element.querySelector('[data-react-checksum]')) {
-  renderer(initialState, actions, renderServices);
+  renderer(initialState, store.actions, renderServices);
 } else {
   router.runUrl(location.pathname);
 }

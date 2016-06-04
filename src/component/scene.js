@@ -1,5 +1,4 @@
 // @flow
-/* eslint no-nested-ternary:0 */
 import React from 'react';
 import cx from 'classnames';
 import { List } from 'immutable';

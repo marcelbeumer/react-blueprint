@@ -10,14 +10,8 @@ const debug = createDebug('rxjs');
 
 function createActions(actionHandlers, input, getState) {
   return mapValues(actionHandlers, (handler, name) => (...args) => {
-    try {
-      debug(`action call ${name}`);
-      const result = handler(getState, ...args);
-      input.next(result);
-    } catch (e) {
-      debug(`exception in action call ${name}`);
-      input.error(e);
-    }
+    debug(`action call ${name}`);
+    input.next(handler(getState, ...args));
   });
 }
 

@@ -8,7 +8,7 @@ export type StoreResult = {state: any, input: any, actions: Object};
 
 const debug = createDebug('rxjs');
 
-function createActions(actionHandlers, input, getState) {
+function createActions(actionHandlers, getState, input) {
   return mapValues(actionHandlers, (handler, name) => (...args) => {
     debug(`action call ${name}`);
     input.next(handler(getState, ...args));
@@ -47,7 +47,7 @@ export default function createRxJsStore(
   const input = new Subject();
   const getState = () => state.value;
   const actionHandlers = createActionHandlers(actionServices);
-  const actions = createActions(actionHandlers, input, getState);
+  const actions = createActions(actionHandlers, getState, input);
 
   input
     .map(createMiddleware(getState, actions))

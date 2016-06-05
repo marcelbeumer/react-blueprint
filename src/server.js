@@ -35,8 +35,8 @@ const injectRevision = (output: string, revision: string): string =>
 
 export function renderApp(location: string, assetFs: any): Promise {
   let router: Router; // eslint-disable-line prefer-const
-  let store;
   let actions;
+  let getState;
 
   const actionServices = {};
   const renderServices = {};
@@ -46,11 +46,11 @@ export function renderApp(location: string, assetFs: any): Promise {
   if (initialState.get('store') === 'rxjs') {
     const redux = createReduxStore(initialState, actionServices);
     actions = redux.actions;
-    store = redux.store;
+    getState = () => redux.store.getState();
   } else {
     const rxjs = createRxJsStore(initialState, actionServices);
     actions = rxjs.actions;
-    store = rxjs.store;
+    getState = () => rxjs.state.value;
   }
 
   router = new Router(createRoutes(routeServices), location); // eslint-disable-line prefer-const
@@ -59,7 +59,7 @@ export function renderApp(location: string, assetFs: any): Promise {
   renderServices.getUrl = router.getUrl.bind(router);
 
   return router.runUrl(location).then(() => {
-    const state = store.getState();
+    const state = getState();
     const rendered = renderer(state, actions, renderServices);
     let html = getTemplate(assetFs);
 

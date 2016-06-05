@@ -1,28 +1,24 @@
-import { Subject } from 'rxjs/Subject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-import { map } from 'rxjs/operator/map';
-import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
+// @flow
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import mapValues from 'lodash/mapValues';
 import createDebug from 'debug';
 import createActionHandlers from './action';
 
-export type StoreResult = {store: any, state: any, actions: Object};
+export type StoreResult = {state: any, input: any, actions: Object};
 
 const debug = createDebug('rxjs');
 
-function createActions(actionHandlers, state, store) {
-  const actions = {};
-
-  Object.keys(actionHandlers).forEach(name => {
-    actions[name] = (...args) => {
+function createActions(actionHandlers, input, getState) {
+  return mapValues(actionHandlers, (handler, name) => (...args) => {
+    try {
       debug(`action call ${name}`);
-      const result = actionHandlers[name](() => state.value, ...args);
-      store.next(result);
-    };
+      const result = handler(getState, ...args);
+      input.next(result);
+    } catch (e) {
+      debug(`exception in action call ${name}`);
+      input.error(e);
+    }
   });
-
-  return actions;
 }
 
 function createMiddleware(getState, actions) {
@@ -35,36 +31,35 @@ function createMiddleware(getState, actions) {
   };
 }
 
-function createValueProcessor(state, store) {
-  return (value) => {
-    if (!value) return state.value;
-
-    if (value.subscribe || value.then) {
-      const observable = value.subscribe ? value : Observable::fromPromise(value);
-      observable.subscribe((nextValue) => store.next(nextValue));
-      return state.value;
-    }
-
-    return value;
+function createValueProcessor(getState, input) {
+  const subscriber = {
+    next: value => input.next(value),
+    error: value => input.error(value),
   };
+
+  return value => (
+    !value ? getState() :
+    value.then ? Observable.fromPromise(value).subscribe(subscriber) && getState() :
+    value.subscribe ? value.subscribe(subscriber) && getState() :
+    value
+  );
 }
 
-export default function createAppStore(
+export default function createRxJsStore(
   initialState: any,
   actionServices: Object,
 ): StoreResult {
   const state = new BehaviorSubject(initialState);
-  const store = new Subject();
+  const input = new Subject();
+  const getState = () => state.value;
   const actionHandlers = createActionHandlers(actionServices);
-  const actions = createActions(actionHandlers, state, store);
-  const middleware = createMiddleware(() => state.value, actions);
-  const valueProcessor = createValueProcessor(state, store);
+  const actions = createActions(actionHandlers, input, getState);
 
-  store
-    ::map(middleware)
-    ::map(valueProcessor)
-    ::distinctUntilChanged()
+  input
+    .map(createMiddleware(getState, actions))
+    .map(createValueProcessor(getState, input))
+    .distinctUntilChanged()
     .subscribe(state);
 
-  return { state, store, actions };
+  return { state, input, actions };
 }

@@ -29,7 +29,7 @@ function createActions(actionHandlers, store) {
   return actions;
 }
 
-export default function createAppStore(
+export default function createReduxStore(
   initialState: any,
   actionServices: Object,
   onChange: ?Function,

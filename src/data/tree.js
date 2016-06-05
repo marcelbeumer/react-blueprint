@@ -7,6 +7,7 @@ const TreeData = Record({
   store: 'rxjs',
   screen: null,
   showBackground: false,
+  counter: 0,
   list: new ListData({
     length: 30,
     start: 15,

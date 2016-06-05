@@ -1,3 +1,4 @@
+// @flow
 import DataTree from '../../data/tree';
 
 export const showBackground = (getState: Function): DataTree =>

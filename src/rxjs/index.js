@@ -1,33 +1,24 @@
 // @flow
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import mapValues from 'lodash/mapValues';
 import createDebug from 'debug';
 import createActionHandlers from './action';
-import createMiddleware from './middleware';
+import middleware from './middleware';
 
 export type StoreResult = {state: any, input: any, actions: Object};
 
 const debug = createDebug('rxjs');
 
-function createActions(actionHandlers, getState, input) {
-  return mapValues(actionHandlers, (handler, name) => (...args) => {
+function createActions(actionHandlers, input, state) {
+  return mapValues(actionHandlers, (handler, name) => (...actionArgs) => {
     debug(`action call ${name}`);
-    input.next(handler(getState, ...args));
+    input.next(handler(() => state.value, ...actionArgs));
   });
 }
 
-function createValueProcessor(getState, input) {
-  const subscriber = {
-    next: value => input.next(value),
-    error: value => input.error(value),
-  };
-
-  return value => (
-    !value ? getState() :
-    value.then ? Observable.fromPromise(value).subscribe(subscriber) && getState() :
-    value.subscribe ? value.subscribe(subscriber) && getState() :
-    value
-  );
+function createMiddleware(input, state, actions): any {
+  return middleware.reduce((subject, handler) =>
+    subject.map((value) => handler(value, input, state, actions)), input);
 }
 
 export default function createRxJsStore(
@@ -36,13 +27,10 @@ export default function createRxJsStore(
 ): StoreResult {
   const state = new BehaviorSubject(initialState);
   const input = new Subject();
-  const getState = () => state.value;
   const actionHandlers = createActionHandlers(actionServices);
-  const actions = createActions(actionHandlers, getState, input);
+  const actions = createActions(actionHandlers, input, state);
 
-  input
-    .map(createMiddleware(getState, actions))
-    .map(createValueProcessor(getState, input))
+  createMiddleware(input, state, actions)
     .distinctUntilChanged()
     .subscribe(state);
 

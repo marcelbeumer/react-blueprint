@@ -12,7 +12,7 @@ const fromPromise = (promise, input) =>
 const fromObservable = (observable, input) =>
   observable.subscribe(subscriber(input));
 
-function demo(value: any, input: Object, state: Object, actions: Object): any {
+function demoMiddleware(value: any, input: Object, state: Object, actions: Object): any {
   if (value === '__MIDDLEWARE_DEMO__') {
     actions.setListEnd(0);
     return null;
@@ -20,7 +20,7 @@ function demo(value: any, input: Object, state: Object, actions: Object): any {
   return value;
 }
 
-function valueTypes(value: any, input: Object, state: Object): any {
+function valueTypesMiddleware(value: any, input: Object, state: Object): any {
   return !value ? state.value :
     value.then ? fromPromise(value, input) && state.value :
     value.subscribe ? fromObservable(value, input) && state.value :
@@ -28,6 +28,6 @@ function valueTypes(value: any, input: Object, state: Object): any {
 }
 
 export default [
-  demo,
-  valueTypes,
+  demoMiddleware,
+  valueTypesMiddleware,
 ];

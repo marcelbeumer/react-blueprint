@@ -26,6 +26,15 @@ export default function createMiddleware(
     return value;
   }
 
+  function actionRequestMiddleware(value) {
+    if (value && value.type === 'ACTION_REQUEST') {
+      const action = actions[value.name];
+      if (action) action(...value.args);
+      return null;
+    }
+    return value;
+  }
+
   function valueTypesMiddleware(value) {
     return !value ? state.value :
       value.then ? fromPromise(value, input) && state.value :
@@ -35,6 +44,7 @@ export default function createMiddleware(
 
   return [
     demoMiddleware,
+    actionRequestMiddleware,
     valueTypesMiddleware,
   ];
 }

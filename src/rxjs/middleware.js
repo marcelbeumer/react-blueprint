@@ -6,6 +6,12 @@ const subscriber = input => ({
   error: err => input.error(err),
 });
 
+const fromPromise = (promise, input) =>
+  Observable.fromPromise(promise).subscribe(subscriber(input));
+
+const fromObservable = (observable, input) =>
+  observable.subscribe(subscriber(input));
+
 function demo(value: any, input: Object, state: Object, actions: Object): any {
   if (value === '__MIDDLEWARE_DEMO__') {
     actions.setListEnd(0);
@@ -16,8 +22,8 @@ function demo(value: any, input: Object, state: Object, actions: Object): any {
 
 function valueTypes(value: any, input: Object, state: Object): any {
   return !value ? state.value :
-    value.then ? Observable.fromPromise(value).subscribe(subscriber(input)) && state.value :
-    value.subscribe ? value.subscribe(subscriber(input)) && state.value :
+    value.then ? fromPromise(value, input) && state.value :
+    value.subscribe ? fromObservable(value, input) && state.value :
     value;
 }
 

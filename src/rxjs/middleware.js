@@ -17,7 +17,7 @@ export default function createMiddleware(
   state: Object,
   actions: Object
 ): Array<Function> {
-
+  //
   function demoMiddleware(value: any): any {
     if (value === '__MIDDLEWARE_DEMO__') {
       actions.setListEnd(0);

@@ -3,6 +3,7 @@ import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import mapValues from 'lodash/mapValues';
 import createDebug from 'debug';
 import createActionHandlers from './action';
+import createMiddleware from './middleware';
 
 export type StoreResult = {state: any, input: any, actions: Object};
 
@@ -13,16 +14,6 @@ function createActions(actionHandlers, getState, input) {
     debug(`action call ${name}`);
     input.next(handler(getState, ...args));
   });
-}
-
-function createMiddleware(getState, actions) {
-  return (value) => {
-    if (value === '__MIDDLEWARE_DEMO__') {
-      actions.setListEnd(0);
-      return null;
-    }
-    return value;
-  };
 }
 
 function createValueProcessor(getState, input) {

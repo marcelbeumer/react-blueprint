@@ -5,7 +5,7 @@ import createDebug from 'debug';
 import createActionHandlers from './action';
 import middleware from './middleware';
 
-export type StoreResult = {state: any, input: any, actions: Object};
+export type RxJsStore = {state: any, input: any, actions: Object};
 
 const debug = createDebug('rxjs');
 
@@ -24,7 +24,7 @@ function createMiddleware(input, state, actions): any {
 export default function createRxJsStore(
   initialState: any,
   actionServices: Object,
-): StoreResult {
+): RxJsStore {
   const state = new BehaviorSubject(initialState);
   const input = new Subject();
   const actionHandlers = createActionHandlers(actionServices);

@@ -3,7 +3,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import mapValues from 'lodash/mapValues';
 import createDebug from 'debug';
 import createActionHandlers from './action';
-import middleware from './middleware';
+import createMiddleware from './middleware';
 
 export type RxJsStore = {state: any, input: any, actions: Object};
 
@@ -16,9 +16,9 @@ function createActions(actionHandlers, input, state) {
   });
 }
 
-function createMiddleware(input, state, actions): any {
+function mapMiddleware(input, middleware): any {
   return middleware.reduce((subject, handler) =>
-    subject.map((value) => handler(value, input, state, actions)), input);
+    subject.map((value) => handler(value)), input);
 }
 
 export default function createRxJsStore(
@@ -29,8 +29,9 @@ export default function createRxJsStore(
   const input = new Subject();
   const actionHandlers = createActionHandlers(actionServices);
   const actions = createActions(actionHandlers, input, state);
+  const middleware = createMiddleware(input, state, actions);
 
-  createMiddleware(input, state, actions)
+  mapMiddleware(input, middleware)
     .distinctUntilChanged()
     .subscribe(state);
 

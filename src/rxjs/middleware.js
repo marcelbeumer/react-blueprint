@@ -12,22 +12,29 @@ const fromPromise = (promise, input) =>
 const fromObservable = (observable, input) =>
   observable.subscribe(subscriber(input));
 
-function demoMiddleware(value: any, input: Object, state: Object, actions: Object): any {
-  if (value === '__MIDDLEWARE_DEMO__') {
-    actions.setListEnd(0);
-    return null;
+export default function createMiddleware(
+  input: Object,
+  state: Object,
+  actions: Object
+): Array<Function> {
+  //
+  function demoMiddleware(value: any): any {
+    if (value === '__MIDDLEWARE_DEMO__') {
+      actions.setListEnd(0);
+      return null;
+    }
+    return value;
   }
-  return value;
-}
 
-function valueTypesMiddleware(value: any, input: Object, state: Object): any {
-  return !value ? state.value :
-    value.then ? fromPromise(value, input) && state.value :
-    value.subscribe ? fromObservable(value, input) && state.value :
-    value;
-}
+  function valueTypesMiddleware(value: any): any {
+    return !value ? state.value :
+      value.then ? fromPromise(value, input) && state.value :
+      value.subscribe ? fromObservable(value, input) && state.value :
+      value;
+  }
 
-export default [
-  demoMiddleware,
-  valueTypesMiddleware,
-];
+  return [
+    demoMiddleware,
+    valueTypesMiddleware,
+  ];
+}

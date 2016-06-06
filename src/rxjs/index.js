@@ -16,7 +16,7 @@ function createActions(actionHandlers, input, state) {
   });
 }
 
-function mapMiddleware(input, middleware): any {
+function mapMiddleware(input, middleware) {
   return middleware.reduce((subject, handler) =>
     subject.map((value) => handler(value)), input);
 }

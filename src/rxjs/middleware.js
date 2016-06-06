@@ -18,7 +18,7 @@ export default function createMiddleware(
   actions: Object
 ): Array<Function> {
   //
-  function demoMiddleware(value: any): any {
+  function demoMiddleware(value) {
     if (value === '__MIDDLEWARE_DEMO__') {
       actions.setListEnd(0);
       return null;
@@ -26,7 +26,7 @@ export default function createMiddleware(
     return value;
   }
 
-  function valueTypesMiddleware(value: any): any {
+  function valueTypesMiddleware(value) {
     return !value ? state.value :
       value.then ? fromPromise(value, input) && state.value :
       value.subscribe ? fromObservable(value, input) && state.value :

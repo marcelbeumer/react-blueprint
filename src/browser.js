@@ -9,7 +9,6 @@ import createReduxStore from './redux';
 import createRxJsStore from './rxjs';
 import createRoutes from './route';
 import Router from './router';
-import { skip } from 'rxjs/operator/skip';
 
 const debug = createDebug('browser');
 debug('starting bootstrap');
@@ -39,8 +38,8 @@ function createRedux() {
 
 function createRxJs() {
   store = createRxJsStore(initialState, actionServices);
-  store.state::skip(1).subscribe(updatedState =>
-   renderer(updatedState, store.actions, renderServices));
+  store.state.skip(1).subscribe(updatedState =>
+    renderer(updatedState, store.actions, renderServices));
   routeServices.setScreen = store.actions.setScreen;
 }
 

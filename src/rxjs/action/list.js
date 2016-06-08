@@ -3,44 +3,40 @@ import DataTree from '../../data/tree';
 const { min, max } = Math;
 const minGap = 2;
 
-function getStart(start, state, gap = minGap) {
-  return min(max(start, 0), state.list.length - gap);
+function getStart(start, list, gap = minGap) {
+  return min(max(start, 0), list.length - gap);
 }
 
-function getEnd(end, state, gap = minGap) {
-  return min(max(end, gap), state.list.length);
+function getEnd(end, list, gap = minGap) {
+  return min(max(end, gap), list.length);
 }
 
-export function setListStart(getState: Function, start: number): DataTree {
-  const state = getState();
-  let list = state.list;
-  const value = getStart(start, state);
+export function setListStart(getList: Function, start: number): DataTree {
+  let list = getList();
+  const value = getStart(start, list);
 
   if (value + minGap > list.end) list = list.set('end', value + minGap);
 
-  list = list.set('start', value);
-  return state.set('list', list);
+  return list.set('start', value);
 }
 
-export function setListEnd(getState: Function, end: number): DataTree {
-  const state = getState();
-  let list = state.list;
-  const value = getEnd(end, state);
+export function setListEnd(getList: Function, end: number): DataTree {
+  let list = getList();
+  const value = getEnd(end, list);
 
   if (value - minGap < list.start) list = list.set('start', value - minGap);
 
-  list = list.set('end', value);
-  return state.set('list', list);
+  return list.set('end', value);
 }
 
-export function setListRange(getState: Function, start: number, end: number): DataTree {
-  const state = getState();
-  if (start > end) return state;
+export function setListRange(getList: Function, start: number, end: number): DataTree {
+  const list = getList();
+  if (start > end) return list;
 
-  const cleanStart = getStart(start, state, (end - start));
-  const cleanEnd = getEnd(end, state, (end - start));
+  const cleanStart = getStart(start, list, (end - start));
+  const cleanEnd = getEnd(end, list, (end - start));
 
-  return state.set('list', state.list
+  return list
     .set('start', cleanStart)
-    .set('end', cleanEnd));
+    .set('end', cleanEnd);
 }

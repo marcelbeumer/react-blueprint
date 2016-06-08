@@ -1,5 +1,6 @@
 // @flow
 import { Subject, BehaviorSubject } from 'rxjs';
+import { Collection } from 'immutable';
 import mapValues from 'lodash/mapValues';
 import createDebug from 'debug';
 import createActionHandlers from './action';
@@ -10,9 +11,21 @@ export type RxJsStore = {state: any, input: any, actions: Object};
 const debug = createDebug('rxjs');
 
 function createActions(actionHandlers, input, state) {
-  return mapValues(actionHandlers, (handler, name) => (...actionArgs) => {
-    debug(`action call ${name}`);
-    input.next(handler(() => state.value, ...actionArgs));
+  return mapValues(actionHandlers, (handler, name) => {
+    const { path } = handler;
+    const getters = [
+      path ? () => state.value.getIn(path.split('.')) : () => state.value,
+      ...(handler.others || [])
+        .map(otherPath => () => state.value.getIn(otherPath.split('.'))),
+    ];
+
+    return (...actionArgs) => {
+      debug(`action call ${name}`);
+      input.next({
+        value: handler(...getters, ...actionArgs),
+        path,
+      });
+    };
   });
 }
 
@@ -22,7 +35,7 @@ function mapMiddleware(input, middleware) {
 }
 
 export default function createRxJsStore(
-  initialState: any,
+  initialState: Collection,
   actionServices: Object,
 ): RxJsStore {
   const state = new BehaviorSubject(initialState);

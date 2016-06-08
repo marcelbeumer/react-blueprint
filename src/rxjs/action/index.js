@@ -1,28 +1,24 @@
 // @flow
 import { Observable } from 'rxjs';
+import mapValues from 'lodash/mapValues';
+import { ActionRequest } from '../middleware';
 import { setScreen } from './screen';
-import { setListStart, setListEnd, setListRange } from './list';
 import { showBackground, hideBackground } from './background';
 import * as listActions from './list';
 
-class ActionRequest {
-  type: string;
-  name: string;
-  args: Array<any>;
-
-  constructor(name, ...args) {
-    this.type = 'ACTION_REQUEST';
-    this.name = name;
-    this.args = args;
-  }
+export function scopeAction(
+  handler: Function,
+  path: string,
+  others: ?Array<string>): Function {
+  Object.assign(handler, { path, others });
+  return handler;
 }
 
-function scopeAction(handler, path, ...others) {
-  // return function(getState, ...o
-}
-
-function scope(handlers, path, ...others) {
-  [].concat(handlers).forEach(handler => scopeAction(handler, path, ...others));
+export function scopeActions(
+  handlers: Object,
+  path: string,
+  others: ?Array<string>): Object {
+  return mapValues(handlers, handler => scopeAction(handler, path, others));
 }
 
 export default function createActionHandlers(actionServices: Object): Object {
@@ -44,18 +40,9 @@ export default function createActionHandlers(actionServices: Object): Object {
       return getState().set('store', storeType);
     },
 
-    // but what about triggering things outside of this scope?
-    // dispatch action request?
-    // observer.next({ type: 'actionRequest', name: 'setFoo', args: []});
-    // ..or
-    // observer.next(new ActionRequest('setFoo', 12);
-    // ...scope(listActions, 'list', 'settings.maxSize'),
-
     setScreen,
-    setListStart,
-    setListEnd,
-    setListRange,
     showBackground,
     hideBackground,
+    ...scopeActions(listActions, 'list'),
   };
 }

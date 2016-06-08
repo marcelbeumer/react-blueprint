@@ -6,41 +6,39 @@ import { Action } from '../rxjs';
 
 const debug = createDebug('rxjs');
 
-const subscriber = input => ({
-  next: nextValue => input.next(nextValue),
-  error: err => input.error(err),
-});
-
-const fromObservable = (observable, path, input, state) => {
-  observable
-    .map(value => ({ value, path }))
-    .subscribe(subscriber(input));
-  return state.value;
-};
-
-const fromPromise = (promise, path, input, state) =>
-  fromObservable(Observable.fromPromise(promise), path, input, state);
-
-const fromAction = (value, input, state) => {
-  input.next(value);
-  return state.value;
-};
-
-const getValue = (value, path, state) =>
-  (path ? state.value.setIn(path.split('.'), value) : value);
-
 export default function createMiddleware(
   input: Object,
   state: Object,
   handlers: Object
 ): Array<Function> {
   //
+  const subscriber = () => ({
+    next: nextValue => input.next(nextValue),
+    error: err => input.error(err),
+  });
+
+  const fromObservable = (observable, path) => {
+    observable.map(value => ({ value, path })).subscribe(subscriber());
+    return state.value;
+  };
+
+  const fromPromise = (promise, path) =>
+    fromObservable(Observable.fromPromise(promise), path);
+
+  const fromAction = (value) => {
+    input.next(value);
+    return state.value;
+  };
+
+  const getValue = (value, path) =>
+    (path ? state.value.setIn(path.split('.'), value) : value);
+
   function actionRequestMiddleware(next) {
-    if (next instanceof Action) {
-      const handler = handlers[next.name];
+    if (next.value instanceof Action) {
+      const handler = handlers[next.value.name];
       if (handler) {
         debug(`action call ${next.name}`);
-        return handler(...next.args);
+        return handler(...next.value.args);
       }
     }
 

@@ -37,7 +37,7 @@ function bindActionHandlers(actionHandlers, input, state) {
 function createActions(actionHandlers, input) {
   return mapValues(actionHandlers, (handler, name) =>
     (...actionArgs) => {
-      input.next(new ExternalAction(name, ...actionArgs));
+      input.next({ value: new ExternalAction(name, ...actionArgs) });
     }
   );
 }

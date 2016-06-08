@@ -34,6 +34,13 @@ function mapMiddleware(input, middleware) {
     subject.map((value) => handler(value)), input);
 }
 
+export function scopeActionHandler(
+  handler: Function,
+  path: string,
+  others: ?Array<string>) {
+  return Object.assign(handler, { path, others });
+}
+
 export default function createRxJsStore(
   initialState: Collection,
   actionServices: Object,

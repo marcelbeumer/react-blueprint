@@ -1,25 +1,13 @@
 // @flow
 import { Observable } from 'rxjs';
-import mapValues from 'lodash/mapValues';
+import forEach from 'lodash/forEach';
+import { scopeActionHandler } from '..';
 import { ActionRequest } from '../middleware';
 import { setScreen } from './screen';
 import { showBackground, hideBackground } from './background';
 import * as listActions from './list';
 
-export function scopeAction(
-  handler: Function,
-  path: string,
-  others: ?Array<string>): Function {
-  Object.assign(handler, { path, others });
-  return handler;
-}
-
-export function scopeActions(
-  handlers: Object,
-  path: string,
-  others: ?Array<string>): Object {
-  return mapValues(handlers, handler => scopeAction(handler, path, others));
-}
+forEach(listActions, action => scopeActionHandler(action, 'list'));
 
 export default function createActionHandlers(actionServices: Object): Object {
   return {
@@ -43,6 +31,6 @@ export default function createActionHandlers(actionServices: Object): Object {
     setScreen,
     showBackground,
     hideBackground,
-    ...scopeActions(listActions, 'list'),
+    ...listActions,
   };
 }

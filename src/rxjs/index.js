@@ -38,7 +38,7 @@ export function scopeActionHandler(
   handler: Function,
   path: string,
   others: ?Array<string>) {
-  return Object.assign(handler, { path, others });
+  return Object.assign((...args) => handler(...args), { path, others });
 }
 
 export default function createRxJsStore(

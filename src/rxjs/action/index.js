@@ -7,7 +7,6 @@ import { setScreen } from './screen';
 import { showBackground, hideBackground } from './background';
 import * as listActions from './list';
 
-
 export default function createActionHandlers(actionServices: Object): Object {
   return {
     demoMiddleware: () => '__MIDDLEWARE_DEMO__',

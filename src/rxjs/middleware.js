@@ -4,14 +4,13 @@ import { Observable } from 'rxjs';
 import { Collection } from 'immutable';
 import { Action } from '../rxjs';
 
-const debug = createDebug('rxjs');
-
 export default function createMiddleware(
   input: Object,
   state: Object,
   handlers: Object
 ): Array<Function> {
-  //
+  const debug = createDebug('rxjs');
+
   const subscriber = () => ({
     next: nextValue => input.next(nextValue),
     error: err => input.error(err),

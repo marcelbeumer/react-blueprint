@@ -1,67 +1,62 @@
 // @flow
+import createDebug from 'debug';
 import { Observable } from 'rxjs';
 import { Collection } from 'immutable';
+import { Action } from '../rxjs';
+
+const debug = createDebug('rxjs');
 
 const subscriber = input => ({
   next: nextValue => input.next(nextValue),
   error: err => input.error(err),
 });
 
-const fromObservable = (observable, path, input) =>
+const fromObservable = (observable, path, input, state) => {
   observable
     .map(value => ({ value, path }))
     .subscribe(subscriber(input));
+  return state.value;
+};
 
-const fromPromise = (promise, path, input) =>
-  fromObservable(Observable.fromPromise(promise), path, input);
+const fromPromise = (promise, path, input, state) =>
+  fromObservable(Observable.fromPromise(promise), path, input, state);
+
+const fromAction = (value, input, state) => {
+  input.next(value);
+  return state.value;
+};
 
 const getValue = (value, path, state) =>
   (path ? state.value.setIn(path.split('.'), value) : value);
 
-export class ActionRequest {
-  type: string;
-  name: string;
-  args: Array<any>;
-  constructor(name: string, ...args: Array<any>) {
-    this.type = 'ACTION_REQUEST';
-    this.name = name;
-    this.args = args;
-  }
-}
-
 export default function createMiddleware(
   input: Object,
   state: Object,
-  actions: Object
+  handlers: Object
 ): Array<Function> {
   //
-  function demoMiddleware(next) {
-    if (next.value === '__MIDDLEWARE_DEMO__') {
-      actions.setListEnd(0);
-      return null;
-    }
-    return next;
-  }
-
   function actionRequestMiddleware(next) {
-    if (next.value instanceof ActionRequest) {
-      const action = actions[next.value.name];
-      if (action) action(...next.value.args);
-      return null;
+    if (next instanceof Action) {
+      const handler = handlers[next.name];
+      if (handler) {
+        debug(`action call ${next.name}`);
+        return handler(...next.args);
+      }
     }
+
     return next;
   }
 
-  function valueTypesMiddleware({ value, path }) {
+  function valueTypesMiddleware({ value, path } = {}) {
     return !value ? state.value :
+      value instanceof Action ? fromAction(value, input, state) :
       value instanceof Collection ? getValue(value, path, state) :
-      value.then ? fromPromise(value, path, input) && state.value :
-      value.subscribe ? fromObservable(value, path, input) && state.value :
+      value.then ? fromPromise(value, path, input, state) :
+      value.subscribe ? fromObservable(value, path, input, state) :
       state.value;
   }
 
   return [
-    demoMiddleware,
     actionRequestMiddleware,
     valueTypesMiddleware,
   ];

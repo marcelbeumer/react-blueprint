@@ -2,36 +2,49 @@
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Collection } from 'immutable';
 import mapValues from 'lodash/mapValues';
-import createDebug from 'debug';
 import createActionHandlers from './action';
 import createMiddleware from './middleware';
 
-export type RxJsStore = {state: any, input: any, actions: Object};
+export type Store = {state: any, input: any, actions: Object};
 
-const debug = createDebug('rxjs');
+export class Action {
+  name: string;
+  args: Array<any>;
+  constructor(name: string, ...args: Array<any>) {
+    this.name = name;
+    this.args = args;
+  }
+}
 
-function createActions(actionHandlers, input, state) {
-  return mapValues(actionHandlers, (handler, name) => {
-    const { path } = handler;
-    const getters = [
-      path ? () => state.value.getIn(path.split('.')) : () => state.value,
-      ...(handler.others || [])
-        .map(otherPath => () => state.value.getIn(otherPath.split('.'))),
-    ];
+export class ExternalAction extends Action { }
 
-    return (...actionArgs) => {
-      debug(`action call ${name}`);
-      input.next({
-        value: handler(...getters, ...actionArgs),
-        path,
-      });
-    };
+const getGetters = ({ path, others }, state) => [
+  path ? () => state.value.getIn(path.split('.')) : () => state.value,
+  ...(others || [])
+    .map(otherPath => () => state.value.getIn(otherPath.split('.'))),
+];
+
+function bindActionHandlers(actionHandlers, input, state) {
+  return mapValues(actionHandlers, (handler) => {
+    const getters = getGetters(handler, state);
+    return (...actionArgs) => ({
+      path: handler.path,
+      value: handler(...getters, ...actionArgs),
+    });
   });
+}
+
+function createActions(actionHandlers, input) {
+  return mapValues(actionHandlers, (handler, name) =>
+    (...actionArgs) => {
+      input.next(new ExternalAction(name, ...actionArgs));
+    }
+  );
 }
 
 function mapMiddleware(input, middleware) {
   return middleware.reduce((subject, handler) =>
-    subject.map((value) => handler(value)), input);
+    subject.map((value) => handler(value) || {}), input);
 }
 
 export function scopeActionHandler(
@@ -41,15 +54,16 @@ export function scopeActionHandler(
   return Object.assign((...args) => handler(...args), { path, others });
 }
 
-export default function createRxJsStore(
+export default function createStore(
   initialState: Collection,
   actionServices: Object,
-): RxJsStore {
+): Store {
   const state = new BehaviorSubject(initialState);
   const input = new Subject();
   const actionHandlers = createActionHandlers(actionServices);
-  const actions = createActions(actionHandlers, input, state);
-  const middleware = createMiddleware(input, state, actions);
+  const actions = createActions(actionHandlers, input);
+  const boundHandlers = bindActionHandlers(actionHandlers, input, state);
+  const middleware = createMiddleware(input, state, boundHandlers);
 
   mapMiddleware(input, middleware)
     .distinctUntilChanged()

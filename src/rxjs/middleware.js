@@ -17,15 +17,15 @@ export default function createMiddleware(
     error: err => input.error(err),
   });
 
-  const fromObservable = (observable, path) => {
+  const passObservable = (observable, path) => {
     observable.map(value => ({ value, path })).subscribe(subscriber());
     return state.value;
   };
 
-  const fromPromise = (promise, path) =>
-    fromObservable(Observable.fromPromise(promise), path);
+  const passPromise = (promise, path) =>
+    passObservable(Observable.fromPromise(promise), path);
 
-  const fromAction = (value) => {
+  const passValue = (value) => {
     nextValue(value);
     return state.value;
   };
@@ -56,10 +56,10 @@ export default function createMiddleware(
 
   function valueTypesMiddleware({ value, path } = {}) {
     return !value ? state.value :
-      value instanceof Action ? fromAction(value, input, state) :
+      value instanceof Action ? passValue(value, input, state) :
       value instanceof Collection ? getValue(value, path, state) :
-      value.then ? fromPromise(value, path, input, state) :
-      value.subscribe ? fromObservable(value, path, input, state) :
+      value.then ? passPromise(value, path, input, state) :
+      value.subscribe ? passObservable(value, path, input, state) :
       state.value;
   }
 

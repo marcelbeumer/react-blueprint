@@ -18,11 +18,8 @@ function createActions(actionHandlers, store) {
   Object.keys(actionHandlers).forEach(name => {
     actions[name] = (...args) => {
       debug(`action call ${name}`);
-      const action = actionHandlers[name](...args);
-      if (action) {
-        debug(`dispatch action ${name}`);
-        store.dispatch(action);
-      }
+      const result = actionHandlers[name](...args);
+      if (result) store.dispatch(result);
     };
   });
 

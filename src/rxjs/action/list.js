@@ -1,5 +1,5 @@
 // @flow
-import DataTree from '../../data/tree';
+import ListData from '../../data/list';
 const { min, max } = Math;
 const minGap = 2;
 
@@ -11,7 +11,7 @@ function getEnd(end, list, gap = minGap) {
   return min(max(end, gap), list.length);
 }
 
-export function setListStart(getList: Function, start: number): DataTree {
+export function setListStart(getList: Function, start: number): ListData {
   let list = getList();
   const value = getStart(start, list);
 
@@ -20,7 +20,7 @@ export function setListStart(getList: Function, start: number): DataTree {
   return list.set('start', value);
 }
 
-export function setListEnd(getList: Function, end: number): DataTree {
+export function setListEnd(getList: Function, end: number): ListData {
   let list = getList();
   const value = getEnd(end, list);
 
@@ -29,7 +29,7 @@ export function setListEnd(getList: Function, end: number): DataTree {
   return list.set('end', value);
 }
 
-export function setListRange(getList: Function, start: number, end: number): DataTree {
+export function setListRange(getList: Function, start: number, end: number): ListData {
   const list = getList();
   if (start > end) return list;
 

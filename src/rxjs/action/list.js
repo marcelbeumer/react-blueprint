@@ -42,7 +42,7 @@ export function setListRange(getList: Function, start: number, end: number): Lis
     .set('end', cleanEnd);
 }
 
-export function incrementListLenght(getList: Function, amount: number): ListData {
+export function iincrementListLength(getList: Function, amount: number): ListData {
   const list = getList();
   const current = list.get('length');
   return list.set('length', current + amount);
@@ -61,7 +61,7 @@ export function loadMoreListItems(getState: Function): any {
         global.setTimeout(loadChunk, 250);
       } else {
         observable.next(getState().set('listLoading', false));
-        observable.next(new Action('incrementListLenght', 20));
+        observable.next(new Action('iincrementListLength', 20));
         observable.complete();
       }
     };

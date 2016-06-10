@@ -7,7 +7,7 @@ import {
   setListEnd,
   setListRange,
   loadMoreListItems,
-  iincrementListLength,
+  incrementListLength,
 } from './list';
 
 export default function createActionHandlers(actionServices: Object): Object {
@@ -33,7 +33,7 @@ export default function createActionHandlers(actionServices: Object): Object {
     setListStart: scope(setListStart, 'list'),
     setListEnd: scope(setListEnd, 'list'),
     setListRange: scope(setListRange, 'list'),
-    iincrementListLength: scope(iincrementListLength, 'list'),
+    incrementListLength: scope(incrementListLength, 'list'),
     loadMoreListItems,
   };
 }

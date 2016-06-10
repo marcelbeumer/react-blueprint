@@ -60,6 +60,7 @@ export function loadMoreListItems(getState: Function): any {
       if (chunksDone <= 5) {
         global.setTimeout(loadChunk, 250);
       } else {
+        observable.next(getState().set('listLoading', false));
         observable.next(new Action('incrementListLenght', 20));
         observable.complete();
       }

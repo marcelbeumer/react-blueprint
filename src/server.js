@@ -3,20 +3,14 @@
 import 'babel-polyfill';
 import express from 'express';
 import fs from 'fs';
-import settings from '../settings/server';
 import webpackConfig from '../settings/webpack';
-import DataTree from './data/tree';
-import createRenderer from './renderer/server';
-import createReduxStore from './redux';
-import createRxJsStore from './rxjs';
-import createRoutes from './route';
-import Router, { InvalidRouteError } from './router';
+import bootstrapServer from './bootstrap/server';
+import { InvalidRouteError } from './router';
 import env from 'node-env';
 
 const SSR = String(process.env.SSR);
 const REVISION = process.env.REVISION || String(Number(new Date()));
 const prod = env === 'production';
-const renderer = createRenderer(settings);
 
 const getTemplate = (assetFs = fs) =>
   String(assetFs.readFileSync(`${__dirname}/index.html`));
@@ -34,38 +28,14 @@ const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
 
 export function renderApp(location: string, assetFs: any): Promise {
-  let router: Router; // eslint-disable-line prefer-const
-  let actions;
-  let getState;
-
-  const actionServices = {};
-  const renderServices = {};
-  const routeServices = {};
-  const initialState = new DataTree();
-
-  if (initialState.get('store') === 'rxjs') {
-    const redux = createReduxStore(initialState, actionServices);
-    actions = redux.actions;
-    getState = () => redux.store.getState();
-  } else {
-    const rxjs = createRxJsStore(initialState, actionServices);
-    actions = rxjs.actions;
-    getState = () => rxjs.state.value;
-  }
-
-  router = new Router(createRoutes(routeServices), location); // eslint-disable-line prefer-const
-  routeServices.setScreen = actions.setScreen;
-  renderServices.setUrl = router.setUrl.bind(router);
-  renderServices.getUrl = router.getUrl.bind(router);
-
+  const { store, router, render } = bootstrapServer(location);
   return router.runUrl(location).then(() => {
-    const state = getState();
-    const rendered = renderer(state, actions, renderServices);
+    const rendered = render();
     let html = getTemplate(assetFs);
 
     html = injectAssetPath(html, webpackConfig.output.templateAssetPath);
     html = injectRevision(html, REVISION);
-    html = injectData(html, state.toServerData());
+    html = injectData(html, store.getState().toServerData());
     html = injectRender(html, rendered);
     return html;
   });

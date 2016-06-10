@@ -13,7 +13,7 @@ import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 export { Observable, Subject, BehaviorSubject };
-export type Store = {state: any, input: any, actions: Object};
+export type Store = {state: any, input: any, actions: Object, getState: Function};
 
 export class Action {
   name: string;

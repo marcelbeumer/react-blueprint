@@ -8,7 +8,7 @@ import createActionHandlers from './action';
 import reducer from './reducer';
 
 export type Store = {dispatch: Function, subscribe: Function, getState: Function};
-export type ReduxStoreResult = {store: Store, actions: Object};
+export type ReduxStoreResult = {store: Store, actions: Object, getState: Function};
 
 const debug = createDebug('redux');
 

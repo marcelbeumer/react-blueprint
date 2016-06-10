@@ -1,5 +1,6 @@
 // @flow
 import ListData from '../../data/list';
+import { Observable } from '..';
 const { min, max } = Math;
 const minGap = 2;
 
@@ -39,4 +40,28 @@ export function setListRange(getList: Function, start: number, end: number): Lis
   return list
     .set('start', cleanStart)
     .set('end', cleanEnd);
+}
+
+export function loadMoreListItems(getState: Function): any {
+  return Observable.create(observable => {
+    observable.next(getState().set('listLoading', true));
+    let chunksDone = 0;
+
+    const loadChunk = () => {
+      observable.next(getState().set('listLoadingProgress', chunksDone / 5));
+      chunksDone++;
+
+      if (chunksDone <= 5) {
+        global.setTimeout(loadChunk, 250);
+      } else {
+        const nextState = getState()
+          .setIn(['list', 'length'], getState().getIn(['list', 'length']) + 20)
+          .set('listLoading', false);
+        observable.next(nextState);
+        observable.complete();
+      }
+    };
+
+    loadChunk();
+  });
 }

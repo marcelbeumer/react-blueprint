@@ -10,21 +10,29 @@ export const styles = StyleSheet.create({
     display: 'inline-block',
     color: theme.inverseTextColor,
     backgroundColor: theme.highlightColor,
-    padding: '5px 12px',
+    padding: '5px 20px',
     borderRadius: theme.baseBorderRadius,
     cursor: 'pointer',
+  },
+  inactive: {
+    opacity: 0.5,
   },
 });
 
 export default class Button extends React.Component {
   props: {
     className?: string,
+    active?: boolean,
+  };
+
+  static defaultProps = {
+    active: true,
   };
 
   render() {
-    const { className } = this.props;
+    const { className, active } = this.props;
     return (
-      <div {...this.props} className={cx(styles.button, className)} />
+      <div {...this.props} className={cx(styles.button, !active && styles.inactive, className)} />
     );
   }
 }

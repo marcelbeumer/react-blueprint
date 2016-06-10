@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { List } from 'immutable';
-import memoize from 'lodash/memoize';
 import cx from 'classnames';
 import StyleSheet, { em } from './styles';
 import theme from './theme';

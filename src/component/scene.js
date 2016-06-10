@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
   storeButtons: {
     display: 'flex',
     justifyContent: 'center',
-    padding: '30px 0 30px 0',
+    padding: '20px 0',
   },
   storeButtonsInner: {
     minWidth: 150,

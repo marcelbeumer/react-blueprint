@@ -1,9 +1,13 @@
 // @flow
-import mapValues from 'lodash/mapValues';
 import { Observable, Action } from '../../rxjs';
 import { scopeActionHandler as scope } from '..';
 import { setScreen } from './screen';
-import * as listActions from './list';
+import {
+  setListStart,
+  setListEnd,
+  setListRange,
+  loadMoreListItems,
+} from './list';
 
 export default function createActionHandlers(actionServices: Object): Object {
   return {
@@ -25,6 +29,9 @@ export default function createActionHandlers(actionServices: Object): Object {
     },
 
     setScreen,
-    ...mapValues(listActions, action => scope(action, 'list')),
+    setListStart: scope(setListStart, 'list'),
+    setListEnd: scope(setListEnd, 'list'),
+    setListRange: scope(setListRange, 'list'),
+    loadMoreListItems,
   };
 }

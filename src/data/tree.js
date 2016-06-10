@@ -8,6 +8,8 @@ const TreeData = Record({
   screen: null,
   showBackground: false,
   counter: 0,
+  listLoading: false,
+  listLoadingProgress: 0,
   list: new ListData({
     length: 30,
     start: 15,

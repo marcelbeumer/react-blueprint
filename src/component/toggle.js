@@ -14,15 +14,15 @@ export const styles = StyleSheet.create({
   item: {
     flex: 1,
     display: 'inline-block',
-    color: theme.inverseTextColor,
-    backgroundColor: theme.highlightColor,
+    color: theme.textColor,
+    backgroundColor: theme.inactiveBackgroundColor,
     padding: '5px 12px',
-    opacity: 0.5,
     cursor: 'pointer',
     textAlign: 'center',
   },
   activeItem: {
-    opacity: 1,
+    color: theme.inverseTextColor,
+    backgroundColor: theme.highlightColor,
   },
 });
 

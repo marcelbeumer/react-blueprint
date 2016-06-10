@@ -39,7 +39,6 @@ export default class LoadingIndicator extends React.Component {
         <div
           className={styles.progress}
           style={{
-            display: active ? 'block' : 'none',
             transform: `translateX(-50%) scaleX(${progress || 0}) translateX(50%)`,
           }}
         />

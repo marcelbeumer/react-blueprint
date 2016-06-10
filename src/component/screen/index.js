@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     transform: 'translateZ(0)',
     color: theme.textColor,
     textAlign: 'center',
-    paddingTop: '140px',
+    paddingTop: '110px',
   },
 });
 

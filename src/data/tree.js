@@ -12,8 +12,8 @@ const TreeData = Record({
   listLoadingProgress: 0,
   list: new ListData({
     length: 30,
-    start: 15,
-    end: 18.2,
+    start: 20,
+    end: 23.2,
   }),
 });
 

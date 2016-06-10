@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     cursor: 'pointer',
   },
   inactive: {
-    opacity: 0.5,
+    backgroundColor: theme.inactiveBackgroundColor,
   },
 });
 

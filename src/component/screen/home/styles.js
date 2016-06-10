@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     },
   },
   sites: {
-    margin: '50px 0 15px 0',
+    margin: '20px 0 15px 0',
   },
   githubIcon: websiteIconShared,
   link: {

@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import pureRender from '../pure-render';
 import StyleSheet from '../styles';
 import theme from '../theme';
 
@@ -18,10 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ScreenForeground extends React.Component {
-  render() {
-    return <div {...this.props} className={styles.screen} />;
-  }
-}
+const Screen = (props: { children?: any }) =>
+  <div className={styles.screen}>{props.children}</div>;
 
-pureRender(ScreenForeground);
+export default Screen;

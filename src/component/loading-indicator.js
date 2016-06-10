@@ -33,7 +33,7 @@ export default class LoadingIndicator extends React.Component {
   };
 
   render() {
-    const { progress, active } = this.props;
+    const { progress } = this.props;
     return (
       <div className={styles.bar} >
         <div

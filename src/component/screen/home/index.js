@@ -9,7 +9,7 @@ import styles from './styles';
 export default class HomeScreen extends React.Component {
   render() {
     return (
-      <Screen {...this.props}>
+      <Screen>
         <div className={styles.widgets}>
           <div className={styles.p}>
             <HomeScreenWidgets {...this.props} />

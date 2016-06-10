@@ -1,8 +1,7 @@
 // @flow
 import createDebug from 'debug';
-import { Observable } from './observable';
+import { Observable, Action, ExternalAction } from '../rxjs';
 import { Collection } from 'immutable';
-import { Action, ExternalAction } from '../rxjs';
 
 export default function createMiddleware(
   input: Object,

@@ -1,10 +1,16 @@
 // @flow
-import { Subject, BehaviorSubject } from './observable';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Collection } from 'immutable';
 import mapValues from 'lodash/mapValues';
 import createActionHandlers from './action';
 import createMiddleware from './middleware';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/distinctUntilChanged';
 
+export { Observable, Subject, BehaviorSubject };
 export type Store = {state: any, input: any, actions: Object};
 
 export class Action {

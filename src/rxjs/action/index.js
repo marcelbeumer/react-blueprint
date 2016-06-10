@@ -1,8 +1,7 @@
 // @flow
-import { Observable } from '../observable';
 import mapValues from 'lodash/mapValues';
+import { Observable, Action } from '../../rxjs';
 import { scopeActionHandler as scope } from '..';
-import { Action } from '../../rxjs';
 import { setScreen } from './screen';
 import { showBackground, hideBackground } from './background';
 import * as listActions from './list';

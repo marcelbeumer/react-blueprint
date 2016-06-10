@@ -30,10 +30,6 @@ export const styles = StyleSheet.create({
     cursor: 'pointer',
     transition: 'all 0.3s linear',
   },
-  itemInverse: {
-    borderColor: theme.backgroundColor,
-    backgroundColor: theme.backgroundColor,
-  },
   itemInactive: {
     backgroundColor: 'transparent',
   },
@@ -45,27 +41,21 @@ export default class Navigation extends React.Component {
     screenOrder: List<string>,
     setUrl: Function,
     getUrl: Function,
-    inverse: boolean,
   };
 
-  getItemHandler: Function = memoize(name => () => {
-    const { setUrl, getUrl } = this.props;
-    setUrl(getUrl(name), name);
-  });
-
   renderItems(screens: List<string>): List<Element> {
-    const { screen: currentScreen, inverse } = this.props;
+    const { screen: currentScreen, getUrl, setUrl } = this.props;
     const index = screens.indexOf(currentScreen);
+
     return screens.map((screen, i) => {
       const itemClasses = cx(styles.item, {
-        [styles.itemInverse]: inverse,
         [styles.itemInactive]: i !== index,
       });
       return (
         <div
           key={`item-${i}`}
           className={itemClasses}
-          onClick={this.getItemHandler(screen)}
+          onClick={() => setUrl(getUrl(screen), screen)}
         />
       );
     });

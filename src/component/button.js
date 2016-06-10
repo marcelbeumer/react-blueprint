@@ -14,26 +14,17 @@ export const styles = StyleSheet.create({
     borderRadius: theme.baseBorderRadius,
     cursor: 'pointer',
   },
-  buttonInverse: {
-    color: theme.textColor,
-    backgroundColor: theme.backgroundColor,
-  },
 });
 
 export default class Button extends React.Component {
   props: {
     className?: string,
-    type?: string,
   };
 
   render() {
-    const { type, className } = this.props;
-    const classes = cx({
-      [styles.button]: true,
-      [styles.buttonInverse]: type === 'inverse',
-    }, className);
+    const { className } = this.props;
     return (
-      <div {...this.props} className={classes} />
+      <div {...this.props} className={cx(styles.button, className)} />
     );
   }
 }

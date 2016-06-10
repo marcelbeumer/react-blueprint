@@ -9,6 +9,7 @@ import Navigation from './navigation';
 import HomeScreen from './screen/home';
 import SecondScreen from './screen/second';
 import ThirdScreen from './screen/third';
+import Toggle from './toggle';
 import theme from './theme';
 import type { listType } from './types';
 
@@ -23,28 +24,25 @@ const screenOrder: List<string> = new List([
 ]);
 
 export const styles = StyleSheet.create({
-  navigation: {
+  scene: {
+    fontFamily: theme.fontFamily,
+    fontWeight: theme.fontWeight,
+    fontSize: '16px',
+    lineHeight: '20px',
+  },
+  topControls: {
     minWidth: '320px',
     width: '100%',
     zIndex: 1,
     position: 'absolute',
-    transition: 'all 0.3s ease-in',
-    top: '20px',
-    [theme.media.fromTablet]: {
-      top: '60px',
-    },
-    [theme.media.fromDesktop]: {
-      top: '120px',
-    },
   },
-  navigationUp: {
-    top: '38px',
-    [theme.media.fromTablet]: {
-      top: '38px',
-    },
-    [theme.media.fromDesktop]: {
-      top: '38px',
-    },
+  storeButtons: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: '30px 0 30px 0',
+  },
+  storeButtonsInner: {
+    minWidth: 150,
   },
   motionScreenContainer: {
     position: 'absolute',
@@ -62,11 +60,16 @@ export const styles = StyleSheet.create({
   },
 });
 
+const storeToggleValues = [
+  { value: 'rxjs', label: 'RxJS' },
+  { value: 'redux', label: 'Redux' },
+];
+
 export default class Scene extends React.Component {
   props: {
     actions: Object,
     screen: string,
-    showBackground: boolean,
+    store: string,
     services: Object,
     list: listType,
   };
@@ -119,18 +122,25 @@ export default class Scene extends React.Component {
   }
 
   render() {
-    const { actions, screen, showBackground, services } = this.props;
+    const { actions, screen, store, services } = this.props;
 
     return (
-      <div>
-        <div className={cx(styles.navigation, showBackground && styles.navigationUp)}>
-          <Navigation
-            screen={screen}
-            setUrl={actions.setUrl}
-            getUrl={services.getUrl}
-            inverse={showBackground}
-            screenOrder={screenOrder}
-          />
+      <div className={styles.scene}>
+        <div className={styles.topControls}>
+          <div className={styles.storeButtons}>
+            <div className={styles.storeButtonsInner}>
+              <Toggle value={store} values={storeToggleValues} onChange={actions.setStore} />
+            </div>
+          </div>
+
+          <div className={styles.navigation}>
+            <Navigation
+              screen={screen}
+              setUrl={actions.setUrl}
+              getUrl={services.getUrl}
+              screenOrder={screenOrder}
+            />
+          </div>
         </div>
         <TransitionMotion
           styles={this.motionStyles()}

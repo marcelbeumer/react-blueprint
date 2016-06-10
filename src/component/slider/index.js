@@ -2,7 +2,6 @@
 import React from 'react';
 import { List } from 'immutable';
 import pureRender from '../pure-render';
-import refHandler from '../ref-handler';
 import SliderGrippy from './grippy';
 import StyleSheet from '../styles';
 import theme from '../theme';
@@ -29,19 +28,18 @@ export const styles = StyleSheet.create({
 });
 
 export default class Slider extends React.Component {
-  root: Object;
   props: {
     values: List<number>,
     onChange: Function,
     children?: any,
   };
 
+  root: Object;
+
   static defaultProps = {
     values: new List(),
     onChange: () => null,
   };
-
-  refRoot: Function = refHandler(this, 'root');
 
   onDrag: Function = (e: Object, grippy: Component) => {
     const deltaX = e.eventDeltaX;
@@ -77,7 +75,7 @@ export default class Slider extends React.Component {
 
   render() {
     return (
-      <div className={styles.slider} ref={this.refRoot}>
+      <div className={styles.slider} ref={el => { this.root = el; }}>
         <div className={styles.line} />
         {this.cloneChildren()}
         {this.renderValues()}

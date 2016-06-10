@@ -75,5 +75,5 @@ export default function createStore(
     .distinctUntilChanged()
     .subscribe(state);
 
-  return { state, input, actions };
+  return { state, input, actions, getState: () => state.value };
 }

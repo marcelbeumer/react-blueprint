@@ -3,7 +3,6 @@ import mapValues from 'lodash/mapValues';
 import { Observable, Action } from '../../rxjs';
 import { scopeActionHandler as scope } from '..';
 import { setScreen } from './screen';
-import { showBackground, hideBackground } from './background';
 import * as listActions from './list';
 
 export default function createActionHandlers(actionServices: Object): Object {
@@ -26,8 +25,6 @@ export default function createActionHandlers(actionServices: Object): Object {
     },
 
     setScreen,
-    showBackground,
-    hideBackground,
     ...mapValues(listActions, action => scope(action, 'list')),
   };
 }

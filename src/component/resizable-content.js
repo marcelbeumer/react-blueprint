@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import pureRender from './pure-render';
-import refHandler from './ref-handler';
 import StyleSheet, { px } from './styles';
 import Gestures from './gestures';
 import theme from './theme';
@@ -57,11 +56,6 @@ export default class ResizableContent extends React.Component {
   _innerContent: Object;
   _scrollBarSizer: Object;
   _handle: Object;
-
-  refContent: Function = refHandler(this, '_content');
-  refInnerContent: Function = refHandler(this, '_innerContent');
-  refScrollBarSizer: Function = refHandler(this, '_scrollBarSizer');
-  refHandle: Function = refHandler(this, '_handle');
 
   static defaultProps = {
     scrollTop: 0,
@@ -130,18 +124,21 @@ export default class ResizableContent extends React.Component {
 
     return (
       <div className={styles.root}>
-        <div className={styles.scrollbarSizer} ref={this.refScrollBarSizer} />
         <div
-          ref={this.refContent}
+          className={styles.scrollbarSizer}
+          ref={el => { this._scrollBarSizer = el; }}
+        />
+        <div
+          ref={el => { this._content = el; }}
           className={styles.content}
           style={contentStyle}
         >
-          <div ref={this.refInnerContent} style={innerContentStyle}>
+          <div ref={el => { this._innerContent = el; }} style={innerContentStyle}>
             {this.props.children}
           </div>
         </div>
         <Gestures vertical onPan={this.onPan}>
-          <div className={styles.handle} ref={this.refHandle} />
+          <div className={styles.handle} ref={el => { this._handle = el; }} />
         </Gestures>
       </div>
     );

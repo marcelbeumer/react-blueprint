@@ -17,7 +17,5 @@ export default function createActions(actionServices: Object): Object {
       type: 'SET_LIST_RANGE',
       payload: { start, end },
     }),
-    showBackground: () => ({ type: 'SHOW_BACKGROUND' }),
-    hideBackground: () => ({ type: 'HIDE_BACKGROUND' }),
   };
 }

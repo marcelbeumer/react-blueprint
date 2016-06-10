@@ -30,24 +30,25 @@ const routeServices = {};
 let store;
 let router;
 
-function createRedux() {
-  store = createReduxStore(initialState, actionServices, state =>
-    renderer(state, store.actions, renderServices));
+function createRedux(state) {
+  store = createReduxStore(state, actionServices, updatedState =>
+    renderer(updatedState, store.actions, renderServices));
   routeServices.setScreen = store.actions.setScreen;
 }
 
-function createRxJs() {
-  store = createRxJsStore(initialState, actionServices);
+function createRxJs(state) {
+  store = createRxJsStore(state, actionServices);
   store.state.skip(1).subscribe(updatedState =>
     renderer(updatedState, store.actions, renderServices));
   routeServices.setScreen = store.actions.setScreen;
 }
 
 function createStore(storeType) {
+  const state = (store ? store.getState() : initialState).set('store', storeType);
   if (storeType === 'rxjs') {
-    createRxJs();
+    createRxJs(state);
   } else {
-    createRedux();
+    createRedux(state);
   }
   expose('store', store);
 }

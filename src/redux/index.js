@@ -49,5 +49,5 @@ export default function createReduxStore(
     }
   });
 
-  return { store, actions };
+  return { store, actions, getState: () => store.getState() };
 }

@@ -2,7 +2,6 @@
 import React from 'react';
 import { List } from 'immutable';
 import pureRender from '../pure-render';
-import refHandler from '../ref-handler';
 import BarMeterItem from './item';
 import type { Element, Component } from 'react';
 
@@ -15,8 +14,8 @@ export default class BarMeter extends React.Component {
     values: List<number>,
     onChange: Function,
   };
+
   root: Object;
-  refRoot: Function = refHandler(this, 'root');
 
   static defaultProps = {
     values: new List(),
@@ -58,7 +57,7 @@ export default class BarMeter extends React.Component {
 
   render() {
     return (
-      <div ref={this.refRoot}>
+      <div ref={el => { this.root = el; }}>
         {this.cloneChildren()}
         {this.renderValues()}
       </div>

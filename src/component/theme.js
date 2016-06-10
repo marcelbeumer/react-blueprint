@@ -3,7 +3,8 @@ import StyleSheet from './styles';
 const theme = {
   fontFamily: 'Helvetica, sans-serif',
   fontWeight: '100',
-  backgroundColor: '#415793',
+  backgroundColor: 'rgb(199, 223, 255)',
+  inactiveBackgroundColor: 'rgba(199, 223, 255, 0.1)',
   highlightColor: '#c7dfff',
   primaryBorderColor: '#c7dfff',
   secondaryBorderColor: '#c7dfff',

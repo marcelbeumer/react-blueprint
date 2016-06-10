@@ -4,33 +4,39 @@ import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import multi from 'redux-multi';
 import createDebug from 'debug';
+import createActionHandlers from './action';
 import reducer from './reducer';
 
 export type Store = {dispatch: Function, subscribe: Function, getState: Function};
-export type ReduxResult = {store: Store, boundActions: Object};
+export type ReduxStoreResult = {store: Store, actions: Object, getState: Function};
 
 const debug = createDebug('redux');
 
-export default function createRedux(
+function createActions(actionHandlers, store) {
+  const actions = {};
+
+  Object.keys(actionHandlers).forEach(name => {
+    actions[name] = (...args) => {
+      debug(`action call ${name}`);
+      const result = actionHandlers[name](...args);
+      if (result) store.dispatch(result);
+    };
+  });
+
+  return actions;
+}
+
+export default function createReduxStore(
   initialState: any,
-  actions: Object,
+  actionServices: Object,
   onChange: ?Function,
-): ReduxResult {
+): ReduxStoreResult {
   let lastState = initialState;
   const middleware = applyMiddleware(multi, promise, thunk);
   const store: Store = createStore(reducer, initialState, middleware);
+  const actionHandlers = createActionHandlers(actionServices);
+  const actions = createActions(actionHandlers, store);
   const boundActions = {};
-
-  Object.keys(actions).forEach(name => {
-    boundActions[name] = (...args) => {
-      debug(`bound action call ${name}`);
-      const action = actions[name](...args);
-      if (action) {
-        debug(`dispatch action ${name}`);
-        store.dispatch(action);
-      }
-    };
-  });
 
   store.subscribe(() => {
     const state = store.getState();
@@ -40,5 +46,5 @@ export default function createRedux(
     }
   });
 
-  return { store, boundActions };
+  return { store, actions, getState: () => store.getState() };
 }

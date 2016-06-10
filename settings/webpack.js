@@ -1,4 +1,3 @@
-/* eslint no-param-reassign:0 no-nested-ternary:0 */
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import cssnext from 'postcss-cssnext';
 import cssImport from 'postcss-import';

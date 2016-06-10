@@ -4,12 +4,16 @@ import { Record } from 'immutable';
 import ListData from './list';
 
 const TreeData = Record({
+  store: 'rxjs',
   screen: null,
   showBackground: false,
+  counter: 0,
+  listLoading: false,
+  listLoadingProgress: 0,
   list: new ListData({
     length: 30,
-    start: 15,
-    end: 18.2,
+    start: 20,
+    end: 23.2,
   }),
 });
 

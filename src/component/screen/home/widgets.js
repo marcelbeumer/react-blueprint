@@ -7,11 +7,16 @@ import Slider, { SliderGrippy } from '../../slider';
 import BarMeter, { BarMeterItem } from '../../bar-meter';
 import ItemList from '../../item-list';
 import ResizableContent from '../../resizable-content';
+import Button from '../../button';
+import LoadingIndicator from '../../loading-indicator';
 import StyleSheet, { em, resolveMedia } from '../../styles';
 import theme from '../../theme';
 import type { listType } from '../../types';
 
 const styles = StyleSheet.create({
+  p: {
+    margin: '20px 0',
+  },
   fontSizeContainer: {
     fontSize: '40px',
     [theme.media.biggerPhones]: {
@@ -27,6 +32,8 @@ export default class HomeScreenWidgets extends React.Component {
   props: {
     actions: Object,
     list: listType,
+    listLoading: boolean,
+    listLoadingProgress: number,
   };
 
   onStartChange: Function = (value: number) => {
@@ -61,7 +68,7 @@ export default class HomeScreenWidgets extends React.Component {
   toPx: Function = (val: number) => val * this.getFontSizeContainerPx();
 
   render() {
-    const { list } = this.props;
+    const { list, listLoading, listLoadingProgress, actions } = this.props;
     const length = list.length;
     const startRatio = list.start / list.length;
     const endRatio = list.end / list.length;
@@ -92,6 +99,17 @@ export default class HomeScreenWidgets extends React.Component {
           >
             <ItemList items={listItems} />
           </ResizableContent>
+        </div>
+        <div className={styles.p}>
+          <Button
+            active={!listLoading}
+            onClick={!listLoading && actions.loadMoreListItems}
+          >
+            More
+          </Button>
+        </div>
+        <div className={styles.p}>
+          <LoadingIndicator active={listLoading} progress={listLoadingProgress} />
         </div>
       </div>
     );

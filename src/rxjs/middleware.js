@@ -1,6 +1,6 @@
 // @flow
 import createDebug from 'debug';
-import { Observable } from 'rxjs';
+import { Observable } from './observable';
 import { Collection } from 'immutable';
 import { Action, ExternalAction } from '../rxjs';
 

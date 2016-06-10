@@ -1,5 +1,5 @@
 // @flow
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject } from './observable';
 import { Collection } from 'immutable';
 import mapValues from 'lodash/mapValues';
 import createActionHandlers from './action';

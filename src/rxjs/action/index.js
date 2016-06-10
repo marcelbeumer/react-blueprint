@@ -1,5 +1,5 @@
 // @flow
-import { Observable } from 'rxjs';
+import { Observable } from '../observable';
 import mapValues from 'lodash/mapValues';
 import { scopeActionHandler as scope } from '..';
 import { Action } from '../../rxjs';

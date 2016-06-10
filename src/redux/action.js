@@ -1,6 +1,9 @@
 // @flow
 const createSimpleAction = type => payload => ({ type, payload });
 
+function loadMoreListItems() {
+}
+
 export default function createActions(actionServices: Object): Object {
   return {
     setUrl: url => {
@@ -17,5 +20,6 @@ export default function createActions(actionServices: Object): Object {
       type: 'SET_LIST_RANGE',
       payload: { start, end },
     }),
+    loadMoreListItems,
   };
 }

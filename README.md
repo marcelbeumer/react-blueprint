@@ -1,4 +1,4 @@
-<img title="redux-observable logo" src="https://raw.githubusercontent.com/marcelbeumer/react-blueprint/master/icon.png" width="160">
+<img title="redux-observable logo" src="https://raw.githubusercontent.com/marcelbeumer/react-blueprint/master/icon.png" width="120">
 
 # react-blueprint [![Build Status](https://travis-ci.org/marcelbeumer/react-blueprint.svg?branch=master)](https://travis-ci.org/marcelbeumer/react-blueprint) [![Dependency Status](https://david-dm.org/marcelbeumer/react-blueprint.svg)](https://david-dm.org/marcelbeumer/react-blueprint) [![devDependency Status](https://david-dm.org/marcelbeumer/react-blueprint/dev-status.svg)](https://david-dm.org/marcelbeumer/react-blueprint#info=devDependencies)
 

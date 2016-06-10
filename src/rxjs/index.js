@@ -57,9 +57,9 @@ function mapMiddleware(input, middleware) {
 
 export function scopeActionHandler(
   handler: Function,
-  path: string,
+  path: ?string,
   others: ?Array<string>) {
-  return Object.assign((...args) => handler(...args), { path, others });
+  return Object.assign(handler, { path, others });
 }
 
 export default function createStore(

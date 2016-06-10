@@ -1,6 +1,7 @@
 // @flow
 import ListData from '../../data/list';
 import { Observable, Action } from '..';
+import { scopeActionHandler as scope } from '..';
 const { min, max } = Math;
 const minGap = 2;
 
@@ -69,3 +70,9 @@ export function loadMoreListItems(getState: Function): any {
     loadChunk();
   });
 }
+
+scope(setListStart, 'list');
+scope(setListEnd, 'list');
+scope(setListRange, 'list');
+scope(incrementListLength, 'list');
+scope(loadMoreListItems);

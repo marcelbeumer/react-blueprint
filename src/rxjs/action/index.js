@@ -1,24 +1,10 @@
 // @flow
-import { Observable, Action } from '../../rxjs';
-import { scopeActionHandler as scope } from '..';
 import { setScreen } from './screen';
-import {
-  setListStart,
-  setListEnd,
-  setListRange,
-  loadMoreListItems,
-  incrementListLength,
-} from './list';
+import * as listHandlers from './list';
 
 export default function createActionHandlers(actionServices: Object): Object {
   return {
     demoMiddleware: () => '__MIDDLEWARE_DEMO__',
-
-    demoObserverable: getState =>
-      Observable.interval(1000).take(5).map(() =>
-        getState().set('counter', getState().get('counter') + 1)),
-
-    demoActionRequest: () => new Action('demoMiddleware'),
 
     setUrl: (getState, url) => {
       actionServices.setUrl(url);
@@ -30,10 +16,6 @@ export default function createActionHandlers(actionServices: Object): Object {
     },
 
     setScreen,
-    setListStart: scope(setListStart, 'list'),
-    setListEnd: scope(setListEnd, 'list'),
-    setListRange: scope(setListRange, 'list'),
-    incrementListLength: scope(incrementListLength, 'list'),
-    loadMoreListItems,
+    ...listHandlers,
   };
 }

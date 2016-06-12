@@ -1,4 +1,4 @@
-# react-blueprint [![Build Status](https://travis-ci.org/marcelbeumer/react-blueprint.svg?branch=master)](https://travis-ci.org/marcelbeumer/react-blueprint) [![Dependency Status](https://david-dm.org/marcelbeumer/react-blueprint.svg)](https://david-dm.org/marcelbeumer/react-blueprint) [![devDependency Status](https://david-dm.org/marcelbeumer/react-blueprint/dev-status.svg)](https://david-dm.org/marcelbeumer/react-blueprint#info=devDependencies)
+# react-blueprint [![Build Status](https://travis-ci.org/marcelbeumer/react-blueprint.svg?branch=master)](https://travis-ci.org/marcelbeumer/react-blueprint) [![devDependency Status](https://david-dm.org/marcelbeumer/react-blueprint/dev-status.svg)](https://david-dm.org/marcelbeumer/react-blueprint#info=devDependencies)
 
 > Ready for takeoff React setup. Demonstrates frontend architecture and approaches to common React patterns.
 

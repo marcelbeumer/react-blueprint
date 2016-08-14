@@ -99,7 +99,7 @@ export default class Scene extends React.Component {
     this.state.lastScreen = this.props.screen;
   }
 
-  getScreenDirection(from: string, to: string) {
+  getScreenDirection(from: string, to: string): number {
     const fromIndex = screenConfig.findIndex(item => item.key === from);
     const toIndex = screenConfig.findIndex(item => item.key === to);
     return toIndex > fromIndex ? 1 :

@@ -36,8 +36,8 @@ export default class Toggle extends React.Component {
   };
 
   onItemClick: Function = (clickedValue: any) => {
-    const { value, onChange = () => {} } = this.props;
-    if (clickedValue !== value) onChange(clickedValue);
+    const { value, onChange } = this.props;
+    if (clickedValue !== value && onChange) onChange(clickedValue);
   };
 
   renderItem(config: ItemConfig, value: any) {

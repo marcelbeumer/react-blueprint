@@ -58,7 +58,7 @@ function mapMiddleware(input, middleware) {
 export function scopeActionHandler(
   handler: Function,
   path: ?string,
-  others: ?Array<string>) {
+  others: ?Array<string>): Function {
   return Object.assign(handler, { path, others });
 }
 

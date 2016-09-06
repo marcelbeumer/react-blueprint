@@ -6,7 +6,6 @@ import env from 'node-env';
 import webpack from 'webpack';
 
 const prod = env === 'production';
-const target = process.env.TARGET || 'browser';
 const compressJs = prod;
 const extractCss = true;
 

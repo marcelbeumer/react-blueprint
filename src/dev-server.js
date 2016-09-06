@@ -33,7 +33,7 @@ function clearRequire(modulePath) {
   });
 }
 
-function ready(): Promise {
+function ready(): Promise<void> {
   return new Promise(resolve => {
     if (bundleReady) {
       resolve();

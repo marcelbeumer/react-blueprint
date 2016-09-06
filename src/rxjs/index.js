@@ -63,7 +63,7 @@ export function scopeActionHandler(
 }
 
 export default function createStore(
-  initialState: Collection,
+  initialState: Collection<*, *>,
   actionServices: Object,
 ): Store {
   const state = new BehaviorSubject(initialState);

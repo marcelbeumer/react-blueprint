@@ -42,7 +42,7 @@ export default class Navigation extends React.Component {
     getUrl: Function,
   };
 
-  renderItems(screens: List<string>): List<Element> {
+  renderItems(screens: List<string>): List<Element<*>> {
     const { screen: currentScreen, getUrl, setUrl } = this.props;
     const index = screens.indexOf(currentScreen);
 

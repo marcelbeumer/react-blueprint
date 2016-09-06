@@ -27,7 +27,7 @@ const injectAssetPath = (output, assetPath) =>
 const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
 
-export function renderApp(location: string, assetFs: any): Promise {
+export function renderApp(location: string, assetFs: any): Promise<string> {
   const { store, router, render } = bootstrapServer(location);
   return router.runUrl(location).then(() => {
     const rendered = render();
@@ -41,7 +41,7 @@ export function renderApp(location: string, assetFs: any): Promise {
   });
 }
 
-export function staticApp(location: string, assetFs: any): Promise {
+export function staticApp(location: string, assetFs: any): Promise<string> {
   return new Promise(resolve => {
     let html = getTemplate(assetFs);
     html = injectAssetPath(html, webpackConfig.output.templateAssetPath);
@@ -50,7 +50,7 @@ export function staticApp(location: string, assetFs: any): Promise {
   });
 }
 
-export function handleApp(location: string, assetFs: any, ssr: string = SSR): Promise {
+export function handleApp(location: string, assetFs: any, ssr: string = SSR): Promise<string> {
   const useRender = parseInt(ssr, 10) !== 0;
   const handler = useRender ? renderApp : staticApp;
   return handler(location, assetFs);

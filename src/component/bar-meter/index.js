@@ -22,7 +22,7 @@ export default class BarMeter extends React.Component {
     onChange: () => null,
   };
 
-  onDrag:Function = (e: Object, item: Component) => {
+  onDrag:Function = (e: Object, item: Component<*, *, *>) => {
     const deltaX = e.eventDeltaX;
     if (isNaN(deltaX)) return;
 
@@ -41,7 +41,7 @@ export default class BarMeter extends React.Component {
     if (item) item.props.onChange(updatedValue);
   }
 
-  cloneChildren(): Array<Element> {
+  cloneChildren(): Array<*> {
     return React.Children.map(this.props.children, child => (
       child.type === BarMeterItem ? React.cloneElement(child, {
         onDrag: this.onDrag,
@@ -49,7 +49,7 @@ export default class BarMeter extends React.Component {
       child));
   }
 
-  renderValues(): List<Element> {
+  renderValues(): List<Element<*>> {
     const { values } = this.props;
     return values.map((value, i) =>
       <BarMeterItem key={`bar-${i}`} value={value} onDrag={this.onDrag} />);

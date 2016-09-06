@@ -41,7 +41,7 @@ export default class Slider extends React.Component {
     onChange: () => null,
   };
 
-  onDrag: Function = (e: Object, grippy: Component) => {
+  onDrag: Function = (e: Object, grippy: Component<*, *, *>) => {
     const deltaX = e.eventDeltaX;
     if (isNaN(deltaX)) return;
 
@@ -52,14 +52,14 @@ export default class Slider extends React.Component {
     this.changeValue(value, updatedValue, grippy);
   };
 
-  changeValue(value: number, updatedValue: number, grippy: ?Component) {
+  changeValue(value: number, updatedValue: number, grippy: ?Component<*, *, *>) {
     const { values } = this.props;
     const index = values.lastIndexOf(value);
     if (index !== -1) this.props.onChange(values.set(index, updatedValue), index, updatedValue);
     if (grippy) grippy.props.onChange(updatedValue);
   }
 
-  cloneChildren(): Array<Element> {
+  cloneChildren(): Array<Element<*>> {
     return React.Children.map(this.props.children, child => (
       child.type === SliderGrippy ? React.cloneElement(child, {
         onDrag: this.onDrag,
@@ -67,7 +67,7 @@ export default class Slider extends React.Component {
       child));
   }
 
-  renderValues(): List<Element> {
+  renderValues(): List<Element<*>> {
     const { values } = this.props;
     return values.map((value, i) =>
       <SliderGrippy key={`slider-${i}`} onDrag={this.onDrag} value={value} />);

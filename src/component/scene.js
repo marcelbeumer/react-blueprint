@@ -110,7 +110,9 @@ export default class Scene extends React.Component {
   renderScreen(key: string, { offset }: Object) {
     const inMotion = offset !== 0;
     const innerStyle = inMotion ? { transform: `translate3d(${offset * 100}%, 0, 0)` } : undefined;
-    const Screen = screenConfig.find(item => item.key === key).component;
+    const config = screenConfig.find(item => item.key === key);
+    if (!config) throw new Error(`Screen ${key} not found`);
+    const Screen = config.component;
 
     return (
       <div key={key} className={cx(inMotion && styles.motionScreenContainer)}>

@@ -61,7 +61,7 @@ export default class Router {
     }
   }
 
-  runUrl(url: string): Promise {
+  runUrl(url: string): Promise<string> {
     const match = matchRoute(this.routes, url);
 
     return new Promise((resolve, reject) => {
@@ -97,7 +97,7 @@ export default class Router {
     });
   }
 
-  setUrl(url: string): Promise {
+  setUrl(url: string): Promise<string> {
     if (url === this.url) return Promise.resolve(url);
     return this.runUrl(url);
   }

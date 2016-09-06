@@ -1,9 +1,7 @@
 [options]
-esproposal.class_instance_fields=enable
-esproposal.class_static_fields=enable
-esproposal.export_star_as=enable
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
 
 [ignore]
 .*/node_modules/fbjs
 .*/node_modules/systemjs-builder
+.*/node_modules/react-motion

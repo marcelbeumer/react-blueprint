@@ -1,5 +1,6 @@
 // @flow
 import DataTree from '../../data/tree';
+
 const { min, max } = Math;
 const minGap = 2;
 

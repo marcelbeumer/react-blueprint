@@ -19,11 +19,7 @@ const cssPipeline = [
 const config = {
   context: `${__dirname}/../src`,
   entry: {
-    app: [
-      target === 'electron' ? './electron/renderer.js' :
-      target === 'browser' ? './browser.js' :
-      '',
-    ],
+    app: ['./browser.js'],
     vendor: [
       'babel-polyfill',
       'react',

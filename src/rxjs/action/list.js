@@ -2,6 +2,7 @@
 import ListData from '../../data/list';
 import { Observable, Action } from '..';
 import { scopeActionHandler as scope } from '..';
+
 const { min, max } = Math;
 const minGap = 2;
 

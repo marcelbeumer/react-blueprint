@@ -12,6 +12,7 @@ const path = require('path');
 const fs = require('fs');
 const server = require('../src/server');
 const env = require('node-env');
+
 const prod = env === 'production';
 const getComponentCss = require('../src/component-css').default;
 

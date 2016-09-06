@@ -4,6 +4,7 @@ import Gestures from '../gestures';
 import pureRender from '../pure-render';
 import StyleSheet, { px } from '../styles';
 import theme from '../theme';
+
 const barColor = theme.highlightColor;
 
 export const styles = StyleSheet.create({

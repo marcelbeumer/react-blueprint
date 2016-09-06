@@ -1,6 +1,6 @@
 import 'babel-polyfill';
-import '../style/index.css';
 import createDebug from 'debug';
+import '../style/index.css';
 import { expose } from '../global';
 import createRenderer from '../renderer/browser';
 import DataTree from '../data/tree';

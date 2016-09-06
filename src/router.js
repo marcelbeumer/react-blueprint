@@ -1,6 +1,7 @@
 // @flow
 import pathToRegexp from 'path-to-regexp';
 import createPathMatch from 'path-match';
+
 const createMatcher = createPathMatch();
 
 export function createRoute(path: string, handler: Function = () => null) : Object {

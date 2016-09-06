@@ -45,6 +45,7 @@ function ready(): Promise {
 
 function serverMiddleware(req, res, next) {
   const server = require('./server').default(fs); // eslint-disable-line global-require
+
   server(req, res, next);
 }
 

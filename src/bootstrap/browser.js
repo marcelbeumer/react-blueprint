@@ -5,8 +5,7 @@ import { expose } from '../global';
 import createRenderer from '../renderer/browser';
 import DataTree from '../data/tree';
 import createStore from '../store';
-import createRoutes from '../route';
-import Router from '../router';
+import createRouter from '../router';
 
 export default function bootstrap({ historySupport = false, initialUrl = '/' } = {}) {
   const debug = createDebug('browser');
@@ -31,7 +30,7 @@ export default function bootstrap({ historySupport = false, initialUrl = '/' } =
     renderer(updatedState, store.actions, renderServices));
   routeServices.setScreen = store.actions.setScreen;
 
-  const router = new Router(createRoutes(routeServices), initialUrl, (url) => { // eslint-disable-line prefer-const, max-len
+  const router = createRouter(routeServices, initialUrl, (url) => { // eslint-disable-line prefer-const, max-len
     if (historySupport && location.pathname !== url) {
       history.pushState('', document.title, url);
     }

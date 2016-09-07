@@ -2,8 +2,7 @@
 import DataTree from '../data/tree';
 import createRenderer from '../renderer/server';
 import createStore from '../store';
-import createRoutes from '../route';
-import Router from '../router';
+import createRouter from '../router';
 
 const renderer = createRenderer();
 
@@ -15,7 +14,7 @@ export default function bootstrap(location: string): Object {
 
   const store = createStore(initialState, actionServices);
   const actions = store.actions;
-  const router = new Router(createRoutes(routeServices), location);
+  const router = createRouter(routeServices, location);
   routeServices.setScreen = actions.setScreen;
   renderServices.setUrl = router.setUrl.bind(router);
   renderServices.getUrl = router.getUrl.bind(router);

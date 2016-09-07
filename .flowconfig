@@ -2,7 +2,7 @@
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
 
 [libs]
-interfaces/
+definitions/
 
 [ignore]
 .*/node_modules/fbjs

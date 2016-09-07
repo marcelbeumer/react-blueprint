@@ -6,12 +6,10 @@
   "productName": "React Blueprint",
   "scripts": {
     "clean": "rimraf dist/* && rimraf build/*",
-    "mocha": "mocha --compilers js:babel-register",
-    "test": "npm run lint && flow && npm run mocha",
+    "test": "eslint . && flow && jest",
     "server": "node scripts/start-server.js",
     "render": "node scripts/render-pages.js",
     "dev-server": "node scripts/start-dev-server.js",
-    "lint": "eslint .",
     "deploy": "git checkout master && npm run build && git checkout gh-pages && rimraf asset/* *.html && cp -r dist/* .",
     "build": "npm run clean && NODE_ENV=production webpack && NODE_ENV=production REVISION=`git rev-parse --short HEAD` npm run render -- --dist dist --asset dist/asset",
     "start": "npm run dev-server"
@@ -56,7 +54,6 @@
     "immutable": "^3.8.1",
     "json-loader": "^0.5.4",
     "lodash": "^4.13.1",
-    "mocha": "^3.0.2",
     "node-env": "^0.1.6",
     "normalize.css": "^4.1.1",
     "parallelshell": "^2.0.0",
@@ -84,5 +81,9 @@
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
     "yargs": "^5.0.0"
+  },
+  "devDependencies": {
+    "babel-jest": "^15.0.0",
+    "jest": "^15.1.1"
   }
 }

@@ -4,8 +4,7 @@ import '../style/index.css';
 import { expose } from '../global';
 import createRenderer from '../renderer/browser';
 import DataTree from '../data/tree';
-import createReduxStore from '../redux';
-import createRxJsStore from '../rxjs';
+import createStore from '../store';
 import createRoutes from '../route';
 import Router from '../router';
 
@@ -27,36 +26,12 @@ export default function bootstrap({ historySupport = false, initialUrl = '/' } =
   const actionServices = {};
   const renderServices = {};
   const routeServices = {};
-  let store;
-  let router;
 
-  function createRedux(state) {
-    store = createReduxStore(state, actionServices, updatedState =>
-      renderer(updatedState, store.actions, renderServices));
-    routeServices.setScreen = store.actions.setScreen;
-  }
+  const store = createStore(initialState, actionServices, (updatedState) =>
+    renderer(updatedState, store.actions, renderServices));
+  routeServices.setScreen = store.actions.setScreen;
 
-  function createRxJs(state) {
-    store = createRxJsStore(state, actionServices);
-    store.state.skip(1).subscribe(updatedState =>
-      renderer(updatedState, store.actions, renderServices));
-    routeServices.setScreen = store.actions.setScreen;
-  }
-
-  function createStore(storeType) {
-    const state = (store ? store.getState() : initialState).set('store', storeType);
-    if (storeType === 'rxjs') {
-      createRxJs(state);
-    } else {
-      createRedux(state);
-    }
-    expose('store', store);
-  }
-
-  createStore(initialState.get('store'));
-  actionServices.setStore = value => createStore(value);
-
-  router = new Router(createRoutes(routeServices), initialUrl, (url) => { // eslint-disable-line prefer-const, max-len
+  const router = new Router(createRoutes(routeServices), initialUrl, (url) => { // eslint-disable-line prefer-const, max-len
     if (historySupport && location.pathname !== url) {
       history.pushState('', document.title, url);
     }

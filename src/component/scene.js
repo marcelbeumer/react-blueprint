@@ -9,7 +9,6 @@ import Navigation from './navigation';
 import HomeScreen from './screen/home';
 import SecondScreen from './screen/second';
 import ThirdScreen from './screen/third';
-import Toggle from './toggle';
 import theme from './theme';
 import type { listType } from './types';
 
@@ -35,14 +34,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     zIndex: 1,
     position: 'absolute',
-  },
-  storeButtons: {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: '20px 0',
-  },
-  storeButtonsInner: {
-    minWidth: 150,
+    top: '50px'
   },
   motionScreenContainer: {
     position: 'absolute',
@@ -59,11 +51,6 @@ export const styles = StyleSheet.create({
     left: 0,
   },
 });
-
-const storeToggleValues = [
-  { value: 'rxjs', label: 'RxJS' },
-  { value: 'redux', label: 'Redux' },
-];
 
 export default class Scene extends React.Component {
   props: {
@@ -124,17 +111,11 @@ export default class Scene extends React.Component {
   }
 
   render() {
-    const { actions, screen, store, services } = this.props;
+    const { actions, screen, services } = this.props;
 
     return (
       <div className={styles.scene}>
         <div className={styles.topControls}>
-          <div className={styles.storeButtons}>
-            <div className={styles.storeButtonsInner}>
-              <Toggle value={store} values={storeToggleValues} onChange={actions.setStore} />
-            </div>
-          </div>
-
           <div className={styles.navigation}>
             <Navigation
               screen={screen}

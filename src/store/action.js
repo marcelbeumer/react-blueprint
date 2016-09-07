@@ -27,10 +27,6 @@ export default function createActions(actionServices: Object): Object {
     setUrl: url => {
       actionServices.setUrl(url);
     },
-    setStore: storeType => {
-      actionServices.setStore(storeType);
-      return { type: 'SET_STORE', payload: storeType };
-    },
     setScreen: createSimpleAction('SET_SCREEN'),
     setListStart: createSimpleAction('SET_LIST_START'),
     setListEnd: createSimpleAction('SET_LIST_END'),

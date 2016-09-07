@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     zIndex: 1,
     position: 'absolute',
-    top: '50px'
+    top: '50px',
   },
   motionScreenContainer: {
     position: 'absolute',

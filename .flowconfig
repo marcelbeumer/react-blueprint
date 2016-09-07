@@ -1,6 +1,9 @@
 [options]
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
 
+[libs]
+interfaces/
+
 [ignore]
 .*/node_modules/fbjs
 .*/node_modules/systemjs-builder

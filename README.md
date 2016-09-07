@@ -10,7 +10,7 @@ $ npm start
 $ open http://localhost:8080
 ```
 
-## Features and patterns
+## Features
 
 - ES2017, Flow
 - Redux store with Immutable(.js) data

@@ -8,7 +8,7 @@ import path from 'path';
 import fs from 'fs';
 import once from 'lodash/once';
 import env from 'node-env';
-import webpackConfig from '../settings/webpack';
+import webpackConfig from '../webpack.config';
 import getComponentCss from './component-css';
 
 process.on('unhandledRejection', (value = {}) =>

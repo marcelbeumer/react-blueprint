@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 require('babel-register');
-const settings = require('../settings/server');
 const devServer = require('../src/dev-server').default;
 
-const port = settings.port;
+const port = parseInt(process.env.PORT, 10) || 8080;
 
 devServer.listen(port, () => {
   const message = `Dev server started on port ${port} \

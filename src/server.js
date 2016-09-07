@@ -3,7 +3,7 @@
 import 'babel-polyfill';
 import express from 'express';
 import fs from 'fs';
-import webpackConfig from '../settings/webpack';
+import webpackConfig from '../webpack.config';
 import bootstrapServer from './bootstrap/server';
 import { InvalidRouteError } from './router';
 import env from 'node-env';

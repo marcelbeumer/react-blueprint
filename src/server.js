@@ -28,17 +28,15 @@ const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
 
 export function renderApp(location: string, assetFs: any): Promise<string> {
-  const { store, router, render } = bootstrapServer(location);
-  return router.runUrl(location).then(() => {
-    const rendered = render();
-    let html = getTemplate(assetFs);
+  const { store, render } = bootstrapServer();
+  const rendered = render(store);
+  let html = getTemplate(assetFs);
 
-    html = injectAssetPath(html, webpackConfig.output.templateAssetPath);
-    html = injectRevision(html, REVISION);
-    html = injectData(html, store.getState().toServerData());
-    html = injectRender(html, rendered);
-    return html;
-  });
+  html = injectAssetPath(html, webpackConfig.output.templateAssetPath);
+  html = injectRevision(html, REVISION);
+  html = injectData(html, store.getState().toServerData());
+  html = injectRender(html, rendered);
+  return Promise.resolve(html);
 }
 
 export function staticApp(location: string, assetFs: any): Promise<string> {

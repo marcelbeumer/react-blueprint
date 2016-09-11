@@ -2,12 +2,12 @@ import 'babel-polyfill';
 import createDebug from 'debug';
 import '../style/index.css';
 import { expose } from '../global';
-import createRenderer from '../renderer/browser';
+import render from '../renderer/browser';
 import DataTree from '../data/tree';
 import createStore from '../store';
-import createRouter from '../router';
+// import createRouter from '../router';
 
-export default function bootstrap({ historySupport = false, initialUrl = '/' } = {}) {
+export default function bootstrap() {
   const debug = createDebug('browser');
   debug('starting bootstrap');
 
@@ -21,37 +21,39 @@ export default function bootstrap({ historySupport = false, initialUrl = '/' } =
 
   const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
   const element = document.getElementById('root');
-  const renderer = createRenderer(element);
-  const actionServices = {};
-  const renderServices = {};
-  const routeServices = {};
 
-  const store = createStore(initialState, actionServices, (updatedState) =>
-    renderer(updatedState, store.actions, renderServices));
-  routeServices.setScreen = store.actions.setScreen;
+  // const actionServices = {};
+  // const renderServices = {};
+  // const routeServices = {};
 
-  const router = createRouter(routeServices, initialUrl, (url) => { // eslint-disable-line prefer-const, max-len
-    if (historySupport && location.pathname !== url) {
-      history.pushState('', document.title, url);
-    }
-  });
+  const store = createStore(initialState);
+  // routeServices.setScreen = store.actions.setScreen;
 
-  actionServices.setUrl = router.setUrl.bind(router);
-  renderServices.getUrl = router.getUrl.bind(router);
+  // const router = createRouter(routeServices, initialUrl, (url) => {
+  //   if (historySupport && location.pathname !== url) {
+  //     history.pushState('', document.title, url);
+  //   }
+  // });
+  //
+  // actionServices.setUrl = router.setUrl.bind(router);
+  // renderServices.getUrl = router.getUrl.bind(router);
+  //
+  // if (historySupport) {
+  //   global.addEventListener('popstate', () => {
+  //     router.setUrl(location.pathname);
+  //   });
+  // }
 
-  if (historySupport) {
-    global.addEventListener('popstate', () => {
-      router.setUrl(location.pathname);
-    });
-  }
+  render(store, element);
+  //
+  // if (element.querySelector('[data-react-checksum]')) {
+  //   render(store, initialState);
+  // } else {
+  //   router.runUrl(initialUrl);
+  // }
 
-  if (element.querySelector('[data-react-checksum]')) {
-    renderer(initialState, store.actions, renderServices);
-  } else {
-    router.runUrl(initialUrl);
-  }
-
-  expose('renderer', renderer);
-  expose('router', router);
+  expose('render', render.bind(null, store, element));
+  expose('store', store);
+  // expose('router', router);
   debug('bootstrap done');
 }

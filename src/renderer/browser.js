@@ -3,7 +3,7 @@ import React from 'react'; // eslint-disable-line no-unused-vars
 import createDebug from 'debug';
 import ReactDOM from 'react-dom';
 import DataTree from '../data/tree';
-import { getRootComponent } from '../component';
+import { getRootComponent } from '../old-component';
 
 const debug = createDebug('renderer');
 

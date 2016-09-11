@@ -2,7 +2,7 @@ import React from 'react'; // eslint-disable-line no-unused-vars
 import ReactDOMServer from 'react-dom/server';
 import Collection from 'immutable';
 import createDebug from 'debug';
-import { getRootComponent } from '../component';
+import { getRootComponent } from '../old-component';
 
 const debug = createDebug('renderer');
 

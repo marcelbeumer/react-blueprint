@@ -4,8 +4,8 @@ import autoprefixer from 'autoprefixer';
 import postcss from 'postcss';
 
 export default function getComponentCss(minify: boolean): string {
-  require('./old-component');
-  const { getCss } = require('./old-component/styles');
+  require('./component');
+  const { getCss } = require('./component/styles');
 
   const source = getCss({ pretty: !minify });
   const css = String(postcss([autoprefixer]).process(source));

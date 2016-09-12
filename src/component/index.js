@@ -1,5 +1,6 @@
 import React from 'react';
+import Scene from './composed/Scene';
 
 export default function App() {
-  return <div>Hello world</div>;
+  return <Scene />;
 }

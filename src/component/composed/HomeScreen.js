@@ -1,15 +1,15 @@
 // @flow
+import React from 'react';
 import Button from '../presentational/Button';
 import Toggle from '../presentational/Toggle';
 import DotNavigation from '../presentational/DotNavigation';
 import BarMeter from '../presentational/BarMeter';
-// import Slider from '../presentational/Slider';
+import Slider from '../presentational/Slider';
+import ListSizeSlider from '../connected/ListSizeSlider';
 // import ResizableContent from '../presentational/ResizableContent';
 // import LabelBox from '../presentational/LabelBox';
 // import ProgressBar from '../presentational/ProgressBar';
 // import GithubIcon from '../presentational/GithubIcon';
-import React from 'react';
-// import HomeScreen from './HomeScreen';
 
 const Section = (props) => <div style={{ margin: '1em 0' }} {...props} />;
 
@@ -32,6 +32,12 @@ export default function HomeScreen() {
       </Section>
       <Section>
         <BarMeter value={0.5} />
+      </Section>
+      <Section>
+        <Slider values={[0, 0.3, 0.8]} />
+      </Section>
+      <Section>
+        <ListSizeSlider />
       </Section>
     </div>
   );

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export type DotNavigationValue = number | string;
+export type DotNavigationValue = any;
 export type DotNavigationPropTypes = {
   values: Array<DotNavigationValue>,
   value: DotNavigationValue,

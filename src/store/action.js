@@ -1,8 +1,8 @@
 // @flow
-const createSimpleAction = type => payload => ({ type, payload });
+const createSimpleAction = type => (payload: any) => ({ type, payload });
 
-function loadMoreListItems() {
-  return (dispatch) => {
+export function loadMoreListItems() {
+  return (dispatch: Function) => {
     let chunksDone = 0;
     dispatch({ type: 'SET_LIST_LOADING', payload: true });
 
@@ -22,18 +22,10 @@ function loadMoreListItems() {
   };
 }
 
-export default function createActions(actionServices: Object): Object {
-  return {
-    setUrl: url => {
-      actionServices.setUrl(url);
-    },
-    setScreen: createSimpleAction('SET_SCREEN'),
-    setListStart: createSimpleAction('SET_LIST_START'),
-    setListEnd: createSimpleAction('SET_LIST_END'),
-    setListRange: (start, end) => ({
-      type: 'SET_LIST_RANGE',
-      payload: { start, end },
-    }),
-    loadMoreListItems,
-  };
-}
+export const setScreen = createSimpleAction('SET_SCREEN');
+export const setListStart = createSimpleAction('SET_LIST_START');
+export const setListEnd = createSimpleAction('SET_LIST_END');
+export const setListRange = (start: number, end: number) => ({
+  type: 'SET_LIST_RANGE',
+  payload: { start, end },
+});

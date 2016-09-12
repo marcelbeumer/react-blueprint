@@ -3,7 +3,10 @@ import React from 'react';
 import Hammer from 'react-hammerjs';
 
 /* eslint-disable no-param-reassign */
-function getEventWithDelta(event: Object, cache: Object): Object {
+function getEventWithDelta(eventName, event, cacheObject) {
+  if (!cacheObject[eventName]) cacheObject[eventName] = {};
+
+  const cache = cacheObject[eventName];
   if (cache.x == null) cache.x = 0;
   if (cache.y == null) cache.y = 0;
 
@@ -17,15 +20,30 @@ function getEventWithDelta(event: Object, cache: Object): Object {
     eventDeltaY: deltaY,
   });
 }
-/* eslint-enable no-param-reassign */
 
 function wrapHandlers(props, eventCache) {
   const wrapped = {};
-  if (props.onPan) {
-    wrapped.onPan = (e: Object): any => props.onPan(getEventWithDelta(e, eventCache));
-  }
+
+  ['onPan']
+  .filter((eventName) => props[eventName])
+  .forEach((eventName) => {
+    const endEventName = `${eventName}End`;
+
+    wrapped[eventName] = (e) => {
+      const eventWithDelta = getEventWithDelta(eventName, e, eventCache);
+      props[eventName](eventWithDelta);
+    };
+
+    wrapped[endEventName] = (e) => {
+      delete eventCache[eventName];
+      if (props[endEventName]) props[endEventName](e);
+    };
+  });
+
   return wrapped;
 }
+
+/* eslint-enable no-param-reassign */
 
 class Gestures extends React.Component {
   _eventCache = {};

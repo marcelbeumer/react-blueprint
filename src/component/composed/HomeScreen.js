@@ -3,9 +3,10 @@ import React from 'react';
 import Button from '../presentational/Button';
 import Toggle from '../presentational/Toggle';
 import DotNavigation from '../presentational/DotNavigation';
-import BarMeter from '../presentational/BarMeter';
-import Slider from '../presentational/Slider';
-import ListSizeSlider from '../connected/ListSizeSlider';
+
+import ListStartBarMeter from '../connected/ListStartBarMeter';
+import ListEndBarMeter from '../connected/ListEndBarMeter';
+import ListRangeSlider from '../connected/ListRangeSlider';
 // import ResizableContent from '../presentational/ResizableContent';
 // import LabelBox from '../presentational/LabelBox';
 // import ProgressBar from '../presentational/ProgressBar';
@@ -31,13 +32,13 @@ export default function HomeScreen() {
         <DotNavigation value={1} values={[0, 1, 2, 3]} />
       </Section>
       <Section>
-        <BarMeter value={0.5} />
+        <ListStartBarMeter />
       </Section>
       <Section>
-        <Slider values={[0, 0.3, 0.8]} />
+        <ListEndBarMeter />
       </Section>
       <Section>
-        <ListSizeSlider />
+        <ListRangeSlider />
       </Section>
     </div>
   );

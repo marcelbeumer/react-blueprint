@@ -8,7 +8,6 @@ const { min, max } = Math;
 
 const styles = StyleSheet.create({
   bar: {
-    // display: 'inline-block',
     height: '1em',
     backgroundColor: theme.highlightColor,
     borderRadius: px(theme.baseBorderRadius),

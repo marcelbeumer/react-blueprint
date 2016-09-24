@@ -1,19 +1,19 @@
 // @flow
 import React from 'react';
-import Button from '../presentational/Button';
-import Toggle from '../presentational/Toggle';
-import DotNavigation from '../presentational/DotNavigation';
+import Button from '../base/Button';
+import Toggle from '../base/Toggle';
+import DotNavigation from '../base/DotNavigation';
 
-import BarMeter from '../presentational/BarMeter';
-import Slider from '../presentational/Slider';
+import BarMeter from '../base/BarMeter';
+import Slider from '../base/Slider';
 import listEndModifier from '../enhancer/listEndModifier';
 import listStartModifier from '../enhancer/listStartModifier';
 import listRangeModifier from '../enhancer/listRangeModifier';
 
-// import ResizableContent from '../presentational/ResizableContent';
-// import LabelBox from '../presentational/LabelBox';
-// import ProgressBar from '../presentational/ProgressBar';
-// import GithubIcon from '../presentational/GithubIcon';
+// import ResizableContent from '../base/ResizableContent';
+// import LabelBox from '../base/LabelBox';
+// import ProgressBar from '../base/ProgressBar';
+// import GithubIcon from '../base/GithubIcon';
 
 const Section = (props) => <div style={{ margin: '1em 0' }} {...props} />;
 const ListEndBarMeter = listEndModifier(BarMeter);

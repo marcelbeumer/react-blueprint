@@ -16,4 +16,4 @@ const mergeProps = (stateProps, dispatchProps) => ({
   onChange: (values) => dispatchProps.onChange(stateProps.onChange(values)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps);
+export default () => connect(mapStateToProps, mapDispatchToProps, mergeProps);

@@ -1,23 +1,17 @@
 // @flow
 import React from 'react';
-import { compose } from 'redux';
 import View from '../base/View';
 import BarMeter from '../base/BarMeter';
 import Slider from '../base/Slider';
 import PageNavigation from '../connected/PageNavigation';
+import ItemList from '../connected/ItemList';
 import listEndModifier from '../enhancer/listEndModifier';
 import listStartModifier from '../enhancer/listStartModifier';
 import listRangeModifier from '../enhancer/listRangeModifier';
 import withClassName from '../enhancer/withClassName';
-import listOfItems from '../enhancer/listOfItems';
-import withListAsItems from '../enhancer/withListAsItems';
-import StyleSheet, { px } from '../styles';
-import theme from '../theme';
+import StyleSheet from '../styles';
 
 // import ResizableContent from '../base/ResizableContent';
-import LabelBox from '../base/LabelBox';
-import ListContainer from '../base/ListContainer';
-import PaddedListItem from '../base/PaddedListItem';
 // import ProgressBar from '../base/ProgressBar';
 // import GithubIcon from '../base/GithubIcon';
 
@@ -34,22 +28,42 @@ const styles = StyleSheet.create({
   },
 });
 
-const itemFactory = (item) => (
-  <PaddedListItem key={item} height={px(theme.itemHeight)}>
-    <LabelBox value={item} />
-  </PaddedListItem>
-);
-
 const Container = withClassName(styles.container)(View);
 const Section = withClassName(styles.section)(View);
 const Content = withClassName(styles.content)(View);
 const ListEndBarMeter = listEndModifier()(BarMeter);
 const ListStartBarMeter = listStartModifier()(BarMeter);
 const ListRangeSlider = listRangeModifier()(Slider);
-const ItemList = compose(
-  withListAsItems(),
-  listOfItems(itemFactory),
-)(ListContainer);
+
+// type BaseItemListContainerPropTypes = {
+//   children: any,
+//   handle: Element,
+//   style?: Object,
+// };
+
+// const BaseItemListContainer = ({ x, y, z}) => (
+//   <ResizableHeight height={}>
+//     <Scrollable scrollOffset={}>
+//       {props.children}
+//     </Scrollable>
+//   </ResizableHeight>
+// );
+
+// const BaseItemListContainer = (props: BaseItemListContainerPropTypes) => (
+//   <View style={props.style}>
+//     {props.children}
+//     {props.handle}
+//   </View>
+// );
+//
+// const ItemListContainer = compose(
+//   withListAsScrollOffset(),
+//   withListAsHeight(),
+//   resizableHeight(Handle),
+//   scrollable(),
+// )(BaseItemListContainer);
+
+const ItemListContainer = View;
 
 export default function HomeScreen() {
   return (
@@ -66,7 +80,9 @@ export default function HomeScreen() {
           <ListRangeSlider />
         </Section>
         <Section>
-          <ItemList />
+          <ItemListContainer>
+            <ItemList />
+          </ItemListContainer>
         </Section>
       </Content>
     </Container>

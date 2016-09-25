@@ -3,9 +3,11 @@ import DotNavigation from '../base/DotNavigation';
 import { connect } from 'react-redux';
 import * as actions from '../../store/action';
 
+const screens = ['home', 'third', 'second'];
+
 const mapStateToProps = ({ screen }) => ({
   value: screen,
-  values: ['home', 'third', 'second'],
+  values: screens,
 });
 
 const mapDispatchToProps = (dispatch) => ({

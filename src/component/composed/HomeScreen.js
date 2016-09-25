@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { compose } from 'redux';
+import View from '../base/View';
 import BarMeter from '../base/BarMeter';
 import Slider from '../base/Slider';
 import PageNavigation from '../connected/PageNavigation';
@@ -39,9 +40,9 @@ const itemFactory = (item) => (
   </PaddedListItem>
 );
 
-const Container = withClassName(styles.container)();
-const Section = withClassName(styles.section)();
-const Content = withClassName(styles.content)();
+const Container = withClassName(styles.container)(View);
+const Section = withClassName(styles.section)(View);
+const Content = withClassName(styles.content)(View);
 const ListEndBarMeter = listEndModifier()(BarMeter);
 const ListStartBarMeter = listStartModifier()(BarMeter);
 const ListRangeSlider = listRangeModifier()(Slider);

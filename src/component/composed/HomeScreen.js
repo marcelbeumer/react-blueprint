@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import DotNavigation from '../base/DotNavigation';
 import BarMeter from '../base/BarMeter';
 import Slider from '../base/Slider';
+import PageNavigation from '../connected/PageNavigation';
 import listEndModifier from '../enhancer/listEndModifier';
 import listStartModifier from '../enhancer/listStartModifier';
 import listRangeModifier from '../enhancer/listRangeModifier';
@@ -40,7 +40,7 @@ export default function HomeScreen() {
     <Container>
       <Content>
         <Section>
-          <DotNavigation value={1} values={[0, 1, 2, 3]} />
+          <PageNavigation />
         </Section>
         <Section>
           <ListStartBarMeter />

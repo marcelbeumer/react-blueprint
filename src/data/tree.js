@@ -4,7 +4,7 @@ import { Record } from 'immutable';
 import ListData from './list';
 
 const TreeData = Record({
-  screen: null,
+  screen: 'home',
   showBackground: false,
   listLoading: false,
   listLoadingProgress: 0,

@@ -58,9 +58,9 @@ const ListRangeSlider = listRangeModifier()(Slider);
 // );
 //
 // const ItemListContainer = compose(
-//   composeConnectors(
-//      [withListAsScrollOffset, 12],
-//      [withListAsHeight, 12]
+//   composeConnectors( // make magic component that uses Connect.compute<Thing> internals
+//      withListAsScrollOffset
+//      withListAsHeight
 //   ),
 //   resizableHeight(Handle),
 //   scrollable(),

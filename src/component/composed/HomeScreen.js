@@ -5,9 +5,9 @@ import BarMeter from '../base/BarMeter';
 import Slider from '../base/Slider';
 import PageNavigation from '../connected/PageNavigation';
 import ItemList from '../connected/ItemList';
-import listEndModifier from '../enhancer/listEndModifier';
-import listStartModifier from '../enhancer/listStartModifier';
-import listRangeModifier from '../enhancer/listRangeModifier';
+import listEndModifier from '../connector/listEndModifier';
+import listStartModifier from '../connector/listStartModifier';
+import listRangeModifier from '../connector/listRangeModifier';
 import withClassName from '../enhancer/withClassName';
 import StyleSheet from '../styles';
 
@@ -35,6 +35,7 @@ const ListEndBarMeter = listEndModifier()(BarMeter);
 const ListStartBarMeter = listStartModifier()(BarMeter);
 const ListRangeSlider = listRangeModifier()(Slider);
 
+
 // type BaseItemListContainerPropTypes = {
 //   children: any,
 //   handle: Element,
@@ -56,6 +57,15 @@ const ListRangeSlider = listRangeModifier()(Slider);
 //   </View>
 // );
 //
+// const ItemListContainer = compose(
+//   composeConnectors(
+//      [withListAsScrollOffset, 12],
+//      [withListAsHeight, 12]
+//   ),
+//   resizableHeight(Handle),
+//   scrollable(),
+// )(BaseItemListContainer);
+
 // const ItemListContainer = compose(
 //   withListAsScrollOffset(),
 //   withListAsHeight(),

@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { compose } from 'redux';
 import listOfItems from '../enhancer/listOfItems';
 import { px } from '../styles';
 import theme from '../theme';
@@ -13,6 +14,8 @@ const itemFactory = (item) => (
   </PaddedListItem>
 );
 
-const ItemList = listOfItems(itemFactory)(ListContainer);
+const ItemList = compose(
+  listOfItems(itemFactory),
+)(ListContainer);
 
 export default ItemList;

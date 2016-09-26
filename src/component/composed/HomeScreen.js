@@ -61,15 +61,6 @@ const ListResizableHeight = listHeightResizer({
 //     {props.handle}
 //   </View>
 // );
-//
-// const ItemListContainer = compose(
-//   composeConnectors( // make magic component that uses Connect.compute<Thing> internals
-//      withListAsScrollOffset
-//      withListAsHeight
-//   ),
-//   resizableHeight(Handle),
-//   scrollable(),
-// )(BaseItemListContainer);
 
 // const ItemListContainer = compose(
 //   withListAsScrollOffset(),

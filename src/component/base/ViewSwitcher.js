@@ -55,12 +55,11 @@ export default class ViewSwitcher extends React.Component {
   renderScreen(key: string, { offset }: Object) {
     const inMotion = offset !== 0;
     const innerStyle = inMotion ? { transform: `translate3d(${offset * 100}%, 0, 0)` } : undefined;
-    const Screen = this.props.children(key);
 
     return (
       <div key={key} className={cx(inMotion && styles.motionScreenContainer)}>
         <div className={cx(inMotion && styles.motionScreen)} style={innerStyle}>
-          <Screen {...this.props} />
+          {this.props.children(key)}
         </div>
       </div>
     );

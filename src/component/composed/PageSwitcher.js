@@ -8,9 +8,9 @@ import ThirdScreen from './ThirdScreen';
 const screens = ['home', 'second', 'third'];
 
 const getScreen = (name) => (
-  name === 'home' ? HomeScreen :
-  name === 'second' ? SecondScreen :
-  name === 'third' ? ThirdScreen :
+  name === 'home' ? <HomeScreen /> :
+  name === 'second' ? <SecondScreen /> :
+  name === 'third' ? <ThirdScreen /> :
   undefined
 );
 

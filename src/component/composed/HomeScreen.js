@@ -3,13 +3,16 @@ import React from 'react';
 import View from '../base/View';
 import BarMeter from '../base/BarMeter';
 import Slider from '../base/Slider';
+import ResizableHeight from '../base/ResizableHeight';
 import PageNavigation from '../connected/PageNavigation';
 import ItemList from '../connected/ItemList';
 import listEndModifier from '../connector/listEndModifier';
+import listHeightResizer from '../connector/listHeightResizer';
 import listStartModifier from '../connector/listStartModifier';
 import listRangeModifier from '../connector/listRangeModifier';
 import withClassName from '../enhancer/withClassName';
 import StyleSheet from '../styles';
+import theme from '../theme';
 
 // import ResizableContent from '../base/ResizableContent';
 // import ProgressBar from '../base/ProgressBar';
@@ -34,7 +37,9 @@ const Content = withClassName(styles.content)(View);
 const ListEndBarMeter = listEndModifier()(BarMeter);
 const ListStartBarMeter = listStartModifier()(BarMeter);
 const ListRangeSlider = listRangeModifier()(Slider);
-
+const ListResizableHeight = listHeightResizer({
+  unitSize: theme.itemHeight,
+})(ResizableHeight);
 
 // type BaseItemListContainerPropTypes = {
 //   children: any,
@@ -79,6 +84,9 @@ export default function HomeScreen() {
   return (
     <Container>
       <Content>
+        <Section>
+          <ListResizableHeight />
+        </Section>
         <Section>
           <PageNavigation />
         </Section>

@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
 export default class Scrollable extends React.Component {
   props: {
     children?: any,
-    height?: number,
+    height?: string,
     scrollTop: number,
     onScroll: Function,
   };
@@ -37,7 +37,7 @@ export default class Scrollable extends React.Component {
 
   static defaultProps = {
     scrollTop: 0,
-    height: '100%',
+    height: '0px',
     onScroll: () => null,
   };
 

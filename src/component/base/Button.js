@@ -17,7 +17,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const Button = (props: { disabled: bool, children: any }) =>
-  <div className={cx(styles.button, props.disabled && styles.disabled)}>{ props.children }</div>;
+const Button = ({ disabled, children, ...others }: { disabled: bool, children: any }) =>
+  <div
+    className={cx(styles.button, disabled && styles.disabled)}
+    {...others}
+  >
+    { children }
+  </div>;
 
 export default Button;

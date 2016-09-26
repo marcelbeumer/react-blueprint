@@ -1,6 +1,3 @@
-import React from 'react';
-import Scene from './composed/Scene';
+import App from './composed/App';
 
-export default function App() {
-  return <Scene />;
-}
+export default App;

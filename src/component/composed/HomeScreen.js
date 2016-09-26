@@ -3,11 +3,13 @@ import React from 'react';
 import View from '../base/View';
 import BarMeter from '../base/BarMeter';
 import Slider from '../base/Slider';
+import Scrollable from '../base/Scrollable';
 import ResizableHeight from '../base/ResizableHeight';
 import PageNavigation from '../connected/PageNavigation';
 import ItemList from '../connected/ItemList';
 import listEndModifier from '../connector/listEndModifier';
 import listHeightResizer from '../connector/listHeightResizer';
+import listStartScrollable from '../connector/listStartScrollable';
 import listStartModifier from '../connector/listStartModifier';
 import listRangeModifier from '../connector/listRangeModifier';
 import withClassName from '../enhancer/withClassName';
@@ -40,6 +42,9 @@ const ListRangeSlider = listRangeModifier()(Slider);
 const ListResizableHeight = listHeightResizer({
   unitSize: theme.itemHeight,
 })(ResizableHeight);
+const ListStartScrollable = listStartScrollable({
+  unitSize: theme.itemHeight,
+})(Scrollable);
 
 // type BaseItemListContainerPropTypes = {
 //   children: any,
@@ -76,9 +81,6 @@ export default function HomeScreen() {
     <Container>
       <Content>
         <Section>
-          <ListResizableHeight />
-        </Section>
-        <Section>
           <PageNavigation />
         </Section>
         <Section>
@@ -89,9 +91,13 @@ export default function HomeScreen() {
           <ListRangeSlider />
         </Section>
         <Section>
-          <ItemListContainer>
-            <ItemList />
-          </ItemListContainer>
+          <ListResizableHeight>
+            <ListStartScrollable>
+              <ItemListContainer>
+                <ItemList />
+              </ItemListContainer>
+            </ListStartScrollable>
+          </ListResizableHeight>
         </Section>
       </Content>
     </Container>

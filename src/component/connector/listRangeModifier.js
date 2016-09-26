@@ -11,7 +11,8 @@ const mapDispatchToProps = (dispatch) => ({
   onChange: (values) => dispatch(actions.setListRange(values[0], values[1])),
 });
 
-const mergeProps = (stateProps, dispatchProps) => ({
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
   values: stateProps.values,
   onChange: (values) => dispatchProps.onChange(stateProps.onChange(values)),
 });

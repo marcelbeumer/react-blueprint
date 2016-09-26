@@ -4,20 +4,18 @@ import * as actions from '../../store/action';
 
 export default ({ unitSize }: { unitSize: number }) => {
   const mapStateToProps = ({ list }) => ({
-    height: (list.end - list.start) * unitSize,
-    onResize: (height) => [list.start, list.start + (height / unitSize)],
+    scrollTop: list.start * unitSize,
+    onScroll: (scrollTop) => scrollTop / unitSize,
   });
 
   const mapDispatchToProps = (dispatch) => ({
-    onResize: (value) => dispatch(actions.setListEnd(value)),
+    onScroll: (start) => dispatch(actions.moveListRange(start)),
   });
 
   const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     ...ownProps,
-    height: stateProps.height,
-    onResize: (height) => {
-      dispatchProps.onResize(stateProps.onResize(height)[1]);
-    },
+    scrollTop: stateProps.scrollTop,
+    onScroll: (scrollTop) => dispatchProps.onScroll(stateProps.onScroll(scrollTop)),
   });
 
   return connect(mapStateToProps, mapDispatchToProps, mergeProps);

@@ -25,6 +25,7 @@ export function loadMoreListItems() {
 export const setScreen = createSimpleAction('SET_SCREEN');
 export const setListStart = createSimpleAction('SET_LIST_START');
 export const setListEnd = createSimpleAction('SET_LIST_END');
+export const moveListRange = createSimpleAction('MOVE_LIST_RANGE');
 export const setListRange = (start: number, end: number) => ({
   type: 'SET_LIST_RANGE',
   payload: { start, end },

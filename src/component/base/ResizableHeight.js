@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-export default class ResizableContent extends React.Component {
+export default class ResizableHeight extends React.Component {
   props: {
     children?: any,
     height?: number,

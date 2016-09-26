@@ -3,8 +3,8 @@ import React from 'react';
 import View from '../base/View';
 import HeadSection from '../base/HeadSection';
 import PageSwitcher from '../connected/PageSwitcher';
-import withClassName from '../enhancer/withClassName';
 import PageNavigation from '../connected/PageNavigation';
+import withClassName from '../enhancer/withClassName';
 import StyleSheet from '../styles';
 import theme from '../theme';
 

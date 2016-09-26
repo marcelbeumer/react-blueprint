@@ -1,13 +1,15 @@
 // @flow
 /* eslint no-console:0 */
 import 'babel-polyfill';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import express from 'express';
 import fs from 'fs';
 import webpackConfig from '../webpack.config';
 import DataTree from './data/tree';
-import renderer from './renderer/server';
 import createStore from './store';
 import { InvalidRouteError } from './router';
+import RootComponent from './component';
 import env from 'node-env';
 
 const SSR = String(process.env.SSR);
@@ -29,18 +31,18 @@ const injectAssetPath = (output, assetPath) =>
 const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
 
-export function bootstrapApp(): Object {
+function bootstrapApp(): Object {
   const initialState = new DataTree();
   const store = createStore(initialState);
   return {
-    render: renderer.bind(null, store),
+    render: () => ReactDOMServer.renderToString(<RootComponent store={store} />),
     store,
   };
 }
 
 export function renderApp(location: string, assetFs: any): Promise<string> {
   const { store, render } = bootstrapApp();
-  const rendered = render(store);
+  const rendered = render();
   let html = getTemplate(assetFs);
 
   html = injectAssetPath(html, webpackConfig.output.templateAssetPath);

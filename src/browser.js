@@ -1,10 +1,13 @@
 import 'babel-polyfill';
-import createDebug from 'debug';
 import './style/index.css';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import createDebug from 'debug';
 import { expose } from './global';
-import render from './renderer/browser';
 import DataTree from './data/tree';
 import createStore from './store';
+import RootComponent from './component';
 // import createRouter from '../router';
 
 const debug = createDebug('browser');
@@ -12,6 +15,10 @@ debug('starting bootstrap');
 
 global.onunhandledrejection = ({ reason }) =>
   console.error(reason.stack || reason); // eslint-disable-line no-console
+
+function render(store, element) {
+  ReactDOM.render(<RootComponent store={store} />, element);
+}
 
 function getData(id) {
   const json = (document.getElementById(id) || {}).textContent;

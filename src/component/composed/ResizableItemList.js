@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-
 import Scrollable from '../base/Scrollable';
 import ResizableHeight from '../base/ResizableHeight';
 import resizableListRangeEnd from '../connector/resizableListRangeEnd';

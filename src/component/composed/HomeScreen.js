@@ -11,7 +11,6 @@ import listRangeModifier from '../connector/listRangeModifier';
 import withClassName from '../enhancer/withClassName';
 import StyleSheet from '../styles';
 
-// import ResizableContent from '../base/ResizableContent';
 // import ProgressBar from '../base/ProgressBar';
 // import GithubIcon from '../base/GithubIcon';
 

@@ -3,24 +3,24 @@ import React from 'react';
 
 import Scrollable from '../base/Scrollable';
 import ResizableHeight from '../base/ResizableHeight';
-import listHeightResizer from '../connector/listHeightResizer';
-import listStartScrollable from '../connector/listStartScrollable';
+import resizableListRangeEnd from '../connector/resizableListRangeEnd';
+import scrollableListRange from '../connector/scrollableListRange';
 import ItemList from '../connected/ItemList';
 import theme from '../theme';
 
-const ListHeightResizer = listHeightResizer({
+const ResizableListRangeEnd = resizableListRangeEnd({
   unitSize: theme.itemHeight,
 })(ResizableHeight);
-const ScrollableListStart = listStartScrollable({
+const ScrollableListRange = scrollableListRange({
   unitSize: theme.itemHeight,
 })(Scrollable);
 
 const ResizableItemList = () => (
-  <ListHeightResizer>
-    <ScrollableListStart height="100%">
+  <ResizableListRangeEnd>
+    <ScrollableListRange height="100%">
       <ItemList />
-    </ScrollableListStart>
-  </ListHeightResizer>
+    </ScrollableListRange>
+  </ResizableListRangeEnd>
 );
 
 export default ResizableItemList;

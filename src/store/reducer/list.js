@@ -33,10 +33,10 @@ function setListEnd(end, state) {
 }
 
 function setListRange(start, end, state) {
-  if (start > end) return state;
+  if (start > end || (end - start <= minGap)) return state;
 
-  const cleanStart = getStart(start, state, (end - start));
-  const cleanEnd = getEnd(end, state, (end - start));
+  const cleanStart = getStart(start, state);
+  const cleanEnd = getEnd(end, state);
 
   return state.set('list', state.list
     .set('start', cleanStart)
@@ -45,8 +45,11 @@ function setListRange(start, end, state) {
 
 function moveListRange(start, state) {
   const { list } = state;
+
   const cleanStart = getStart(start, state);
   const cleanEnd = getEnd(start + (list.end - list.start), state);
+
+  if (cleanEnd >= list.length) return state;
 
   return state.set('list', list
     .set('start', cleanStart)

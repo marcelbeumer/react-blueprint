@@ -16,8 +16,6 @@ import withClassName from '../enhancer/withClassName';
 import StyleSheet from '../styles';
 import { styles as linkStyles } from '../visualizer/link';
 
-// import GithubIcon from '../base/GithubIcon';
-
 const githubHref = 'https://github.com/marcelbeumer/react-blueprint';
 
 const styles = StyleSheet.create({

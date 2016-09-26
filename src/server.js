@@ -4,7 +4,9 @@ import 'babel-polyfill';
 import express from 'express';
 import fs from 'fs';
 import webpackConfig from '../webpack.config';
-import bootstrapServer from './bootstrap/server';
+import DataTree from './data/tree';
+import renderer from './renderer/server';
+import createStore from './store';
 import { InvalidRouteError } from './router';
 import env from 'node-env';
 
@@ -27,8 +29,17 @@ const injectAssetPath = (output, assetPath) =>
 const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
 
+export function bootstrapApp(): Object {
+  const initialState = new DataTree();
+  const store = createStore(initialState);
+  return {
+    render: renderer.bind(null, store),
+    store,
+  };
+}
+
 export function renderApp(location: string, assetFs: any): Promise<string> {
-  const { store, render } = bootstrapServer();
+  const { store, render } = bootstrapApp();
   const rendered = render(store);
   let html = getTemplate(assetFs);
 

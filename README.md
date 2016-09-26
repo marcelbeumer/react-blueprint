@@ -12,8 +12,9 @@ $ open http://localhost:8080
 
 ## Features
 
-- ES2017, Flow
-- Redux store with Immutable(.js) data
+- ES2017, Flow, Immutable.js
+- Flat functional-style component structure
+- Redux store
 - Decoupled (mini)router
 - CSS in JS using Stilr
 - Animation with react-motion

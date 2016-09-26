@@ -12,7 +12,8 @@ $ open http://localhost:8080
 
 ## Features
 
-- ES2017, Flow, Immutable.js
+- Babel, Webpack, Flow
+- Immutable.js data
 - Flat functional-style component structure
 - Redux store
 - Decoupled (mini)router

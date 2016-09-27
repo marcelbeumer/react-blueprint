@@ -8,7 +8,7 @@ import path from 'path';
 import fs from 'fs';
 import once from 'lodash/once';
 import env from 'node-env';
-import webpackConfig from '../settings/webpack';
+import webpackConfig from '../webpack.config';
 import getComponentCss from './component-css';
 
 process.on('unhandledRejection', (value = {}) =>
@@ -33,7 +33,7 @@ function clearRequire(modulePath) {
   });
 }
 
-function ready(): Promise {
+function ready(): Promise<void> {
   return new Promise(resolve => {
     if (bundleReady) {
       resolve();
@@ -45,6 +45,7 @@ function ready(): Promise {
 
 function serverMiddleware(req, res, next) {
   const server = require('./server').default(fs); // eslint-disable-line global-require
+
   server(req, res, next);
 }
 

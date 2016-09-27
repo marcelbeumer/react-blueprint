@@ -1,11 +1,17 @@
 // @flow
 /* eslint no-console:0 */
 import 'babel-polyfill';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
 import express from 'express';
 import fs from 'fs';
-import webpackConfig from '../settings/webpack';
-import bootstrapServer from './bootstrap/server';
-import { InvalidRouteError } from './router';
+import webpackConfig from '../webpack.config';
+import DataTree from './data/tree';
+import createStore from './store';
+import * as actions from './store/action';
+import Router, { InvalidRouteError } from './router/Router';
+import routes from './routes';
+import RootComponent from './component';
 import env from 'node-env';
 
 const SSR = String(process.env.SSR);
@@ -27,8 +33,34 @@ const injectAssetPath = (output, assetPath) =>
 const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
 
-export function renderApp(location: string, assetFs: any): Promise {
-  const { store, router, render } = bootstrapServer(location);
+function bootstrapApp(location: string): Object {
+  const routeServices = {};
+  const renderServices = {};
+  const initialState = new DataTree();
+  const store = createStore(initialState);
+  const router = new Router(routes(routeServices), location);
+
+  const setScreen = (value) => store.dispatch(actions.setScreen(value));
+  const setUrl = router.setUrl.bind(router);
+  const getUrl = router.getUrl.bind(router);
+
+  const render = () => ReactDOMServer.renderToString(
+    <RootComponent store={store} services={renderServices} />
+  );
+
+  Object.assign(routeServices, { setScreen });
+  Object.assign(renderServices, { setUrl, getUrl });
+
+  return {
+    render,
+    store,
+    router,
+  };
+}
+
+export function renderApp(location: string, assetFs: any): Promise<string> {
+  const { store, render, router } = bootstrapApp(location);
+
   return router.runUrl(location).then(() => {
     const rendered = render();
     let html = getTemplate(assetFs);
@@ -41,7 +73,7 @@ export function renderApp(location: string, assetFs: any): Promise {
   });
 }
 
-export function staticApp(location: string, assetFs: any): Promise {
+export function staticApp(location: string, assetFs: any): Promise<string> {
   return new Promise(resolve => {
     let html = getTemplate(assetFs);
     html = injectAssetPath(html, webpackConfig.output.templateAssetPath);
@@ -50,7 +82,7 @@ export function staticApp(location: string, assetFs: any): Promise {
   });
 }
 
-export function handleApp(location: string, assetFs: any, ssr: string = SSR): Promise {
+export function handleApp(location: string, assetFs: any, ssr: string = SSR): Promise<string> {
   const useRender = parseInt(ssr, 10) !== 0;
   const handler = useRender ? renderApp : staticApp;
   return handler(location, assetFs);

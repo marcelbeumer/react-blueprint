@@ -11,6 +11,7 @@ const theme = {
   textColor: '#c7dfff',
   inverseTextColor: '#415793',
   baseBorderRadius: 3,
+  itemHeight: 58,
   media: {
     biggerPhones: '@media screen and (min-width: 360px)',
     fromTablet: '@media screen and (min-width: 600px)',

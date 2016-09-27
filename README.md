@@ -1,6 +1,6 @@
 # react-blueprint [![Build Status](https://travis-ci.org/marcelbeumer/react-blueprint.svg?branch=master)](https://travis-ci.org/marcelbeumer/react-blueprint) [![devDependency Status](https://david-dm.org/marcelbeumer/react-blueprint/dev-status.svg)](https://david-dm.org/marcelbeumer/react-blueprint#info=devDependencies)
 
-> Ready for takeoff React setup. Demonstrates frontend architecture and approaches to common React patterns.
+> Showcase React architecture
 
 ## Getting started
 
@@ -10,53 +10,23 @@ $ npm start
 $ open http://localhost:8080
 ```
 
-## Features and patterns
+## Features
 
-- ES6+ with Babel, Flow and Airbnb-style ESLint
-- Standalone Redux store setup running on Immutable.js data (no React or routing bindings)
-- Alternate, hot swappable, RxJs store implementation
-- Uses Electron for building desktop apps
-- Server pre-rendering React elements and component stylesheets
-- Browser/electron/server rendering divided by target specific bootstrap
-- Decoupled rendering: store state changes triggers plain JS function that does React.render
-- Decoupled routing based on path-to-regexp
-- Pure rendering (store agnostic) React components: top-down prop passing, action functions
-- Component CSS stylesheet generation (`StyleSheet.create({..})`)
-- Draggable widgets demonstrating letting the store control rules and constraints
-- Scrollable widget demonstrating a two-way binding case for React in the browser
-- Widgets use relative (em/vw/vh) units while rendering to maintain full server pre-render capabilities
-- Animated page to page navigation using app/store state and react-motion
-- Fast dev-server that hot reloads browser and server code on webpack changes
+- Babel, Webpack, Flow
+- Redux, Immutable.js
+- Flat functional-style component structure
+- Connect to dynamic data sources using render services
+- Decoupled (mini)router
+- CSS in JS using Stilr
+- Animation with react-motion
+- Devserver that reloads browser and server code
 
 ## Server rendering
 
 Server rendering is enabled by default. To disable use `SSR=0 npm start` or reload the page using `?ssr=0`.
 
-When disabled the server will only return the base template and not do any router, store or React work.
-However, the server will still load and parse the entire application in order to generate the component CSS.
-
 ## Browser debugging
 
-Enable [debug](https://www.npmjs.com/package/debug) output by executing `localStorage.debug = '*'` and reloading the page. See the [debug documentation](https://www.npmjs.com/package/debug#browser-support) for more information.
+Enable [debug](https://www.npmjs.com/package/debug) output by executing `localStorage.debug = '*'` and reloading the page. See the [debug documentation](https://www.npmjs.com/package/debug#browser-support).
 
 Expose useful debugging objects by setting a global variable name: `localStarage.expose = '__'`. This will expose to `window.__`.
-
-## Electron
-
-Development:
-```bash
-$ npm run electron-dev-server
-$ npm run electron-dev
-```
-
-Production:
-```bash
-$ npm run electron-build
-$ npm run electron
-```
-
-Build OSX app:
-```bash
-$ npm run electron-package-darwin-x64
-$ open build
-```

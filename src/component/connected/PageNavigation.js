@@ -1,7 +1,8 @@
 // @flow
 import DotNavigation from '../base/DotNavigation';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../../store/action';
+import { connectToService } from '../ServiceProvider';
 
 const screens = ['home', 'second', 'third'];
 
@@ -10,8 +11,11 @@ const mapStateToProps = ({ screen }) => ({
   values: screens,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onChange: (screen) => dispatch(actions.setNamedUrl(screen)),
+const servicesToProps = ({ getUrl, setUrl }) => ({
+  onChange: (screen) => setUrl(getUrl(screen)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DotNavigation);
+export default compose(
+  connect(mapStateToProps),
+  connectToService(servicesToProps),
+)(DotNavigation);

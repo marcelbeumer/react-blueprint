@@ -40,6 +40,7 @@
     "classnames": "^2.2.3",
     "clean-css": "^3.4.16",
     "color": "^0.11.1",
+    "connect-to-context": "^1.0.1",
     "css-loader": "^0.25.0",
     "debug": "^2.2.0",
     "eslint": "^3.4.0",

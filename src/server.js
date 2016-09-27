@@ -34,14 +34,25 @@ const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
 
 function bootstrapApp(location: string): Object {
+  const routeServices = {};
+  const renderServices = {};
   const initialState = new DataTree();
   const store = createStore(initialState);
-  const setScreen = (value) => store.dispatch(actions.setScreen(value));
-  const routeServices = { setScreen };
   const router = new Router(routes(routeServices), location);
 
+  const setScreen = (value) => store.dispatch(actions.setScreen(value));
+  const setUrl = router.setUrl.bind(router);
+  const getUrl = router.getUrl.bind(router);
+
+  const render = () => ReactDOMServer.renderToString(
+    <RootComponent store={store} services={renderServices} />
+  );
+
+  Object.assign(routeServices, { setScreen });
+  Object.assign(renderServices, { setUrl, getUrl });
+
   return {
-    render: () => ReactDOMServer.renderToString(<RootComponent store={store} />),
+    render,
     store,
     router,
   };

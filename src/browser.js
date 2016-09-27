@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 import './style/index.css';
+import Perf from 'react-addons-perf';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DataTree from './data/tree';
@@ -9,6 +10,8 @@ import RootComponent from './component';
 import BrowserRouter from './router/BrowserRouter';
 import routes from './routes';
 
+global.React = React;
+global.ReactPerf = Perf;
 global.onunhandledrejection = ({ reason }) =>
   console.error(reason.stack || reason); // eslint-disable-line no-console
 

@@ -31,6 +31,10 @@ export default class ViewSwitcher extends React.Component {
     lastName: null,
   };
 
+  componentWillReceiveProps() {
+    this.state.lastName = this.props.name; // eslint-disable-line react/no-direct-mutation-state
+  }
+
   motionStyles: Function = () => [
     { key: this.props.name, style: { offset: spring(0) } },
   ];
@@ -47,10 +51,6 @@ export default class ViewSwitcher extends React.Component {
     <div>
       {interpolatedStyles.map(({ key, style }) => this.renderScreen(key, style))}
     </div>;
-
-  componentWillReceiveProps() {
-    this.state.lastName = this.props.name;
-  }
 
   renderScreen(key: string, { offset }: Object) {
     const inMotion = offset !== 0;

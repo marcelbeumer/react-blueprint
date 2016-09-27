@@ -46,8 +46,6 @@ function wrapHandlers(props, eventCache) {
 /* eslint-enable no-param-reassign */
 
 class Gestures extends React.Component {
-  _eventCache = {};
-  _wrappedHandlers = null;
 
   componentWillMount() {
     this._wrappedHandlers = wrapHandlers(this.props, this._eventCache);
@@ -56,6 +54,9 @@ class Gestures extends React.Component {
   componentWillUpdate(nextProps: Object) {
     this._wrappedHandlers = wrapHandlers(nextProps, this._eventCache);
   }
+
+  _eventCache = {};
+  _wrappedHandlers = null;
 
   render() {
     const props = Object.assign({}, this.props, this._wrappedHandlers);

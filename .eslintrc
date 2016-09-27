@@ -1,20 +1,31 @@
 {
-  "parser": "babel-eslint",
-  "extends": "airbnb",
-  "env": {
-    "browser": true,
-    "node": true,
-    "jest": true
-  },
+  "extends": "react-app",
   "rules": {
-    "no-nested-ternary": 0,
-    "no-underscore-dangle": 0,
-    "no-duplicate-imports": 0,
-    "react/prefer-stateless-function": 0,
-    "react/sort-comp": 0,
-    "import/imports-first": 0,
-    "import/no-duplicates": 0,
-    "import/prefer-default-export": 0,
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "semi": ["warn", "always"],
+    "comma-dangle": ["warn", "always-multiline"],
+    "jsx-quotes": ["warn", "prefer-double"],
+    "react/jsx-closing-bracket-location": ["warn", "line-aligned"],
+    "react/jsx-space-before-closing": ["warn", "always"],
+    'react/self-closing-comp': 'warn',
+    "react/no-string-refs": "warn",
+    "react/jsx-curly-spacing": ["warn", "never", { allowMultiline: true }],
+    "react/jsx-boolean-value": ["warn", "never"],
+    "react/jsx-wrap-multilines": ["warn", {
+      declaration: true,
+      assignment: true,
+      return: true
+    }],
+    'react/sort-comp': ['warn', {
+      order: [
+        'type-annotations',
+        'static-methods',
+        'lifecycle',
+        '/^on.+$/',
+        '/^(get|set)(?!(InitialState$|DefaultProps$|ChildContext$)).+$/',
+        'everything-else',
+        '/^render.+$/',
+        'render'
+      ],
+    }]
   }
 }

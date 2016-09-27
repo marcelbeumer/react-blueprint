@@ -4,14 +4,13 @@ import ViewSwitcher from '../base/ViewSwitcher';
 import HomeScreen from './HomeScreen';
 import SecondScreen from './SecondScreen';
 import ThirdScreen from './ThirdScreen';
-import withState from '../connector/withState';
+import pureRender from '../enhancer/pureRender';
 
 const screens = ['home', 'second', 'third'];
 
- // Prevent re-render by connecting to top level state
-const PureHomeScreen = withState()(HomeScreen);
-const PureSecondScreen = withState()(SecondScreen);
-const PureThirdScreen = withState()(ThirdScreen);
+const PureHomeScreen = pureRender()(HomeScreen);
+const PureSecondScreen = pureRender()(SecondScreen);
+const PureThirdScreen = pureRender()(ThirdScreen);
 
 const getScreen = (name) => (
   name === 'home' ? <PureHomeScreen /> :

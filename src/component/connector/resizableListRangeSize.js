@@ -1,6 +1,5 @@
 // @flow
 import { connect } from 'react-redux';
-import memoize from 'lodash/memoize';
 import * as actions from '../../store/action';
 
 export default ({ unitSize }: { unitSize: number }) => {

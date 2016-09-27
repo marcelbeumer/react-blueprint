@@ -45,7 +45,6 @@ function setListRange(start, end, state) {
 
 function moveListRange(start, state) {
   const { list } = state;
-
   const cleanStart = getStart(start, state);
   const cleanEnd = getEnd(start + (list.end - list.start), state);
 
@@ -54,6 +53,11 @@ function moveListRange(start, state) {
   return state.set('list', list
     .set('start', cleanStart)
     .set('end', cleanEnd));
+}
+
+function setListRangeSize(size, state) {
+  const cleanEnd = getEnd(state.list.start + size, state);
+  return state.setIn(['list', 'end'], cleanEnd);
 }
 
 function incrementListLenght(amount, state) {
@@ -68,6 +72,7 @@ export default function listReducer(state: DataTree, action: Object = {}): DataT
     type === 'SET_LIST_END' ? setListEnd(payload, state, setListStart) :
     type === 'SET_LIST_RANGE' ? setListRange(payload.start, payload.end, state) :
     type === 'MOVE_LIST_RANGE' ? moveListRange(payload, state) :
+    type === 'SET_LIST_RANGE_SIZE' ? setListRangeSize(payload, state) :
     type === 'SET_LIST_LOADING' ? state.set('listLoading', Boolean(payload)) :
     type === 'SET_LIST_LOADING_PROGRESS' ? state.set('listLoadingProgress', payload) :
     type === 'INCREMENT_LIST_LENGTH' ? incrementListLenght(payload, state) :

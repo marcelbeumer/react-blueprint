@@ -1,20 +1,20 @@
 // @flow
 import { connect } from 'react-redux';
+import memoize from 'lodash/memoize';
 import * as actions from '../../store/action';
 
-const mapStateToProps = ({ list: { start, end, length } }) => ({
+const mapStateToProps = memoize(({ list: { start, end, length } }) => ({
   values: [start / length, end / length],
   onChange: (values) => values.map((value) => value * length),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onChange: (values) => dispatch(actions.setListRange(values[0], values[1])),
-});
+}), (state) => state.list);
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   values: stateProps.values,
-  onChange: (values) => dispatchProps.onChange(stateProps.onChange(values)),
+  onChange: (values) => {
+    const [start, end] = stateProps.onChange(values);
+    dispatchProps.setListRange(start, end);
+  },
 });
 
-export default () => connect(mapStateToProps, mapDispatchToProps, mergeProps);
+export default () => connect(mapStateToProps, actions, mergeProps);

@@ -3,20 +3,19 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/action';
 
 export default ({ unitSize }: { unitSize: number }) => {
+
+  const onScroll = (scrollTop) => scrollTop / unitSize;
+
   const mapStateToProps = ({ list }) => ({
     scrollTop: list.start * unitSize,
-    onScroll: (scrollTop) => scrollTop / unitSize,
-  });
-
-  const mapDispatchToProps = (dispatch) => ({
-    onScroll: (start) => dispatch(actions.moveListRange(start)),
+    onScroll,
   });
 
   const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     ...ownProps,
     scrollTop: stateProps.scrollTop,
-    onScroll: (scrollTop) => dispatchProps.onScroll(stateProps.onScroll(scrollTop)),
+    onScroll: (scrollTop) => dispatchProps.moveListRange(stateProps.onScroll(scrollTop)),
   });
 
-  return connect(mapStateToProps, mapDispatchToProps, mergeProps);
+  return connect(mapStateToProps, actions, mergeProps);
 };

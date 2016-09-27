@@ -2,12 +2,12 @@
 import React from 'react';
 import Scrollable from '../base/Scrollable';
 import ResizableHeight from '../base/ResizableHeight';
-import resizableListRangeEnd from '../connector/resizableListRangeEnd';
+import resizableListRangeSize from '../connector/resizableListRangeSize';
 import scrollableListRange from '../connector/scrollableListRange';
 import ItemList from '../connected/ItemList';
 import theme from '../theme';
 
-const ResizableListRangeEnd = resizableListRangeEnd({
+const ResizableListRangeEnd = resizableListRangeSize({
   unitSize: theme.itemHeight,
 })(ResizableHeight);
 const ScrollableListRange = scrollableListRange({

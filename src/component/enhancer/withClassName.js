@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 
-export default function withClassName(className: string): Function {
-  return (Component) => (props) => <Component className={className} {...props} />;
-}
+const withClassName = (className: string): Function =>
+  (Component) => (props) => <Component className={className} {...props} />;
+
+export default withClassName;

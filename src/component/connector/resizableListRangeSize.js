@@ -1,24 +1,24 @@
 // @flow
 import { connect } from 'react-redux';
+import memoize from 'lodash/memoize';
 import * as actions from '../../store/action';
 
 export default ({ unitSize }: { unitSize: number }) => {
+
+  const onResize = (height) => (height / unitSize);
+
   const mapStateToProps = ({ list }) => ({
     height: (list.end - list.start) * unitSize,
-    onResize: (height) => [list.start, list.start + (height / unitSize)],
-  });
-
-  const mapDispatchToProps = (dispatch) => ({
-    onResize: (value) => dispatch(actions.setListEnd(value)),
+    onResize,
   });
 
   const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     ...ownProps,
     height: stateProps.height,
     onResize: (height) => {
-      dispatchProps.onResize(stateProps.onResize(height)[1]);
+      dispatchProps.setListRangeSize(stateProps.onResize(height));
     },
   });
 
-  return connect(mapStateToProps, mapDispatchToProps, mergeProps);
+  return connect(mapStateToProps, actions, mergeProps);
 };

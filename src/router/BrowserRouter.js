@@ -9,7 +9,7 @@ export default class BrowserRouter extends Router {
       routes,
       initialUrl,
       (url) => {
-        this._onChangePushState();
+        this._onChangePushState(url);
         if (onChange) onChange(url);
       });
   }

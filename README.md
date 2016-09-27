@@ -13,9 +13,9 @@ $ open http://localhost:8080
 ## Features
 
 - Babel, Webpack, Flow
-- Immutable.js data
+- Redux, Immutable.js
 - Flat functional-style component structure
-- Redux store
+- Connect to dynamic data sources using render services
 - Decoupled (mini)router
 - CSS in JS using Stilr
 - Animation with react-motion

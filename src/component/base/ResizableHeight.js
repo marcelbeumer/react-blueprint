@@ -66,7 +66,7 @@ export default class ResizableHeight extends React.Component {
         >
           {props.children}
         </div>
-        <Gestures vertical onPan={this.onPan}>
+        <Gestures direction="DIRECTION_ALL" onPan={this.onPan}>
           <div className={styles.handle} ref={el => { this._handle = el; }} />
         </Gestures>
       </div>

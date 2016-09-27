@@ -1,5 +1,5 @@
 import React from 'react';
-import ServiceProvider from './ServiceProvider';
+import ServicesProvider from './ServicesProvider';
 import App from './composed/App';
 import { Provider } from 'react-redux';
 
@@ -10,8 +10,8 @@ type RootComponentPropTypes = {
 
 export default ({ store, services }: RootComponentPropTypes) => (
   <Provider store={store}>
-    <ServiceProvider services={services}>
+    <ServicesProvider services={services}>
       <App />
-    </ServiceProvider>
+    </ServicesProvider>
   </Provider>
 );

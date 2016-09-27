@@ -2,7 +2,7 @@
 import DotNavigation from '../base/DotNavigation';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { connectToService } from '../ServiceProvider';
+import { connectServices } from '../ServicesProvider';
 
 const screens = ['home', 'second', 'third'];
 
@@ -17,5 +17,5 @@ const servicesToProps = ({ getUrl, setUrl }) => ({
 
 export default compose(
   connect(mapStateToProps),
-  connectToService(servicesToProps),
+  connectServices(servicesToProps),
 )(DotNavigation);

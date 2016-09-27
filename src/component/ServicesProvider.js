@@ -1,10 +1,10 @@
 import React from 'react';
 import { connectToContext } from 'connect-to-context';
 
-export const connectToService = (servicesToProps: Function) =>
+export const connectServices = (servicesToProps: Function) =>
   connectToContext('services', (context) => servicesToProps(context.services));
 
-export default class ServiceProvider extends React.Component {
+export default class ServicesProvider extends React.Component {
   props: {
     children?: any,
     services?: Object,

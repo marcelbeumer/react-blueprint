@@ -40,9 +40,9 @@ InvalidRouteError.prototype = Object.assign(new Error(), {
 export default class Router {
   routes: Object;
   url: string;
-  onChange: Function;
+  onChange: ?Function;
 
-  constructor(routes: Object, initialUrl: string, onChange: Function = () => null) {
+  constructor(routes: Object, initialUrl: string, onChange?: Function) {
     this.routes = routes;
     this.url = initialUrl;
     this.onChange = onChange;
@@ -57,7 +57,7 @@ export default class Router {
   _setCurrentUrl(url: string) {
     if (url !== this.url) {
       this.url = url;
-      this.onChange(url);
+      if (this.onChange) this.onChange(url);
     }
   }
 

@@ -1,7 +1,7 @@
 // @flow
-import { createRoute } from './router';
+import { createRoute } from './router/Router';
 
-export default function createRoutes(routeServices: Object): Object {
+const routes = (routeServices: Object): Object => {
   const setScreen = ({ name }) => {
     routeServices.setScreen(name);
   };
@@ -11,4 +11,6 @@ export default function createRoutes(routeServices: Object): Object {
     second: createRoute('/2.html', setScreen),
     home: createRoute('/', setScreen),
   };
-}
+};
+
+export default routes;

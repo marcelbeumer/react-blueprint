@@ -22,6 +22,8 @@ export function loadMoreListItems() {
   };
 }
 
+export const setUrl = createSimpleAction('SERVICE_SET_URL');
+export const setNamedUrl = createSimpleAction('SERVICE_SET_NAMED_URL');
 export const setScreen = createSimpleAction('SET_SCREEN');
 export const setListStart = createSimpleAction('SET_LIST_START');
 export const setListEnd = createSimpleAction('SET_LIST_END');

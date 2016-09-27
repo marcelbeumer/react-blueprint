@@ -5,9 +5,13 @@ import promise from 'redux-promise';
 import multi from 'redux-multi';
 import reducer from './reducer';
 
-export type Store = Object;
-
-export default function createReduxStore(initialState: Object): Store {
-  const middleware = applyMiddleware(multi, promise, thunk);
-  return createStore(reducer, initialState, middleware);
-}
+export default (initialState: Object): Object =>
+  createStore(
+    reducer,
+    initialState,
+    applyMiddleware(
+      multi,
+      promise,
+      thunk,
+    )
+  );

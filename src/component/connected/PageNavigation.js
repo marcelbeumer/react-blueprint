@@ -11,7 +11,7 @@ const mapStateToProps = ({ screen }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onChange: (screen) => dispatch(actions.setScreen(screen)),
+  onChange: (screen) => dispatch(actions.setNamedUrl(screen)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DotNavigation);

@@ -1,7 +1,7 @@
 {
   "name": "react-blueprint",
   "version": "2.0.0",
-  "description": "Ready for takeoff React setup",
+  "description": "Showcase React architecture",
   "license": "ISC",
   "productName": "React Blueprint",
   "scripts": {

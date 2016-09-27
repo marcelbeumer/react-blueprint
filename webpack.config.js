@@ -1,9 +1,9 @@
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import cssnext from 'postcss-cssnext';
-import cssImport from 'postcss-import';
-import cssUrl from 'postcss-import';
-import env from 'node-env';
-import webpack from 'webpack';
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const cssnext = require('postcss-cssnext');
+const cssImport = require('postcss-import');
+const cssUrl = require('postcss-import');
+const env = require('node-env');
+const webpack = require('webpack');
 
 const prod = env === 'production';
 const compressJs = prod;
@@ -70,7 +70,7 @@ const config = {
 
 if (extractCss) {
   config.plugins.push(
-    new ExtractTextPlugin('style.css'),
+    new ExtractTextPlugin('style.css')
   );
 }
 

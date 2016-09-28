@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 type RootComponentPropTypes = {
   store: Object,
-  services?: Object,
+  services: Object,
 };
 
 export default ({ store, services }: RootComponentPropTypes) => (

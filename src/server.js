@@ -24,8 +24,8 @@ const getTemplate = (assetFs = fs) =>
 const injectData = (output, data) =>
   output.replace(/(id=(['"]?)data\2>)/, `$1${JSON.stringify(data, null, prod ? 0 : 2)}`);
 
-const injectRender = (output, render) =>
-  output.replace(/(id=(['"]?)root\2>)/, `$1${render}`);
+const injectRendered = (output, rendered) =>
+  output.replace(/(id=(['"]?)root\2>)/, `$1${rendered}`);
 
 const injectAssetPath = (output, assetPath) =>
   output.replace(/__ASSETS__/g, assetPath);
@@ -68,7 +68,7 @@ export function renderApp(location: string, assetFs: any): Promise<string> {
     html = injectAssetPath(html, webpackConfig.output.templateAssetPath);
     html = injectRevision(html, REVISION);
     html = injectData(html, store.getState().toServerData());
-    html = injectRender(html, rendered);
+    html = injectRendered(html, rendered);
     return html;
   });
 }

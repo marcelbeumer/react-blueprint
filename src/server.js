@@ -34,10 +34,11 @@ const injectRevision = (output: string, revision: string): string =>
   output.replace(/__REVISION__/g, revision);
 
 function bootstrapApp(location: string): Object {
+  const storeServices = {};
   const routeServices = {};
   const renderServices = {};
   const initialState = new DataTree();
-  const store = createStore(initialState);
+  const store = createStore(initialState, storeServices);
   const router = new Router(routes(routeServices), location);
 
   const setScreen = (value) => store.dispatch(actions.setScreen(value));

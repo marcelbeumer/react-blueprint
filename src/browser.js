@@ -26,9 +26,10 @@ function getData(id) {
 
 const routeServices = {};
 const renderServices = {};
+const storeServices = {};
 const initialState = DataTree.fromServerData(getData('data')); // eslint-disable-line new-cap
 const element = document.getElementById('root');
-const store = createStore(initialState);
+const store = createStore(initialState, storeServices);
 const router = new BrowserRouter(routes(routeServices));
 const setScreen = (value) => store.dispatch(actions.setScreen(value));
 const setUrl = router.setUrl.bind(router);

@@ -4,12 +4,12 @@ import thunk from 'redux-thunk';
 import promise from 'redux-promise';
 import reducer from './reducer';
 
-export default (initialState: Object): Object =>
+export default (initialState: Object, storeServices: Object): Object =>
   createStore(
     reducer,
     initialState,
     applyMiddleware(
       promise,
-      thunk,
+      thunk.withExtraArgument(storeServices),
     )
   );

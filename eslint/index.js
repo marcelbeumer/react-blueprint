@@ -1,0 +1,43 @@
+module.exports = {
+  extends: './react-app.js',
+  rules: {
+    'quote-props': ['error', 'as-needed'],
+    'max-len': ['warn', 100, 2, {
+      ignoreUrls: true,
+      ignoreComments: false,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true,
+    }],
+    semi: ['warn', 'always'],
+    'comma-dangle': ['warn', 'always-multiline'],
+    'jsx-quotes': ['warn', 'prefer-double'],
+    'template-curly-spacing': 'warn',
+    'rest-spread-spacing': ['warn', 'never'],
+    'object-curly-spacing': ['warn', 'always'],
+    'no-redeclare': ['warn', { builtinGlobals: true }],
+    'no-param-reassign': ['warn', { props: false }],
+    'react/jsx-closing-bracket-location': ['warn', 'line-aligned'],
+    'react/jsx-space-before-closing': ['warn', 'always'],
+    'react/self-closing-comp': 'warn',
+    'react/no-string-refs': 'warn',
+    'react/jsx-curly-spacing': ['warn', 'never', { allowMultiline: true }],
+    'react/jsx-boolean-value': ['warn', 'never'],
+    'react/jsx-wrap-multilines': ['warn', {
+      declaration: true,
+      assignment: true,
+      return: true,
+    }],
+    'react/sort-comp': ['warn', {
+      order: [
+        'type-annotations',
+        'static-methods',
+        'lifecycle',
+        '/^on.+$/',
+        '/^(get|set)(?!(InitialState$|DefaultProps$|ChildContext$)).+$/',
+        'everything-else',
+        '/^render.+$/',
+        'render',
+      ],
+    }],
+  },
+};

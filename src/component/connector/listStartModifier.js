@@ -1,11 +1,11 @@
 // @flow
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import memoize from 'lodash/memoize';
 import * as actions from '../../store/action';
 
 const getOnChange = memoize((length) => (value) => value * length);
 
-const mapStateToProps = ({ list }) => ({
+const mapStateToProps = ({list}) => ({
   value: list.start / list.length,
   onChange: getOnChange(list.length),
 });

@@ -23,7 +23,7 @@ const theme = {
 StyleSheet.create({
   __: Object.keys(theme.media).reduce((p, c, i) => {
     const rules = p;
-    rules[theme.media[c]] = { fontSize: i };
+    rules[theme.media[c]] = {fontSize: i};
     return rules;
   }, {}),
 });

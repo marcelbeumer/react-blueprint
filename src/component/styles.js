@@ -1,9 +1,9 @@
 import StyleSheet from 'stilr';
 
 const map = new StyleSheet.Map();
-const { matchMedia } = global;
+const {matchMedia} = global;
 
-export const getCss = ({ pretty = false } = {}) => StyleSheet.render({ pretty }, map);
+export const getCss = ({pretty = false} = {}) => StyleSheet.render({pretty}, map);
 
 export default class StyleSheetWrapper {
   static create(styles) {

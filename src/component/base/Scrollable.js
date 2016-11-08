@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import StyleSheet, { px } from '../styles';
+import StyleSheet, {px} from '../styles';
 
 const scrollbarStyle: Object = {
   msOverflowStyle: 'none',
@@ -68,8 +68,8 @@ export default class Scrollable extends React.Component {
   }
 
   render() {
-    const { height, scrollTop } = this.props;
-    const rootStyle = { height };
+    const {height, scrollTop} = this.props;
+    const rootStyle = {height};
     const contentStyle = {
       position: 'relative',
       height: this._isMounted ? height : 'auto',

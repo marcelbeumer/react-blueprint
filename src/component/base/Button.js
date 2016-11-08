@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Button = ({ disabled, children, ...others }: { disabled: bool, children: any }) =>
+const Button = ({disabled, children, ...others}: { disabled: bool, children: any }) =>
   <div
     className={cx(styles.button, disabled && styles.disabled)}
     {...others}

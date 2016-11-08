@@ -1,8 +1,8 @@
 // @flow
 import PageSwitcher from '../composed/PageSwitcher';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-const mapStateToProps = ({ screen }) => ({
+const mapStateToProps = ({screen}) => ({
   name: screen,
 });
 

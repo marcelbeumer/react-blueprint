@@ -1,7 +1,7 @@
 // @flow
 import DataTree from '../../data/tree';
 
-const { min, max } = Math;
+const {min, max} = Math;
 const minGap = 2;
 
 function getStart(start, state, gap = minGap) {
@@ -44,7 +44,7 @@ function setListRange(start, end, state) {
 }
 
 function moveListRange(start, state) {
-  const { list } = state;
+  const {list} = state;
   const cleanStart = getStart(start, state);
   const cleanEnd = getEnd(start + (list.end - list.start), state);
 
@@ -67,7 +67,7 @@ function incrementListLenght(amount, state) {
 }
 
 export default function listReducer(state: DataTree, action: Object = {}): DataTree {
-  const { type, payload } = action;
+  const {type, payload} = action;
   return type === 'SET_LIST_START' ? setListStart(payload, state, setListEnd) :
     type === 'SET_LIST_END' ? setListEnd(payload, state, setListStart) :
     type === 'SET_LIST_RANGE' ? setListRange(payload.start, payload.end, state) :

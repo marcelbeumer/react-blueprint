@@ -1,4 +1,4 @@
-import { renderApp, staticApp } from '../src/server';
+import {renderApp, staticApp} from '../src/server';
 
 describe('browser rendering', () => {
   let html;

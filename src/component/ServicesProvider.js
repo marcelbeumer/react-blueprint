@@ -1,5 +1,5 @@
 import React from 'react';
-import { connectToContext } from 'connect-to-context';
+import {connectToContext} from 'connect-to-context';
 
 export const connectServices = (servicesToProps: Function) =>
   connectToContext('services', (context) => servicesToProps(context.services));

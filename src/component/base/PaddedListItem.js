@@ -17,7 +17,7 @@ type PaddedListItemPropTypes = {
   height?: string,
 };
 
-const PaddedListItem = ({ height = 'auto', children }: PaddedListItemPropTypes) =>
-  <div className={styles.paddedListItem} style={{ height }}>{children}</div>;
+const PaddedListItem = ({height = 'auto', children}: PaddedListItemPropTypes) =>
+  <div className={styles.paddedListItem} style={{height}}>{children}</div>;
 
 export default PaddedListItem;

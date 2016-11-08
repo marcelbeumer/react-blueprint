@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
-import StyleSheet, { px } from '../styles';
+import StyleSheet, {px} from '../styles';
 import Gestures from './Gestures';
 import theme from '../theme';
 
-const { min, max } = Math;
+const {min, max} = Math;
 
 const styles = StyleSheet.create({
   bar: {
@@ -33,16 +33,16 @@ export default class BarMeter extends React.Component {
     const deltaX = e.eventDeltaX;
     if (isNaN(deltaX)) return;
 
-    const { width } = this._root.getBoundingClientRect();
+    const {width} = this._root.getBoundingClientRect();
     const ratio = 1 / width;
-    const { value, onChange } = this.props;
+    const {value, onChange} = this.props;
 
     const updatedValue = min(max(value + (deltaX * ratio), 0), 1);
     onChange(updatedValue, value);
   };
 
   render() {
-    const { value } = this.props;
+    const {value} = this.props;
     return (
       <div ref={el => { this._root = el; }}>
         <Gestures onPan={this.onPan}>

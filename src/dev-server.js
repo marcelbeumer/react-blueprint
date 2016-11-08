@@ -17,7 +17,7 @@ process.on('unhandledRejection', (value = {}) =>
 const prod = env === 'production';
 const app = express();
 const compiler = webpack(webpackConfig);
-const { publicPath } = webpackConfig.output;
+const {publicPath} = webpackConfig.output;
 
 let bundleReady = false;
 compiler.plugin('done', () => {

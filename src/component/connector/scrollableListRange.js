@@ -1,12 +1,12 @@
 // @flow
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as actions from '../../store/action';
 
-export default ({ unitSize }: { unitSize: number }) => {
+export default ({unitSize}: { unitSize: number }) => {
 
   const onScroll = (scrollTop) => scrollTop / unitSize;
 
-  const mapStateToProps = ({ list }) => ({
+  const mapStateToProps = ({list}) => ({
     scrollTop: list.start * unitSize,
     onScroll,
   });

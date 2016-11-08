@@ -12,7 +12,7 @@ import routes from './routes';
 
 global.React = React;
 global.ReactPerf = Perf;
-global.onunhandledrejection = ({ reason }) =>
+global.onunhandledrejection = ({reason}) =>
   console.error(reason.stack || reason); // eslint-disable-line no-console
 
 function render(store, services, element) {
@@ -35,8 +35,8 @@ const setScreen = (value) => store.dispatch(actions.setScreen(value));
 const setUrl = router.setUrl.bind(router);
 const getUrl = router.getUrl.bind(router);
 
-Object.assign(routeServices, { setScreen });
-Object.assign(renderServices, { setUrl, getUrl });
+Object.assign(routeServices, {setScreen});
+Object.assign(renderServices, {setUrl, getUrl});
 
 if (!element.querySelector('[data-react-checksum]')) {
   router.runUrl(router.url);

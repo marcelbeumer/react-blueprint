@@ -9,7 +9,7 @@ import webpackConfig from '../webpack.config';
 import DataTree from './data/tree';
 import createStore from './store';
 import * as actions from './store/action';
-import Router, { InvalidRouteError } from './router/Router';
+import Router, {InvalidRouteError} from './router/Router';
 import routes from './routes';
 import RootComponent from './component';
 import env from 'node-env';
@@ -49,8 +49,8 @@ function bootstrapApp(location: string): Object {
     <RootComponent store={store} services={renderServices} />
   );
 
-  Object.assign(routeServices, { setScreen });
-  Object.assign(renderServices, { setUrl, getUrl });
+  Object.assign(routeServices, {setScreen});
+  Object.assign(renderServices, {setUrl, getUrl});
 
   return {
     render,
@@ -60,7 +60,7 @@ function bootstrapApp(location: string): Object {
 }
 
 export function renderApp(location: string, assetFs: any): Promise<string> {
-  const { store, render, router } = bootstrapApp(location);
+  const {store, render, router} = bootstrapApp(location);
 
   return router.runUrl(location).then(() => {
     const rendered = render();

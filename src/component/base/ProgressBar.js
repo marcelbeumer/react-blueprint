@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import StyleSheet, { px } from '../styles';
+import StyleSheet, {px} from '../styles';
 import theme from '../theme';
 import color from 'color';
 

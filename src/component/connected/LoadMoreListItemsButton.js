@@ -1,9 +1,9 @@
 // @flow
 import Button from '../base/Button';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as actions from '../../store/action';
 
-const mapStateToProps = ({ listLoading }) => ({
+const mapStateToProps = ({listLoading}) => ({
   disabled: listLoading,
 });
 

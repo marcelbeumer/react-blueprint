@@ -1,9 +1,9 @@
 import React from 'react';
-import StyleSheet, { px } from '../styles';
+import StyleSheet, {px} from '../styles';
 import Gestures from './Gestures';
 import theme from '../theme';
 
-const { min, max } = Math;
+const {min, max} = Math;
 
 const styles = StyleSheet.create({
   root: {
@@ -49,9 +49,9 @@ export default class Slider extends React.Component {
     const deltaX = e.eventDeltaX;
     if (isNaN(deltaX)) return;
 
-    const { width } = this._root.getBoundingClientRect();
+    const {width} = this._root.getBoundingClientRect();
     const ratio = 1 / width;
-    const { values, onChange } = this.props;
+    const {values, onChange} = this.props;
     const updatedValue = min(max(value + (deltaX * ratio), 0), 1);
     const updatedValues = [].concat(values);
     updatedValues[index] = updatedValue;
@@ -61,13 +61,13 @@ export default class Slider extends React.Component {
   renderGrippy(value, index) {
     return (
       <Gestures key={index} onPan={(e) => this.onPan(e, value, index)}>
-        <div className={styles.grippy} style={{ left: `${value * 100}%` }} />
+        <div className={styles.grippy} style={{left: `${value * 100}%`}} />
       </Gestures>
     );
   }
 
   render() {
-    const { values } = this.props;
+    const {values} = this.props;
     return (
       <div className={styles.root} ref={el => { this._root = el; }}>
         <div className={styles.line} />

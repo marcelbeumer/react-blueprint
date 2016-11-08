@@ -1,7 +1,7 @@
 // @flow
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-const mapStateToProps = ({ listLoadingProgress }) => ({
+const mapStateToProps = ({listLoadingProgress}) => ({
   value: listLoadingProgress,
 });
 

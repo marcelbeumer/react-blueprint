@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import listOfItems from '../enhancer/listOfItems';
-import { px } from '../styles';
+import {px} from '../styles';
 import theme from '../theme';
 import LabelBox from '../base/LabelBox';
 import ListContainer from '../base/ListContainer';

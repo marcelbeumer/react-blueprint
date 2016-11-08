@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import StyleSheet, { em } from '../styles';
+import StyleSheet, {em} from '../styles';
 import theme from '../theme';
 
 const itemSize = 1;
@@ -37,7 +37,7 @@ export type DotNavigationPropTypes = {
   onChange?: Function,
 };
 
-const DotNavigation = ({ value, values, onChange }: DotNavigationPropTypes) => (
+const DotNavigation = ({value, values, onChange}: DotNavigationPropTypes) => (
   <div className={styles.root}>
     {values.map((itemValue) =>
       <div

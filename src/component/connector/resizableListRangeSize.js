@@ -1,12 +1,12 @@
 // @flow
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as actions from '../../store/action';
 
-export default ({ unitSize }: { unitSize: number }) => {
+export default ({unitSize}: { unitSize: number }) => {
 
   const onResize = (height) => (height / unitSize);
 
-  const mapStateToProps = ({ list }) => ({
+  const mapStateToProps = ({list}) => ({
     height: (list.end - list.start) * unitSize,
     onResize,
   });

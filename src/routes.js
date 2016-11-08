@@ -1,8 +1,8 @@
 // @flow
-import { createRoute } from './router/Router';
+import {createRoute} from './router/Router';
 
 const routes = (routeServices: Object): Object => {
-  const setScreen = ({ name }) => {
+  const setScreen = ({name}) => {
     routeServices.setScreen(name);
   };
 

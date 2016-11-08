@@ -1,6 +1,6 @@
 // @flow
 /* eslint new-cap:0 */
-import { Record } from 'immutable';
+import {Record} from 'immutable';
 import ListData from './list';
 
 const TreeData = Record({

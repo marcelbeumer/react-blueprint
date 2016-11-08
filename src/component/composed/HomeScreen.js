@@ -14,7 +14,7 @@ import listRangeModifier from '../connector/listRangeModifier';
 import withListLoadingProgressAsValue from '../connector/withListLoadingProgressAsValue';
 import withClassName from '../enhancer/withClassName';
 import StyleSheet from '../styles';
-import { styles as linkStyles } from '../visualizer/link';
+import {styles as linkStyles} from '../visualizer/link';
 
 const githubHref = 'https://github.com/marcelbeumer/react-blueprint';
 

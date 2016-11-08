@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import StyleSheet, { px } from '../styles';
+import StyleSheet, {px} from '../styles';
 import theme from '../theme';
 
 export const styles = StyleSheet.create({
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
 
 type LabelBoxPropTypes = { value: any };
 
-const LabelBox = ({ value }: LabelBoxPropTypes) => (
+const LabelBox = ({value}: LabelBoxPropTypes) => (
   <div className={styles.item}>{value}</div>
 );
 

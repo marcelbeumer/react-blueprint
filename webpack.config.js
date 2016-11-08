@@ -56,7 +56,7 @@ const config = {
     ],
   },
   postcss: (pack) => [
-    cssImport({ addDependencyTo: pack }),
+    cssImport({addDependencyTo: pack}),
     cssUrl(),
     cssnext(),
   ],

@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
 import Gestures from './Gestures';
-import StyleSheet, { px } from '../styles';
+import StyleSheet, {px} from '../styles';
 import theme from '../theme';
 
-const { max } = Math;
+const {max} = Math;
 
 const scrollbarStyle: Object = {
   msOverflowStyle: 'none',
@@ -44,15 +44,15 @@ export default class ResizableHeight extends React.Component {
   };
 
   onPan: Function = (e: Object) => {
-    const { top: rootTop } = this._content.getBoundingClientRect();
-    const { height: handleHeight } = this._handle.getBoundingClientRect();
-    const { clientY } = e.pointers[0];
+    const {top: rootTop} = this._content.getBoundingClientRect();
+    const {height: handleHeight} = this._handle.getBoundingClientRect();
+    const {clientY} = e.pointers[0];
     const value = clientY - rootTop;
     this.props.onResize(max(handleHeight, value));
   };
 
   render() {
-    const { props } = this;
+    const {props} = this;
     const contentStyle = {
       height: px(props.height),
     };

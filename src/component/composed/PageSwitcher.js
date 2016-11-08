@@ -27,7 +27,7 @@ const getDirection = (previous, next) => {
     0;
 };
 
-export default ({ name }: { name: string } = {}) => (
+export default ({name}: { name: string } = {}) => (
   <ViewSwitcher name={name} direction={getDirection}>
     {(screenName) => getScreen(screenName)}
   </ViewSwitcher>

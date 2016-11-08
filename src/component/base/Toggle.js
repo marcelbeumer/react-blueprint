@@ -34,7 +34,7 @@ export type TogglePropTypes = {
   onChange?: Function,
 };
 
-const Toggle = ({ value, values, labels = [], onChange }: TogglePropTypes) => (
+const Toggle = ({value, values, labels = [], onChange}: TogglePropTypes) => (
   <div className={styles.wrapper}>
     {values.map((itemValue, x) =>
       <div

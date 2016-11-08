@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HugeHeader = ({ children, ...others }: { children?: any }) => (
+const HugeHeader = ({children, ...others}: { children?: any }) => (
   <header {...others} className={styles.hugeHeader}>
     {children}
   </header>

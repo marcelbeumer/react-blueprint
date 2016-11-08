@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import { TransitionMotion, spring } from 'react-motion';
+import {TransitionMotion, spring} from 'react-motion';
 import StyleSheet from '../styles';
 
 export const styles = StyleSheet.create({
@@ -36,7 +36,7 @@ export default class ViewSwitcher extends React.Component {
   }
 
   motionStyles: Function = () => [
-    { key: this.props.name, style: { offset: spring(0) } },
+    {key: this.props.name, style: {offset: spring(0)}},
   ];
 
   willLeave: Function = item => ({
@@ -49,12 +49,12 @@ export default class ViewSwitcher extends React.Component {
 
   renderMotion: Function = interpolatedStyles =>
     <div>
-      {interpolatedStyles.map(({ key, style }) => this.renderScreen(key, style))}
+      {interpolatedStyles.map(({key, style}) => this.renderScreen(key, style))}
     </div>;
 
-  renderScreen(key: string, { offset }: Object) {
+  renderScreen(key: string, {offset}: Object) {
     const inMotion = offset !== 0;
-    const innerStyle = inMotion ? { transform: `translate3d(${offset * 100}%, 0, 0)` } : undefined;
+    const innerStyle = inMotion ? {transform: `translate3d(${offset * 100}%, 0, 0)`} : undefined;
 
     return (
       <div key={key} className={cx(inMotion && styles.motionScreenContainer)}>

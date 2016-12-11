@@ -1,10 +1,15 @@
 [options]
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment=.*\\$FlowIssue
 
 [libs]
 definitions/
+flow-typed
+
+node_modules/styled-components/flow-typed/react-native.js
+node_modules/styled-components/flow-typed/glamor_vx.x.x.js
+node_modules/styled-components/flow-typed/lodash_v4.x.x.js
+node_modules/styled-components/flow-typed/inline-style-prefixer_vx.x.x.js
 
 [ignore]
-.*/node_modules/fbjs
-.*/node_modules/systemjs-builder
-.*/node_modules/react-motion
+.*/styled-components/src/.*

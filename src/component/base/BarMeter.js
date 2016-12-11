@@ -1,24 +1,24 @@
 // @flow
 import React from 'react';
-import StyleSheet, {px} from '../styles';
+import {px} from '../styles';
 import Gestures from './Gestures';
-import theme from '../theme';
+import styled from 'styled-components';
+import withTheme from '../enhancer/withTheme';
 
 const {min, max} = Math;
 
-const styles = StyleSheet.create({
-  bar: {
-    height: '1em',
-    backgroundColor: theme.highlightColor,
-    borderRadius: px(theme.baseBorderRadius),
-    margin: '0 0 5px 0',
-    cursor: 'pointer',
-  },
-});
+const Bar = styled.div`
+  height: 1em;
+  background-color: ${props => props.theme.highlightColor};
+  border-radius: ${props => px(props.theme.baseBorderRadius)};
+  margin: 0 0 5px 0;
+  cursor: pointer;
+`;
 
-export default class BarMeter extends React.Component {
+class BarMeter extends React.Component {
   props: {
     value: number,
+    theme: Object,
     onChange: Function,
   }
 
@@ -42,19 +42,19 @@ export default class BarMeter extends React.Component {
   };
 
   render() {
-    const {value} = this.props;
+    const {value, theme} = this.props;
     return (
       <div ref={el => { this._root = el; }}>
         <Gestures onPan={this.onPan}>
-          <div
-            className={styles.bar}
-            style={{
-              transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
-              backgroundColor: theme.highlightColor,
-            }}
+          <Bar style={{
+            transform: `translateX(-50%) scaleX(${value}) translateX(50%)`,
+            backgroundColor: theme.highlightColor,
+          }}
           />
         </Gestures>
       </div>
     );
   }
 }
+
+export default withTheme(BarMeter);

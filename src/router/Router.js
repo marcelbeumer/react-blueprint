@@ -33,6 +33,7 @@ export function InvalidRouteError(message: string) {
   this.message = message;
 }
 
+// $FlowFixMe
 InvalidRouteError.prototype = Object.assign(new Error(), {
   name: 'InvalidRouteError',
 });
